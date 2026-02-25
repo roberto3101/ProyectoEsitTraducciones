@@ -1,0 +1,14 @@
+---
+const redes = [
+  { nombre: 'Facebook', url: '#' },
+  { nombre: 'Instagram', url: '#' },
+  { nombre: 'LinkedIn', url: '#' },
+];
+---
+<div class="flex gap-3 mt-6">
+  {redes.map((red) => (
+    <a href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre} class="w-10 h-10 rounded-full bg-marca-azulBrillante/10 dark:bg-oscuro-borde flex items-center justify-center text-marca-azulBrillante hover:bg-marca-azulBrillante hover:text-white transition-all duration-300 text-sm font-bold">
+      {red.nombre[0]}
+    </a>
+  ))}
+</div>

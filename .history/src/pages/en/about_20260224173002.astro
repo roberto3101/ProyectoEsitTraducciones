@@ -1,0 +1,13 @@
+---
+import Principal from '../../layout/Principal.astro';
+import Historia from '../../componentes/nosotros/Historia.astro';
+import Mision from '../../componentes/nosotros/Mision.astro';
+import Valores from '../../componentes/nosotros/Valores.astro';
+import Compromiso from '../../componentes/nosotros/Compromiso.astro';
+import BannerCotizar from '../../componentes/inicio/BannerCotizar.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('en');
+---
+<Principal titulo={t.seo.nosotros.titulo} descripcion={t.seo.nosotros.descripcion} idioma="en" pagina="nosotros">
+  <Historia idioma="en" /><Mision idioma="en" /><Valores idioma="en" /><Compromiso idioma="en" /><BannerCotizar idioma="en" />
+</Principal>

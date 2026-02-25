@@ -1,0 +1,145 @@
+---
+const { idioma = 'es' } = Astro.props as { idioma: 'es' | 'en' | 'fr' };
+
+const clientes = [
+  { nombre: "USAID", logo: "/imagenes/clientes/usaid.png", color: "#002F6C", accent: "#BA0C2F" },
+  { nombre: "United Nations", logo: "/imagenes/clientes/onu.png", color: "#4B92DB", accent: "#4B92DB" },
+  { nombre: "CARE", logo: "/imagenes/clientes/care.png", color: "#F26522", accent: "#F26522" },
+  { nombre: "IFC", logo: "/imagenes/clientes/ifc.png", color: "#009CDE", accent: "#00355F" },
+  { nombre: "IDB", logo: "/imagenes/clientes/bid.png", color: "#003876", accent: "#00A9E0" },
+  { nombre: "Ipsos", logo: "/imagenes/clientes/ipsos.png", color: "#006837", accent: "#006837" },
+  { nombre: "Moody's", logo: "/imagenes/clientes/moodys.png", color: "#1A237E", accent: "#1A237E" },
+  { nombre: "McKinsey", logo: "/imagenes/clientes/mckinsey.png", color: "#003A70", accent: "#003A70" },
+  { nombre: "3M", logo: "/imagenes/clientes/3m.png", color: "#FF0000", accent: "#FF0000" },
+];
+
+const titulo: Record<string, string> = {
+  es: "Confíe en nosotros como lo hacen nuestros clientes",
+  en: "Trust us as our clients do",
+  fr: "Faites-nous confiance comme nos clients"
+};
+const subtitulo: Record<string, string> = {
+  es: "Atendemos todos sus proyectos, pequeños, grandes, a nivel local o global.",
+  en: "We handle all your projects, small, large, local or global.",
+  fr: "Nous gérons tous vos projets, petits, grands, au niveau local ou mondial."
+};
+---
+
+<section class="py-16 md:py-24 bg-white dark:bg-oscuro-fondo border-t border-b border-gray-100 dark:border-oscuro-borde">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-14">
+      <h2 class="text-2xl sm:text-3xl font-bold text-marca-azul dark:text-white mb-3" style="font-family: 'Sora', sans-serif;">
+        {titulo[idioma]}
+      </h2>
+      <p class="text-sm sm:text-base text-marca-gris dark:text-oscuro-texto max-w-xl mx-auto">
+        {subtitulo[idioma]}
+      </p>
+    </div>
+
+    {/* Carrusel infinito */}
+    <div class="clientes-carrusel">
+      <div class="clientes-track">
+        {/* Triplicamos para scroll infinito sin cortes */}
+        {[...clientes, ...clientes, ...clientes].map((cliente, i) => (
+          <div class="cliente-item" title={cliente.nombre}>
+            {/*
+              ──────────────────────────────────────────
+              OPCIÓN A: Logos desde archivos (cuando los tengas)
+              Descomenta las 2 líneas de abajo y borra la OPCIÓN B
+              ──────────────────────────────────────────
+            */}
+            {/* <img src={cliente.logo} alt={cliente.nombre}
+              class="max-h-10 sm:max-h-12 max-w-[140px] object-contain" loading="lazy" /> */}
+
+            {/*
+              ──────────────────────────────────────────
+              OPCIÓN B: Logos tipográficos (sin archivos)
+              Borra este bloque cuando uses OPCIÓN A
+              ──────────────────────────────────────────
+            */}
+            <span class="cliente-nombre" style={`--brand-color: ${cliente.color};`}>
+              {cliente.nombre}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clientes-carrusel {
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .clientes-track {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    width: max-content;
+    animation: scroll-logos 40s linear infinite;
+  }
+
+  .clientes-track:hover {
+    animation-play-state: paused;
+  }
+
+  .cliente-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    min-width: 120px;
+    padding: 0 0.5rem;
+    filter: grayscale(100%);
+    opacity: 0.4;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+  }
+
+  .cliente-item:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  .cliente-nombre {
+    font-family: 'Sora', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--brand-color, #0C2340);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  :global(.dark) .cliente-nombre {
+    color: #94a3b8;
+  }
+
+  :global(.dark) .cliente-item:hover .cliente-nombre {
+    color: var(--brand-color, #60a5fa);
+  }
+
+  @keyframes scroll-logos {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100% / 3)); }
+  }
+
+  @media (max-width: 640px) {
+    .clientes-track {
+      gap: 2rem;
+      animation-duration: 25s;
+    }
+    .cliente-nombre {
+      font-size: 0.95rem;
+    }
+    .cliente-item {
+      min-width: 90px;
+    }
+  }
+</style>

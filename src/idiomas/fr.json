@@ -1,0 +1,163 @@
+{
+  "seo": {
+    "inicio": {
+      "titulo": "Esit Traductions | Agence de Traduction Professionnelle au Pérou",
+      "descripcion": "Traductions certifiées en espagnol, anglais et français. Plus de 33 ans d'expérience au service d'organisations internationales et d'entreprises."
+    },
+    "nosotros": {
+      "titulo": "À propos | Esit Traductions",
+      "descripcion": "Découvrez notre histoire, notre mission et nos valeurs. Plus de 33 ans de services de traduction et d'interprétation professionnels au Pérou."
+    },
+    "servicios": {
+      "titulo": "Services | Esit Traductions",
+      "descripcion": "Traduction juridique, technique, interprétation simultanée, sous-titrage et plus. Services professionnels en espagnol, anglais et français."
+    },
+    "blog": {
+      "titulo": "Blog | Esit Traductions",
+      "descripcion": "Actualités, articles et nouveautés du monde de la traduction et de l'interprétation professionnelles."
+    },
+    "contacto": {
+      "titulo": "Contact | Esit Traductions",
+      "descripcion": "Contactez-nous pour demander un devis. Attention personnalisée pour vos projets de traduction et d'interprétation."
+    },
+    "preguntas": {
+      "titulo": "FAQ | Esit Traductions",
+      "descripcion": "Réponses aux questions les plus fréquentes sur nos services de traduction et d'interprétation professionnels."
+    }
+  },
+  "nav": {
+    "inicio": "Accueil",
+    "nosotros": "À propos",
+    "servicios": "Services",
+    "blog": "Blog",
+    "contacto": "Contact",
+    "cotizar": "Demander un Devis"
+  },
+  "hero": {
+    "titulo": "Une communication précise dans toutes les langues",
+    "subtitulo": "Plus de 33 ans de connexion entre le Pérou et le monde grâce à des traductions et interprétations professionnelles",
+    "botonServicios": "Nos Services",
+    "botonContacto": "Contactez-nous"
+  },
+  "clientes": {
+    "titulo": "Ils nous font confiance",
+    "subtitulo": "Organisations internationales et entreprises leaders choisissent nos services"
+  },
+  "resumenServicios": {
+    "titulo": "Nos Services",
+    "subtitulo": "Des solutions linguistiques complètes pour chaque besoin",
+    "verTodos": "Voir tous les services",
+    "items": [
+      {
+        "titulo": "Traduction Juridique",
+        "descripcion": "Documents juridiques, contrats, certificats et procurations avec précision légale."
+      },
+      {
+        "titulo": "Traduction Technique",
+        "descripcion": "Manuels, rapports techniques et documentation spécialisée dans de multiples secteurs."
+      },
+      {
+        "titulo": "Interprétation",
+        "descripcion": "Interprétation simultanée et consécutive pour conférences, réunions et événements."
+      },
+      {
+        "titulo": "Sous-titrage et Doublage",
+        "descripcion": "Sous-titrage professionnel et doublage pour contenu audiovisuel en plusieurs langues."
+      }
+    ]
+  },
+  "porQueElegirnos": {
+    "titulo": "Pourquoi choisir ESIT ?",
+    "subtitulo": "Trois décennies d'excellence nous soutiennent",
+    "items": [
+      { "titulo": "33+ ans", "descripcion": "D'expérience sur le marché péruvien et international" },
+      { "titulo": "3 langues", "descripcion": "Espagnol, anglais et français avec des traducteurs natifs" },
+      { "titulo": "100% confidentiel", "descripcion": "Protocoles stricts de gestion de l'information" },
+      { "titulo": "Clients mondiaux", "descripcion": "ONU, OMS, OEA et des centaines d'entreprises nous font confiance" }
+    ]
+  },
+  "bannerCotizar": {
+    "titulo": "Besoin d'une traduction professionnelle ?",
+    "subtitulo": "Demandez votre devis sans engagement. Nous répondons sous 24 heures.",
+    "boton": "Demander un Devis"
+  },
+  "nosotrosPage": {
+    "tituloHistoria": "Notre Histoire",
+    "tituloMision": "Mission",
+    "tituloValores": "Nos Valeurs",
+    "tituloCompromiso": "Notre Engagement",
+    "historia": "Au début des années quatre-vingt-dix, le Pérou a changé à un rythme accéléré marqué par son ouverture au marché international. De nombreux nouveaux acteurs multilingues ont commencé à traiter avec notre pays et la demande de traduction et d'interprétation a augmenté rapidement. La demande était forte et le marché favorable, mais il y a eu aussi des surprises et de l'instabilité en raison d'un fort ajustement structurel. Pendant cette période de turbulence, ESIT est resté debout et a pu croître et saisir toutes les opportunités qui se sont présentées. Le contexte actuel, avec sa dose d'incertitude et de surprise, n'est pas très différent. Chez ESIT, nous sommes fiers de notre organisation, qui nous permet de nous adapter à ces nouvelles difficultés, mais aussi de nous ouvrir à de nouvelles opportunités. Tous nos services de traduction et d'interprétation, sous-titrage, doublage et plus encore sont disponibles pour nos clients à distance, en présentiel ou en format hybride. Face aux changements et aux crises, avec un esprit d'innovation et de flexibilité, ESIT apporte à ses clients la qualité et la ponctualité de toujours.",
+    "mision": "Contribuer au succès de nos clients en communiquant de manière précise, fidèle et efficace dans diverses langues et leur assurer la tranquillité de disposer de services linguistiques de qualité, avec la confidentialité et la ponctualité requises.",
+    "compromiso": "Nous sommes toujours engagés à établir des liens solides avec nos clients. Fondés sur notre responsabilité, notre compétence et notre sérieux, nous conservons des clients depuis la fondation de l'entreprise et comptons des centaines de clients satisfaits au cours de nos 33 années d'expérience.",
+    "valores": [
+      "Compétence", "Collaboration", "Confidentialité", "Honnêteté",
+      "Ponctualité", "Respect", "Responsabilité", "Service",
+      "Excellence", "Durabilité"
+    ]
+  },
+  "contactoPage": {
+    "titulo": "Contactez-nous",
+    "subtitulo": "Nous sommes prêts à vous aider avec votre projet",
+    "nombre": "Nom complet",
+    "email": "Adresse e-mail",
+    "telefono": "Téléphone",
+    "idiomaOrigen": "Langue source",
+    "idiomaDestino": "Langue cible",
+    "mensaje": "Décrivez votre projet",
+    "enviar": "Envoyer le message",
+    "enviando": "Envoi en cours...",
+    "exito": "Message envoyé ! Nous vous contacterons bientôt.",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "telefonos": "Téléphones",
+    "correos": "E-mails",
+    "direccion": "Adresse",
+    "direccionTexto": "Pueblo Libre, Lima - Pérou"
+  },
+  "preguntas": {
+    "titulo": "Questions Fréquentes",
+    "subtitulo": "Réponses aux questions les plus courantes",
+    "items": [
+      {
+        "pregunta": "Quels types de traduction proposez-vous ?",
+        "respuesta": "Nous proposons la traduction juridique, technique, médicale, financière, l'interprétation simultanée et consécutive, le sous-titrage et le doublage en espagnol, anglais et français."
+      },
+      {
+        "pregunta": "Combien de temps prend une traduction ?",
+        "respuesta": "Le délai dépend de la longueur et de la complexité du document. Contactez-nous avec les détails de votre projet pour une estimation précise."
+      },
+      {
+        "pregunta": "Vos traductions sont-elles certifiées ?",
+        "respuesta": "Oui, nous proposons des traductions certifiées par des traducteurs assermentés, valables pour les procédures légales et officielles."
+      },
+      {
+        "pregunta": "Travaillez-vous avec des entreprises et organisations internationales ?",
+        "respuesta": "Oui, nous avons plus de 33 ans d'expérience avec des organisations telles que l'ONU, l'OMS, l'OEA et le Fonds mondial, entre autres."
+      },
+      {
+        "pregunta": "Comment puis-je demander un devis ?",
+        "respuesta": "Vous pouvez remplir le formulaire sur notre page de contact ou nous écrire directement à contacto@esittraducciones.com. Nous répondons sous 24 heures."
+      }
+    ]
+  },
+  "blog": {
+    "titulo": "Blog",
+    "subtitulo": "Actualités et articles du monde de la traduction",
+    "leerMas": "Lire la suite",
+    "sinArticulos": "Des articles seront bientôt publiés.",
+    "categorias": "Catégories",
+    "todas": "Toutes"
+  },
+  "pie": {
+    "descripcion": "Agence de traduction et d'interprétation professionnelle avec plus de 33 ans d'expérience sur le marché péruvien et international.",
+    "enlaces": "Liens",
+    "contacto": "Contact",
+    "legal": "Juridique",
+    "privacidad": "Politique de Confidentialité",
+    "terminos": "Conditions Générales",
+    "derechos": "Tous droits réservés."
+  },
+  "modoOscuro": {
+    "activar": "Mode sombre",
+    "desactivar": "Mode clair"
+  }
+}

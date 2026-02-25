@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  body {
+    @apply bg-white text-slate-800 dark:bg-oscuro-fondo dark:text-oscuro-texto;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sora', sans-serif;
+    @apply dark:text-oscuro-titulo;
+  }
+}
+
+@layer components {
+  .boton-principal {
+    @apply inline-flex items-center gap-2 px-6 py-3 
+           bg-marca-azulBrillante text-white font-titulo font-semibold 
+           rounded-lg hover:bg-marca-azulClaro 
+           transition-all duration-300 ease-in-out;
+  }
+
+  .boton-secundario {
+    @apply inline-flex items-center gap-2 px-6 py-3 
+           border-2 border-marca-azul text-marca-azul font-titulo font-semibold 
+           rounded-lg hover:bg-marca-azul hover:text-white 
+           dark:border-marca-azulBrillante dark:text-marca-azulBrillante
+           dark:hover:bg-marca-azulBrillante dark:hover:text-white
+           transition-all duration-300 ease-in-out;
+  }
+
+  .tarjeta {
+    @apply bg-white rounded-xl shadow-sm border border-slate-100 p-6
+           dark:bg-oscuro-tarjeta dark:border-oscuro-borde
+           hover:shadow-md transition-shadow duration-300;
+  }
+
+  .seccion {
+    @apply py-16 md:py-24 px-4;
+  }
+
+  .contenedor {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .titulo-seccion {
+    @apply text-3xl md:text-4xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo;
+  }
+
+  .subtitulo-seccion {
+    @apply text-lg text-marca-gris mt-4 max-w-2xl dark:text-oscuro-texto;
+  }
+}

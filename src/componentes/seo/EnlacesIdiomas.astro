@@ -1,0 +1,35 @@
+---
+// Le dice a Google: "esta pagina existe en estos idiomas"
+// Asi Google muestra la version correcta segun el pais del usuario
+
+import { IDIOMAS, cambiarIdioma, type Idioma } from '../../helpers/idiomas';
+
+interface Props {
+  idiomaActual: Idioma;
+  rutaActual: string;
+}
+
+const { idiomaActual, rutaActual } = Astro.props;
+const sitio = 'https://esittraducciones.com';
+
+const codigosRegion: Record<string, string> = {
+  es: 'es-PE',
+  en: 'en-US',
+  fr: 'fr-FR',
+};
+---
+
+{IDIOMAS.map((idioma) => (
+  <link
+    rel="alternate"
+    hreflang={codigosRegion[idioma]}
+    href={`${sitio}${cambiarIdioma(rutaActual, idioma)}`}
+  />
+))}
+
+<!-- Idioma por defecto para usuarios de otros paises -->
+<link
+  rel="alternate"
+  hreflang="x-default"
+  href={`${sitio}/es/`}
+/>

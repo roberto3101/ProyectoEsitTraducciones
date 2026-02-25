@@ -1,0 +1,17 @@
+---
+import Principal from '../../layout/Principal.astro';
+import BannerPrincipal from '../../componentes/inicio/BannerPrincipal.astro';
+import NuestrosClientes from '../../componentes/inicio/NuestrosClientes.astro';
+import ResumenServicios from '../../componentes/inicio/ResumenServicios.astro';
+import PorQueElegirnos from '../../componentes/inicio/PorQueElegirnos.astro';
+import BannerCotizar from '../../componentes/inicio/BannerCotizar.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('fr');
+---
+<Principal titulo={t.seo.inicio.titulo} descripcion={t.seo.inicio.descripcion} idioma="fr" pagina="inicio">
+  <BannerPrincipal idioma="fr" />
+  <NuestrosClientes idioma="fr" />
+  <ResumenServicios idioma="fr" />
+  <PorQueElegirnos idioma="fr" />
+  <BannerCotizar idioma="fr" />
+</Principal>

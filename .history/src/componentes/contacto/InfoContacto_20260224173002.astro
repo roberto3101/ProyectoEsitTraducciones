@@ -1,0 +1,23 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+---
+<div class="space-y-6">
+  <div>
+    <h3 class="font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo">{t.contactoPage.telefonos}</h3>
+    <p class="mt-1 text-marca-gris dark:text-oscuro-texto">+51 998 152 086</p>
+    <p class="text-marca-gris dark:text-oscuro-texto">+51 998 122 941</p>
+    <p class="text-marca-gris dark:text-oscuro-texto">+51 930 872 124</p>
+  </div>
+  <div>
+    <h3 class="font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo">{t.contactoPage.correos}</h3>
+    <p class="mt-1 text-marca-gris dark:text-oscuro-texto">contacto@esittraducciones.com</p>
+    <p class="text-marca-gris dark:text-oscuro-texto">info@esittraducciones.com</p>
+  </div>
+  <div>
+    <h3 class="font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo">{t.contactoPage.direccion}</h3>
+    <p class="mt-1 text-marca-gris dark:text-oscuro-texto">{t.contactoPage.direccionTexto}</p>
+  </div>
+</div>

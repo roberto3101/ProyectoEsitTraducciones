@@ -1,0 +1,10 @@
+---
+import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+const rutas = obtenerRutas(idioma);
+---
+<div class="text-center mt-12">
+  <a href={rutas.contacto} class="boton-principal text-lg px-10 py-4">{t.bannerCotizar.boton}</a>
+</div>

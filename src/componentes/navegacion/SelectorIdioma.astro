@@ -1,0 +1,36 @@
+---
+import { obtenerBanderas, cambiarIdioma, type Idioma } from '../../helpers/idiomas';
+
+interface Props {
+  idioma: Idioma;
+}
+
+const { idioma } = Astro.props;
+const banderas = obtenerBanderas();
+const rutaActual = Astro.url.pathname;
+---
+
+<div class="flex items-center gap-1">
+  {banderas.map((b) => (
+    <a
+      href={cambiarIdioma(rutaActual, b.codigo)}
+      title={b.nombre}
+      class:list={[
+        'w-8 h-8 rounded-full overflow-hidden border-2 transition-all duration-200 hover:scale-110',
+        b.codigo === idioma
+          ? 'border-marca-azulBrillante shadow-md scale-110'
+          : 'border-transparent opacity-60 hover:opacity-100',
+      ]}
+      aria-label={`Cambiar idioma a ${b.nombre}`}
+    >
+      <img
+        src={b.bandera}
+        alt={b.nombre}
+        class="w-full h-full object-cover"
+        width="32"
+        height="32"
+        loading="eager"
+      />
+    </a>
+  ))}
+</div>

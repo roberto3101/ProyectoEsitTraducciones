@@ -1,0 +1,30 @@
+---
+// Cuando alguien comparte un link en Facebook, LinkedIn, WhatsApp, etc
+// estas etiquetas controlan como se ve la vista previa
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  imagen?: string;
+  idioma: string;
+}
+
+const { titulo, descripcion, idioma } = Astro.props;
+const imagen = Astro.props.imagen || 'https://esittraducciones.com/imagenes/og-default.jpg';
+const url = Astro.url.href;
+---
+
+<!-- Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={titulo} />
+<meta property="og:description" content={descripcion} />
+<meta property="og:image" content={imagen} />
+<meta property="og:locale" content={idioma === 'es' ? 'es_PE' : idioma === 'en' ? 'en_US' : 'fr_FR'} />
+<meta property="og:site_name" content="Esit Traducciones" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={titulo} />
+<meta name="twitter:description" content={descripcion} />
+<meta name="twitter:image" content={imagen} />

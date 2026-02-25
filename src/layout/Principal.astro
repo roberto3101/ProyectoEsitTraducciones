@@ -1,0 +1,97 @@
+---
+import EtiquetasPagina from '../componentes/seo/EtiquetasPagina.astro';
+import EnlacesIdiomas from '../componentes/seo/EnlacesIdiomas.astro';
+import DatosEmpresa from '../componentes/seo/DatosEmpresa.astro';
+import VistaRedesSociales from '../componentes/seo/VistaRedesSociales.astro';
+import BarraNavegacion from '../componentes/navegacion/BarraNavegacion.astro';
+import PieDePagina from '../componentes/navegacion/PieDePagina.astro';
+import BotonWhatsapp from '../componentes/BotonWhatsapp.astro';
+import type { Idioma } from '../helpers/idiomas';
+import '../estilos/global.css';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  idioma: Idioma;
+  pagina: string; // nombre de la pagina actual (inicio, nosotros, etc)
+  imagenOG?: string;
+}
+
+const { titulo, descripcion, idioma, pagina, imagenOG } = Astro.props;
+const rutaActual = Astro.url.pathname;
+
+// CONFIGURAR: Reemplazar con tu ID real de Google Analytics
+// 1. Ir a analytics.google.com
+// 2. Crear propiedad
+// 3. Copiar el Measurement ID (G-XXXXXXXXXX)
+const GA_ID = 'G-XXXXXXXXXX';
+---
+
+<!doctype html>
+<html lang={idioma} class="scroll-smooth">
+  <head>
+    <!-- SEO: Etiquetas basicas -->
+    <EtiquetasPagina
+      titulo={titulo}
+      descripcion={descripcion}
+      idioma={idioma}
+    />
+
+    <!-- SEO: Decirle a Google que esta pagina existe en 3 idiomas -->
+    <EnlacesIdiomas
+      idiomaActual={idioma}
+      rutaActual={rutaActual}
+    />
+
+    <!-- SEO: Vista previa en redes sociales -->
+    <VistaRedesSociales
+      titulo={titulo}
+      descripcion={descripcion}
+      idioma={idioma}
+      imagen={imagenOG}
+    />
+
+    <!-- Google Analytics: Monitoreo de visitas -->
+    <script is:inline define:vars={{ GA_ID }}>
+      // Solo cargar en produccion (no en localhost)
+      if (window.location.hostname !== 'localhost') {
+        const script = document.createElement('script');
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+        script.async = true;
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+    </script>
+
+    <!-- Modo oscuro: leer preferencia guardada -->
+    <script is:inline>
+      const tema = localStorage.getItem('tema');
+      if (tema === 'oscuro' || (!tema && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- Barra de navegacion -->
+    <BarraNavegacion idioma={idioma} paginaActual={pagina} />
+
+    <!-- Contenido de la pagina -->
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Pie de pagina -->
+    <PieDePagina idioma={idioma} />
+
+    <!-- Boton flotante de WhatsApp -->
+    <BotonWhatsapp />
+
+    <!-- SEO: Datos de la empresa para Google -->
+    <DatosEmpresa />
+  </body>
+</html>

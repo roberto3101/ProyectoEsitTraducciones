@@ -1,0 +1,18 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+---
+<section class="seccion">
+  <div class="contenedor px-4 text-center">
+    <h2 class="titulo-seccion">{t.nosotrosPage.tituloValores}</h2>
+    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      {t.nosotrosPage.valores.map((valor) => (
+        <div class="tarjeta text-center py-6">
+          <span class="font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo">{valor}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,158 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+
+const textos: Record<string, Record<string, string>> = {
+  nombre: { es: "Nombre completo", en: "Full name", fr: "Nom complet" },
+  email: { es: "Correo electrónico", en: "Email address", fr: "Adresse e-mail" },
+  telefono: { es: "Teléfono (opcional)", en: "Phone (optional)", fr: "Téléphone (facultatif)" },
+  servicio: { es: "¿Qué servicio necesita?", en: "What service do you need?", fr: "De quel service avez-vous besoin ?" },
+  seleccione: { es: "Seleccione un servicio", en: "Select a service", fr: "Sélectionnez un service" },
+  traduccion: { es: "Traducción de documentos", en: "Document translation", fr: "Traduction de documents" },
+  interpretacion: { es: "Interpretación (simultánea o consecutiva)", en: "Interpretation (simultaneous or consecutive)", fr: "Interprétation (simultanée ou consécutive)" },
+  subtitulado: { es: "Subtitulado y doblaje", en: "Subtitling and dubbing", fr: "Sous-titrage et doublage" },
+  cotizacion: { es: "Solicitar cotización general", en: "Request a general quote", fr: "Demander un devis général" },
+  otro: { es: "Otro", en: "Other", fr: "Autre" },
+  mensaje: { es: "Describa su proyecto", en: "Describe your project", fr: "Décrivez votre projet" },
+  msgPlaceholder: {
+    es: "Cuéntenos sobre su proyecto: tipo de documento, idiomas, plazos, etc.",
+    en: "Tell us about your project: document type, languages, deadlines, etc.",
+    fr: "Parlez-nous de votre projet : type de document, langues, délais, etc."
+  },
+  enviar: { es: "Enviar mensaje", en: "Send message", fr: "Envoyer le message" },
+  enviando: { es: "Enviando...", en: "Sending...", fr: "Envoi en cours..." },
+  exito: { es: "¡Mensaje enviado! Nos pondremos en contacto pronto.", en: "Message sent! We'll get in touch soon.", fr: "Message envoyé ! Nous vous contacterons bientôt." },
+  error: { es: "Hubo un error. Intente de nuevo.", en: "An error occurred. Please try again.", fr: "Une erreur est survenue. Veuillez réessayer." },
+  requerido: { es: "Este campo es requerido", en: "This field is required", fr: "Ce champ est requis" },
+};
+---
+
+<form id="formulario-contacto" class="space-y-6" novalidate>
+  {/* Nombre */}
+  <div class="grupo-campo">
+    <label for="nombre" class="campo-label">{textos.nombre[idioma]}</label>
+    <input type="text" id="nombre" name="nombre" required
+      class="campo-input" />
+  </div>
+
+  {/* Email + Teléfono */}
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="grupo-campo">
+      <label for="email" class="campo-label">{textos.email[idioma]}</label>
+      <input type="email" id="email" name="email" required
+        class="campo-input" />
+    </div>
+    <div class="grupo-campo">
+      <label for="telefono" class="campo-label">{textos.telefono[idioma]}</label>
+      <input type="tel" id="telefono" name="telefono"
+        class="campo-input" />
+    </div>
+  </div>
+
+  {/* Tipo de servicio */}
+  <div class="grupo-campo">
+    <label for="servicio" class="campo-label">{textos.servicio[idioma]}</label>
+    <div class="relative">
+      <select id="servicio" name="servicio" required class="campo-input appearance-none pr-10">
+        <option value="" disabled selected>{textos.seleccione[idioma]}</option>
+        <option value="traduccion">{textos.traduccion[idioma]}</option>
+        <option value="interpretacion">{textos.interpretacion[idioma]}</option>
+        <option value="subtitulado">{textos.subtitulado[idioma]}</option>
+        <option value="cotizacion">{textos.cotizacion[idioma]}</option>
+        <option value="otro">{textos.otro[idioma]}</option>
+      </select>
+      <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-marca-gris pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+
+  {/* Mensaje */}
+  <div class="grupo-campo">
+    <label for="mensaje" class="campo-label">{textos.mensaje[idioma]}</label>
+    <textarea id="mensaje" name="mensaje" rows="5" required
+      placeholder={textos.msgPlaceholder[idioma]}
+      class="campo-input resize-none"></textarea>
+  </div>
+
+  {/* Campo oculto - origen del visitante */}
+  <input type="hidden" id="campo-origen" name="origen" value="Directo" />
+
+  {/* Botón enviar */}
+  <button type="submit" id="btn-enviar"
+    class="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl
+      bg-marca-azul hover:bg-marca-azulClaro text-white font-semibold text-base
+      shadow-lg shadow-marca-azul/20 hover:shadow-marca-azul/30
+      transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+    style="font-family: 'Sora', sans-serif;">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+    <span id="btn-texto">{textos.enviar[idioma]}</span>
+  </button>
+
+  {/* Mensaje de estado */}
+  <div id="mensaje-estado" class="hidden text-center text-sm font-medium py-3 px-4 rounded-xl"></div>
+</form>
+
+<style>
+  .campo-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: 'Sora', system-ui, sans-serif;
+  }
+  .campo-label {
+    color: #0C2340;
+  }
+  :global(.dark) .campo-label {
+    color: #e2e8f0;
+  }
+  .campo-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: 0.75rem;
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    color: #1e293b;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    outline: none;
+  }
+  .campo-input:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .campo-input::placeholder {
+    color: #94a3b8;
+  }
+  :global(.dark) .campo-input {
+    border-color: #1e2d4a;
+    background: #131d33;
+    color: #cbd5e1;
+  }
+  :global(.dark) .campo-input:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+  :global(.dark) .campo-input::placeholder {
+    color: #4a5e78;
+  }
+</style>
+
+<script is:inline>
+  // Detectar origen del visitante
+  const ref = document.referrer || '';
+  const campo = document.getElementById('campo-origen');
+  if (campo) {
+    if (ref.includes('google')) campo.value = 'Google';
+    else if (ref.includes('facebook')) campo.value = 'Facebook';
+    else if (ref.includes('instagram')) campo.value = 'Instagram';
+    else if (ref.includes('linkedin')) campo.value = 'LinkedIn';
+    else if (ref === '') campo.value = 'Directo';
+    else campo.value = 'Otro: ' + ref;
+  }
+</script>

@@ -1,0 +1,10 @@
+---
+import Principal from '../../layout/Principal.astro';
+import ListaArticulos from '../../componentes/blog/ListaArticulos.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('en');
+const articulos = [];
+---
+<Principal titulo={t.seo.blog.titulo} descripcion={t.seo.blog.descripcion} idioma="en" pagina="blog">
+  <ListaArticulos idioma="en" articulos={articulos} />
+</Principal>

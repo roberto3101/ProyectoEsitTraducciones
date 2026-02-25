@@ -1,0 +1,164 @@
+---
+import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+import RedGlobal from './RedGlobal.jsx';
+
+interface Props { idioma: Idioma; }
+
+const { idioma } = Astro.props as { idioma: 'es' | 'en' | 'fr' };
+const t = obtenerTextos(idioma);
+const rutas = obtenerRutas(idioma);
+
+const stats: Record<string, { valor: string; label: string }[]> = {
+  es: [
+    { valor: "33+", label: "Años de experiencia" },
+    { valor: "3", label: "Idiomas profesionales" },
+    { valor: "500+", label: "Proyectos completados" },
+    { valor: "100%", label: "Confidencialidad" },
+  ],
+  en: [
+    { valor: "33+", label: "Years of experience" },
+    { valor: "3", label: "Professional languages" },
+    { valor: "500+", label: "Projects completed" },
+    { valor: "100%", label: "Confidentiality" },
+  ],
+  fr: [
+    { valor: "33+", label: "Ans d'expérience" },
+    { valor: "3", label: "Langues professionnelles" },
+    { valor: "500+", label: "Projets réalisés" },
+    { valor: "100%", label: "Confidentialité" },
+  ],
+};
+
+const badgeText: Record<string, string> = {
+  es: "Agencia de traducción profesional desde 1992",
+  en: "Professional translation agency since 1992",
+  fr: "Agence de traduction professionnelle depuis 1992",
+};
+---
+
+<section class="relative overflow-hidden min-h-[600px] md:min-h-[700px] flex flex-col
+  bg-gradient-to-br from-white via-slate-50 to-blue-50/50
+  dark:bg-none dark:bg-oscuro-fondo">
+
+  {/* Dark mode base gradient */}
+  <div class="absolute inset-0 hidden dark:block"
+    style="background: linear-gradient(135deg, #060c18 0%, #0a1525 40%, #0d1a30 70%, #060c18 100%);">
+  </div>
+
+  {/* Animated network — z-[1] so it's above the base bg */}
+  <div class="absolute inset-0 z-[1]">
+    <RedGlobal client:load />
+  </div>
+
+  {/* Text readability overlay — ONLY on the left where text is, TRANSPARENT on right */}
+  <div class="absolute inset-0 z-[2] pointer-events-none"
+    style="background: linear-gradient(to right, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0) 65%);">
+  </div>
+  <div class="absolute inset-0 z-[2] pointer-events-none hidden dark:block"
+    style="background: linear-gradient(to right, rgba(6,12,24,0.7) 0%, rgba(6,12,24,0.3) 40%, rgba(6,12,24,0) 65%);">
+  </div>
+
+  {/* Bottom fade into next section */}
+  <div class="absolute bottom-0 left-0 right-0 h-24 z-[2] pointer-events-none
+    bg-gradient-to-t from-white to-transparent
+    dark:from-oscuro-fondo dark:to-transparent">
+  </div>
+
+  {/* Content — z-[3] above overlays */}
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 relative z-[3] flex-1 flex items-center py-24 md:py-32 lg:py-40">
+    <div class="max-w-2xl">
+      {/* Badge */}
+      <div class="hero-fade-in" style="animation-delay: 0.1s;">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase
+          bg-marca-azul/8 text-marca-azul border border-marca-azul/15 backdrop-blur-sm
+          dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+          {badgeText[idioma]}
+        </span>
+      </div>
+
+      {/* Title */}
+      <h1 class="mt-7 hero-fade-in text-marca-azul dark:text-white"
+        style="font-family: 'Sora', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; animation-delay: 0.25s;">
+        {t.hero.titulo}
+      </h1>
+
+      {/* Subtitle */}
+      <p class="mt-6 hero-fade-in text-marca-gris dark:text-slate-400"
+        style="font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.7; max-width: 540px; animation-delay: 0.4s;">
+        {t.hero.subtitulo}
+      </p>
+
+      {/* CTAs */}
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 hero-fade-in" style="animation-delay: 0.55s;">
+        <a href={`/${idioma}/${rutas.contacto}`}
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl
+            bg-marca-azul hover:bg-marca-azulClaro text-white
+            font-semibold text-base shadow-xl shadow-marca-azul/20 hover:shadow-marca-azul/30
+            transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+          style="font-family: 'Sora', sans-serif;">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          {t.hero.botonContacto}
+        </a>
+        <a href={`/${idioma}/${rutas.servicios}`}
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl
+            border-2 font-semibold text-base transition-all duration-300
+            border-marca-azul/20 text-marca-azul hover:bg-marca-azul/5 backdrop-blur-sm
+            dark:border-white/15 dark:text-white dark:hover:bg-white/5"
+          style="font-family: 'Sora', sans-serif;">
+          {t.hero.botonServicios}
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {/* Stats bar */}
+  <div class="relative z-[3] border-t
+    border-slate-200/50 bg-white/70 backdrop-blur-md
+    dark:border-white/5 dark:bg-black/30 dark:backdrop-blur-md">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-0">
+        {stats[idioma].map((s, i) => (
+          <div class:list={[
+            "py-6 md:py-7 text-center hero-fade-in",
+            i < 3 ? "border-r border-slate-200/50 dark:border-white/5" : "",
+            i < 2 ? "max-md:border-b max-md:border-slate-200/50 max-md:dark:border-white/5" : "",
+            i === 2 ? "max-md:border-b max-md:border-slate-200/50 max-md:dark:border-white/5 max-md:border-r-0" : "",
+            i === 1 ? "max-md:border-r-0" : "",
+            i === 3 ? "max-md:border-r-0" : "",
+          ]} style={`animation-delay: ${0.6 + i * 0.1}s;`}>
+            <div class="text-2xl md:text-3xl font-bold text-marca-azulBrillante dark:text-blue-400"
+              style="font-family: 'Sora', sans-serif;">
+              {s.valor}
+            </div>
+            <div class="mt-1 text-xs md:text-sm text-marca-gris dark:text-slate-500">
+              {s.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .hero-fade-in {
+    opacity: 0;
+    animation: heroFadeIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+</style>

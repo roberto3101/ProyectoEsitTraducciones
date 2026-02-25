@@ -1,0 +1,143 @@
+---
+import { obtenerTextos } from '../../helpers/idiomas';
+const { idioma = 'es' } = Astro.props;
+const t = obtenerTextos(idioma);
+
+// Testimonios reales de clientes de ESIT
+const testimonios = [
+  {
+    cita: {
+      es: "Queremos agradecer a ESIT por los miembros del equipo, fueron increíbles, talentosos, responsables, amables. De todas formas queremos volver a trabajar con ellos el próximo año. ¡Muchas gracias!",
+      en: "We want to thank ESIT for the team members, they were incredible, talented, responsible, kind. We definitely want to work with them again next year. Thank you so much!",
+      fr: "Nous tenons à remercier ESIT pour les membres de l'équipe, ils étaient incroyables, talentueux, responsables, aimables. Nous voulons absolument retravailler avec eux l'année prochaine. Merci beaucoup !"
+    },
+    autor: {
+      es: "Embajada de EE.UU.",
+      en: "U.S. Embassy",
+      fr: "Ambassade des États-Unis"
+    },
+    cargo: { es: "Lima, Perú", en: "Lima, Peru", fr: "Lima, Pérou" },
+    icono: "🇺🇸"
+  },
+  {
+    cita: {
+      es: "Nos quedamos muy impresionados con sus servicios, y esperamos usarlos nuevamente.",
+      en: "We were very impressed with their services, and we look forward to using them again.",
+      fr: "Nous avons été très impressionnés par leurs services et nous espérons les utiliser à nouveau."
+    },
+    autor: {
+      es: "OEA Internacional",
+      en: "OAS International",
+      fr: "OEA International"
+    },
+    cargo: { es: "Washington D.C.", en: "Washington D.C.", fr: "Washington D.C." },
+    icono: "🌎"
+  },
+  {
+    cita: {
+      es: "Nuestra intérprete de ESIT siempre me proporcionó un nivel extremadamente alto de servicio profesional. Realizó una excelente interpretación simultánea y consecutiva en ambas direcciones en el aula.",
+      en: "Our ESIT interpreter always provided me with an extremely high level of professional service. She performed excellent simultaneous and consecutive interpretation in both directions in the classroom.",
+      fr: "Notre interprète d'ESIT m'a toujours fourni un niveau extrêmement élevé de service professionnel. Elle a réalisé une excellente interprétation simultanée et consécutive dans les deux sens en classe."
+    },
+    autor: {
+      es: "Embajada del Reino Unido",
+      en: "British Embassy",
+      fr: "Ambassade du Royaume-Uni"
+    },
+    cargo: { es: "Lima, Perú", en: "Lima, Peru", fr: "Lima, Pérou" },
+    icono: "🇬🇧"
+  },
+  {
+    cita: {
+      es: "El intérprete de ESIT fue uno de los mejores intérpretes con los que hemos trabajado. Nos gustaría que vuelva a trabajar con nuestro equipo.",
+      en: "The ESIT interpreter was one of the best interpreters we have worked with. We would like him to work with our team again.",
+      fr: "L'interprète d'ESIT était l'un des meilleurs interprètes avec lesquels nous avons travaillé. Nous aimerions qu'il travaille à nouveau avec notre équipe."
+    },
+    autor: {
+      es: "Guardia Costera de los EE.UU.",
+      en: "U.S. Coast Guard",
+      fr: "Garde côtière des États-Unis"
+    },
+    cargo: { es: "Washington D.C.", en: "Washington D.C.", fr: "Washington D.C." },
+    icono: "⚓"
+  }
+];
+
+const titulo = { es: "Lo que dicen nuestros clientes", en: "What our clients say", fr: "Ce que disent nos clients" };
+const subtitulo = {
+  es: "Más de 30 años construyendo relaciones de confianza con instituciones de primer nivel",
+  en: "Over 30 years building trusted relationships with top-tier institutions",
+  fr: "Plus de 30 ans à construire des relations de confiance avec des institutions de premier plan"
+};
+---
+
+<section class="py-20 md:py-28 bg-marca-grisSuave dark:bg-oscuro-fondo relative overflow-hidden">
+  <!-- Decoracion sutil -->
+  <div class="absolute top-0 left-0 w-72 h-72 rounded-full opacity-[0.03] dark:opacity-[0.02]" style="background: radial-gradient(circle, #0C2340, transparent); filter: blur(80px);"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-[0.03] dark:opacity-[0.02]" style="background: radial-gradient(circle, #2563EB, transparent); filter: blur(100px);"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+    <!-- Encabezado -->
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5"
+        style="background: rgba(12,35,64,0.06); color: #0C2340; border: 1px solid rgba(12,35,64,0.1);">
+        <span class="dark:hidden">Testimonios</span>
+        <span class="hidden dark:inline" style="color: #60a5fa;">Testimonios</span>
+      </span>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5" style="font-family: 'Sora', sans-serif; line-height: 1.15;">
+        {titulo[idioma]}
+      </h2>
+      <p class="text-base sm:text-lg text-marca-gris dark:text-oscuro-texto max-w-2xl mx-auto" style="line-height: 1.7;">
+        {subtitulo[idioma]}
+      </p>
+    </div>
+
+    <!-- Grid de testimonios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {testimonios.map((test, i) => (
+        <div class={`group relative rounded-2xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1
+          bg-white dark:bg-oscuro-tarjeta border border-gray-100 dark:border-oscuro-borde
+          hover:shadow-xl hover:shadow-marca-azul/5 dark:hover:shadow-marca-azulBrillante/5
+          ${i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+          style={i === 0 ? "background: linear-gradient(135deg, #0C2340 0%, #1B4D8E 100%); border-color: transparent;" : ""}
+        >
+          {/* Comillas decorativas */}
+          <div class={`text-5xl leading-none mb-4 font-serif
+            ${i === 0 ? 'text-white/20' : 'text-marca-azulBrillante/15 dark:text-marca-azulBrillante/10'}`}
+          >"</div>
+
+          {/* Cita */}
+          <blockquote class={`text-base lg:text-lg leading-relaxed mb-8
+            ${i === 0 ? 'text-white/90' : 'text-gray-600 dark:text-oscuro-texto'}`}
+            style="font-style: italic;"
+          >
+            {test.cita[idioma]}
+          </blockquote>
+
+          {/* Autor */}
+          <div class="flex items-center gap-4">
+            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-xl
+              ${i === 0 ? 'bg-white/10' : 'bg-marca-grisSuave dark:bg-oscuro-fondo'}`}>
+              {test.icono}
+            </div>
+            <div>
+              <div class={`font-bold text-sm
+                ${i === 0 ? 'text-white' : 'text-marca-azul dark:text-white'}`}
+                style="font-family: 'Sora', sans-serif;">
+                {test.autor[idioma]}
+              </div>
+              <div class={`text-xs mt-0.5
+                ${i === 0 ? 'text-white/50' : 'text-marca-gris dark:text-oscuro-texto/60'}`}>
+                {test.cargo[idioma]}
+              </div>
+            </div>
+          </div>
+
+          {/* Linea decorativa inferior */}
+          <div class={`absolute bottom-0 left-8 right-8 h-0.5 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left
+            ${i === 0 ? 'bg-white/20' : 'bg-marca-azulBrillante/30'}`}></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

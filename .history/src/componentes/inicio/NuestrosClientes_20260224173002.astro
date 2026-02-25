@@ -1,0 +1,36 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+
+interface Props { idioma: Idioma; }
+
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+
+// PENDIENTE: Reemplazar con logos reales de los clientes
+const clientes = [
+  { nombre: 'Naciones Unidas', logo: '/imagenes/clientes/onu.png' },
+  { nombre: 'OMS', logo: '/imagenes/clientes/oms.png' },
+  { nombre: 'OEA', logo: '/imagenes/clientes/oea.png' },
+  { nombre: 'Fondo Mundial', logo: '/imagenes/clientes/fondo-mundial.png' },
+];
+---
+
+<section class="seccion bg-marca-grisSuave dark:bg-oscuro-tarjeta">
+  <div class="contenedor px-4 text-center">
+    <h2 class="titulo-seccion">{t.clientes.titulo}</h2>
+    <p class="subtitulo-seccion mx-auto">{t.clientes.subtitulo}</p>
+
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-60 dark:opacity-40">
+      {clientes.map((cliente) => (
+        <img
+          src={cliente.logo}
+          alt={cliente.nombre}
+          class="h-12 md:h-16 w-auto grayscale hover:grayscale-0 transition-all duration-300"
+          width="120"
+          height="60"
+          loading="lazy"
+        />
+      ))}
+    </div>
+  </div>
+</section>

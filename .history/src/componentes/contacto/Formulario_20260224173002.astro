@@ -1,0 +1,52 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+---
+<form id="formulario-contacto" class="space-y-5">
+  <div>
+    <label for="nombre" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.nombre}</label>
+    <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all" />
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div>
+      <label for="email" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.email}</label>
+      <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all" />
+    </div>
+    <div>
+      <label for="telefono" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.telefono}</label>
+      <input type="tel" id="telefono" name="telefono" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all" />
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div>
+      <label for="idioma-origen" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.idiomaOrigen}</label>
+      <select id="idioma-origen" name="idiomaOrigen" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all">
+        <option value="es">Español</option><option value="en">English</option><option value="fr">Français</option>
+      </select>
+    </div>
+    <div>
+      <label for="idioma-destino" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.idiomaDestino}</label>
+      <select id="idioma-destino" name="idiomaDestino" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all">
+        <option value="en">English</option><option value="es">Español</option><option value="fr">Français</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <label for="mensaje" class="block text-sm font-medium text-marca-azul dark:text-oscuro-titulo mb-1">{t.contactoPage.mensaje}</label>
+    <textarea id="mensaje" name="mensaje" rows="4" required class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-oscuro-borde dark:bg-oscuro-tarjeta dark:text-oscuro-texto focus:ring-2 focus:ring-marca-azulBrillante outline-none transition-all resize-none"></textarea>
+  </div>
+  <input type="hidden" id="campo-origen" name="origen" value="Directo" />
+  <button type="submit" class="boton-principal w-full justify-center text-base py-4">{t.contactoPage.enviar}</button>
+</form>
+<script is:inline>
+  const ref = document.referrer || '';
+  const campo = document.getElementById('campo-origen');
+  if (campo) {
+    if (ref.includes('google')) campo.value = 'Google';
+    else if (ref.includes('facebook')) campo.value = 'Facebook';
+    else if (ref.includes('instagram')) campo.value = 'Instagram';
+    else if (ref.includes('linkedin')) campo.value = 'LinkedIn';
+  }
+</script>

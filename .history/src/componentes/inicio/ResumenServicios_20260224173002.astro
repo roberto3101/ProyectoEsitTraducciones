@@ -1,0 +1,48 @@
+---
+import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+
+interface Props { idioma: Idioma; }
+
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+const rutas = obtenerRutas(idioma);
+
+const iconos = [
+  '<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>',
+  '<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1-5.1m0 0L11.42 4.97m-5.1 5.1h13.364M4.26 19.72l5.1-5.1m0 0l-5.1-5.1m5.1 5.1H2.896" /></svg>',
+  '<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>',
+  '<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5" /></svg>',
+];
+---
+
+<section class="seccion">
+  <div class="contenedor px-4">
+    <div class="text-center">
+      <h2 class="titulo-seccion">{t.resumenServicios.titulo}</h2>
+      <p class="subtitulo-seccion mx-auto">{t.resumenServicios.subtitulo}</p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {t.resumenServicios.items.map((item, i) => (
+        <div class="tarjeta text-center group">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-marca-azulBrillante/10 dark:bg-marca-azulBrillante/20 flex items-center justify-center text-marca-azulBrillante group-hover:bg-marca-azulBrillante group-hover:text-white transition-all duration-300">
+            <Fragment set:html={iconos[i]} />
+          </div>
+          <h3 class="font-titulo font-semibold text-lg text-marca-azul dark:text-oscuro-titulo">
+            {item.titulo}
+          </h3>
+          <p class="mt-2 text-sm text-marca-gris dark:text-oscuro-texto leading-relaxed">
+            {item.descripcion}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <a href={rutas.servicios} class="boton-secundario">
+        {t.resumenServicios.verTodos}
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

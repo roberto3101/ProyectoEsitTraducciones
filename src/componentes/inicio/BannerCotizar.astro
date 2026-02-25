@@ -1,0 +1,24 @@
+---
+import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+
+interface Props { idioma: Idioma; }
+
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+const rutas = obtenerRutas(idioma);
+---
+
+<section class="py-20 bg-gradient-to-r from-marca-azul to-marca-azulClaro dark:from-oscuro-tarjeta dark:to-oscuro-borde">
+  <div class="contenedor px-4 text-center">
+    <h2 class="text-3xl md:text-4xl font-titulo font-bold text-white">
+      {t.bannerCotizar.titulo}
+    </h2>
+    <p class="mt-4 text-lg text-slate-200 max-w-xl mx-auto">
+      {t.bannerCotizar.subtitulo}
+    </p>
+    <a href={rutas.contacto} class="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-white text-marca-azul font-titulo font-bold rounded-lg hover:bg-slate-100 transition-all duration-300 text-lg">
+      {t.bannerCotizar.boton}
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+    </a>
+  </div>
+</section>

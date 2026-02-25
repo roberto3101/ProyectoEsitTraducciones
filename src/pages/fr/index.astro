@@ -1,0 +1,41 @@
+---
+import Principal from '../../layout/Principal.astro';
+import BannerPrincipal from '../../componentes/inicio/BannerPrincipal.astro';
+import NuestrosClientes from '../../componentes/inicio/NuestrosClientes.astro';
+import ResumenServicios from '../../componentes/inicio/ResumenServicios.astro';
+import PorQueElegirnos from '../../componentes/inicio/PorQueElegirnos.astro';
+import Testimonios from '../../componentes/inicio/Testimonios.astro';
+import BannerCotizar from '../../componentes/inicio/BannerCotizar.astro';
+import MapaIdiomas from '../../componentes/inicio/MapaIdiomas.jsx';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('fr');
+---
+<Principal titulo={t.seo.inicio.titulo} descripcion={t.seo.inicio.descripcion} idioma="fr" pagina="inicio">
+  <BannerPrincipal idioma="fr" />
+  <NuestrosClientes idioma="fr" />
+  <ResumenServicios idioma="fr" />
+  <PorQueElegirnos idioma="fr" />
+
+  <section class="py-20 md:py-28 relative overflow-hidden bg-gray-50 dark:bg-transparent">
+    <div class="absolute inset-0 hidden dark:block" style="background: linear-gradient(180deg, #050a14 0%, #0a1220 50%, #050a14 100%);"></div>
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 relative z-10">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4
+          bg-marca-azul/5 text-marca-azul border border-marca-azul/10
+          dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
+          Couverture Internationale
+        </span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5" style="font-family: 'Sora', sans-serif; line-height: 1.15;">
+          Portée Mondiale
+        </h2>
+        <p class="text-base sm:text-lg max-w-2xl mx-auto text-marca-gris dark:text-slate-400" style="line-height: 1.7;">
+          Nous connectons les cultures grâce à des traductions précises dans les langues qui font bouger le monde. De Lima, Pérou, vers tous les continents.
+        </p>
+      </div>
+      <MapaIdiomas client:visible />
+    </div>
+  </section>
+
+  <Testimonios idioma="fr" />
+  <BannerCotizar idioma="fr" />
+</Principal>

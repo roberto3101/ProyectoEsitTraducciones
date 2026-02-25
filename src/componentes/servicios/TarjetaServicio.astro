@@ -1,0 +1,8 @@
+---
+interface Props { titulo: string; descripcion: string; }
+const { titulo, descripcion } = Astro.props;
+---
+<div class="tarjeta group">
+  <h3 class="font-titulo font-semibold text-xl text-marca-azul dark:text-oscuro-titulo group-hover:text-marca-azulBrillante transition-colors">{titulo}</h3>
+  <p class="mt-3 text-marca-gris dark:text-oscuro-texto leading-relaxed">{descripcion}</p>
+</div>

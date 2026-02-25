@@ -1,0 +1,163 @@
+{
+  "seo": {
+    "inicio": {
+      "titulo": "Esit Translations | Professional Translation Agency in Peru",
+      "descripcion": "Certified translations in Spanish, English and French. Over 33 years of experience serving international organizations and businesses."
+    },
+    "nosotros": {
+      "titulo": "About Us | Esit Translations",
+      "descripcion": "Learn about our history, mission and values. Over 33 years providing professional translation and interpretation services in Peru."
+    },
+    "servicios": {
+      "titulo": "Services | Esit Translations",
+      "descripcion": "Legal, technical translation, simultaneous interpretation, subtitling and more. Professional services in Spanish, English and French."
+    },
+    "blog": {
+      "titulo": "Blog | Esit Translations",
+      "descripcion": "News, articles and updates from the world of professional translation and interpretation."
+    },
+    "contacto": {
+      "titulo": "Contact | Esit Translations",
+      "descripcion": "Contact us to request a quote. Personalized attention for your translation and interpretation projects."
+    },
+    "preguntas": {
+      "titulo": "FAQ | Esit Translations",
+      "descripcion": "Answers to the most common questions about our professional translation and interpretation services."
+    }
+  },
+  "nav": {
+    "inicio": "Home",
+    "nosotros": "About Us",
+    "servicios": "Services",
+    "blog": "Blog",
+    "contacto": "Contact",
+    "cotizar": "Request a Quote"
+  },
+  "hero": {
+    "titulo": "Precise communication in every language",
+    "subtitulo": "Over 33 years connecting Peru with the world through professional translation and interpretation",
+    "botonServicios": "Our Services",
+    "botonContacto": "Contact Us"
+  },
+  "clientes": {
+    "titulo": "They trust us",
+    "subtitulo": "International organizations and leading companies choose our services"
+  },
+  "resumenServicios": {
+    "titulo": "Our Services",
+    "subtitulo": "Comprehensive linguistic solutions for every need",
+    "verTodos": "View all services",
+    "items": [
+      {
+        "titulo": "Legal Translation",
+        "descripcion": "Legal documents, contracts, certificates and powers of attorney with legal precision."
+      },
+      {
+        "titulo": "Technical Translation",
+        "descripcion": "Manuals, technical reports and specialized documentation across multiple sectors."
+      },
+      {
+        "titulo": "Interpretation",
+        "descripcion": "Simultaneous and consecutive interpretation for conferences, meetings and events."
+      },
+      {
+        "titulo": "Subtitling & Dubbing",
+        "descripcion": "Professional subtitling and dubbing for audiovisual content in multiple languages."
+      }
+    ]
+  },
+  "porQueElegirnos": {
+    "titulo": "Why choose ESIT?",
+    "subtitulo": "Three decades of excellence back us up",
+    "items": [
+      { "titulo": "33+ years", "descripcion": "Of experience in the Peruvian and international market" },
+      { "titulo": "3 languages", "descripcion": "Spanish, English and French with native translators" },
+      { "titulo": "100% confidential", "descripcion": "Strict information handling protocols" },
+      { "titulo": "Global clients", "descripcion": "UN, WHO, OAS and hundreds of companies trust us" }
+    ]
+  },
+  "bannerCotizar": {
+    "titulo": "Need a professional translation?",
+    "subtitulo": "Request your quote with no obligation. We respond within 24 hours.",
+    "boton": "Request a Quote"
+  },
+  "nosotrosPage": {
+    "tituloHistoria": "Our History",
+    "tituloMision": "Mission",
+    "tituloValores": "Our Values",
+    "tituloCompromiso": "Our Commitment",
+    "historia": "At the beginning of the nineties, Peru changed at an accelerated pace marked by its opening to the international market. Many new multilingual actors began dealing with our country and the demand for translation and interpretation grew rapidly. The demand was strong and the market favorable, but there were also surprises and instability due to a strong structural adjustment. During this period of turbulence, ESIT stood firm and was able to grow and take advantage of all the opportunities that arose. The current context, with its dose of uncertainty and surprise, is not very different. At ESIT we are proud of our organization, which allows us to adapt to these new difficulties, but also to open ourselves to new opportunities. All our translation and interpretation, subtitling, dubbing services and more are available to our clients remotely, in person or in hybrid format. In the face of changes and crises, with a spirit of innovation and flexibility, ESIT provides its clients with the quality and punctuality of always.",
+    "mision": "To contribute to the success of our clients by communicating precisely, faithfully and effectively in various languages and to assure them the peace of mind of having quality language services, with the required confidentiality and timeliness.",
+    "compromiso": "We are always committed to establishing solid bonds with our clients. Based on our responsibility, competence, and seriousness, we have retained clients since the founding of the company and have hundreds of satisfied clients during our 33 years of experience.",
+    "valores": [
+      "Capability", "Collaboration", "Confidentiality", "Honesty",
+      "Punctuality", "Respect", "Responsibility", "Service",
+      "Excellence", "Sustainability"
+    ]
+  },
+  "contactoPage": {
+    "titulo": "Contact Us",
+    "subtitulo": "We are ready to help you with your project",
+    "nombre": "Full name",
+    "email": "Email address",
+    "telefono": "Phone number",
+    "idiomaOrigen": "Source language",
+    "idiomaDestino": "Target language",
+    "mensaje": "Describe your project",
+    "enviar": "Send message",
+    "enviando": "Sending...",
+    "exito": "Message sent! We will contact you soon.",
+    "error": "There was an error. Please try again.",
+    "telefonos": "Phone",
+    "correos": "Email",
+    "direccion": "Address",
+    "direccionTexto": "Pueblo Libre, Lima - Peru"
+  },
+  "preguntas": {
+    "titulo": "Frequently Asked Questions",
+    "subtitulo": "Answers to the most common inquiries",
+    "items": [
+      {
+        "pregunta": "What types of translation do you offer?",
+        "respuesta": "We offer legal, technical, medical, financial translation, simultaneous and consecutive interpretation, subtitling and dubbing in Spanish, English and French."
+      },
+      {
+        "pregunta": "How long does a translation take?",
+        "respuesta": "The time depends on the length and complexity of the document. Contact us with your project details for a precise estimate."
+      },
+      {
+        "pregunta": "Are your translations certified?",
+        "respuesta": "Yes, we offer certified translations by licensed translators, valid for legal and official procedures."
+      },
+      {
+        "pregunta": "Do you work with international companies and organizations?",
+        "respuesta": "Yes, we have over 33 years of experience working with organizations such as the UN, WHO, OAS and the Global Fund, among others."
+      },
+      {
+        "pregunta": "How can I request a quote?",
+        "respuesta": "You can fill out the form on our contact page or write directly to contacto@esittraducciones.com. We respond within 24 hours."
+      }
+    ]
+  },
+  "blog": {
+    "titulo": "Blog",
+    "subtitulo": "News and articles from the world of translation",
+    "leerMas": "Read more",
+    "sinArticulos": "Articles coming soon.",
+    "categorias": "Categories",
+    "todas": "All"
+  },
+  "pie": {
+    "descripcion": "Professional translation and interpretation agency with over 33 years of experience in the Peruvian and international market.",
+    "enlaces": "Links",
+    "contacto": "Contact",
+    "legal": "Legal",
+    "privacidad": "Privacy Policy",
+    "terminos": "Terms and Conditions",
+    "derechos": "All rights reserved."
+  },
+  "modoOscuro": {
+    "activar": "Dark mode",
+    "desactivar": "Light mode"
+  }
+}

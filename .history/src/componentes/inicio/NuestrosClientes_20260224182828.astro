@@ -1,0 +1,76 @@
+---
+import { obtenerTextos } from '../../helpers/idiomas';
+const { idioma = 'es' } = Astro.props;
+const t = obtenerTextos(idioma);
+
+// Clientes REALES de ESIT (confirmados desde su web actual)
+const clientes = [
+  { nombre: "USAID", logo: "/imagenes/clientes/usaid.png" },
+  { nombre: "United Nations", logo: "/imagenes/clientes/onu.png" },
+  { nombre: "CARE", logo: "/imagenes/clientes/care.png" },
+  { nombre: "IFC", logo: "/imagenes/clientes/ifc.png" },
+  { nombre: "IDB", logo: "/imagenes/clientes/bid.png" },
+  { nombre: "Ipsos", logo: "/imagenes/clientes/ipsos.png" },
+  { nombre: "Moody's Analytics", logo: "/imagenes/clientes/moodys.png" },
+  { nombre: "McKinsey & Company", logo: "/imagenes/clientes/mckinsey.png" },
+  { nombre: "3M", logo: "/imagenes/clientes/3m.png" },
+];
+
+const titulo = {
+  es: "Confíe en nosotros como lo hacen nuestros clientes",
+  en: "Trust us as our clients do",
+  fr: "Faites-nous confiance comme nos clients"
+};
+const subtitulo = {
+  es: "Atendemos todos sus proyectos, pequeños, grandes, a nivel local o global.",
+  en: "We handle all your projects, small, large, local or global.",
+  fr: "Nous gérons tous vos projets, petits, grands, au niveau local ou mondial."
+};
+---
+
+<section class="py-16 md:py-24 bg-white dark:bg-oscuro-fondo border-t border-b border-gray-100 dark:border-oscuro-borde">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-bold text-marca-azul dark:text-white mb-3" style="font-family: 'Sora', sans-serif;">
+        {titulo[idioma]}
+      </h2>
+      <p class="text-sm sm:text-base text-marca-gris dark:text-oscuro-texto max-w-xl mx-auto">
+        {subtitulo[idioma]}
+      </p>
+    </div>
+
+    {/* Logos en scroll infinito */}
+    <div class="relative overflow-hidden" style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+      <div class="flex gap-12 items-center animate-scroll">
+        {/* Duplicamos para efecto infinito */}
+        {[...clientes, ...clientes].map((cliente, i) => (
+          <div class="flex-shrink-0 flex items-center justify-center w-40 h-20 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-500 cursor-default"
+            title={cliente.nombre}>
+            {/* Logo real - descomentar cuando tengan los archivos */}
+            {/* <img src={cliente.logo} alt={cliente.nombre} class="max-h-12 max-w-full object-contain" loading="lazy" /> */}
+
+            {/* Placeholder con nombre */}
+            <span class="text-sm font-bold text-marca-azul/40 dark:text-white/30 text-center leading-tight"
+              style="font-family: 'Sora', sans-serif;">
+              {cliente.nombre}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+    width: max-content;
+  }
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+</style>

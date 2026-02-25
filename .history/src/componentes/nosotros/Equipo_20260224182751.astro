@@ -1,0 +1,168 @@
+---
+import { obtenerTextos } from '../../helpers/idiomas';
+const { idioma = 'es' } = Astro.props;
+const t = obtenerTextos(idioma);
+
+// Equipo real de ESIT Traducciones
+const equipo = [
+  {
+    nombre: "María Nelly",
+    cargo: { es: "Socia Fundadora", en: "Founding Partner", fr: "Associée Fondatrice" },
+    bio: {
+      es: "Graduada en semiótica en la Universidad de la Sorbona, París. Tres décadas de carrera como traductora e intérprete con entidades multilaterales, gobiernos y organizaciones internacionales.",
+      en: "Graduate in Semiotics from the Sorbonne University, Paris. Three decades as a translator and interpreter for multilateral entities, governments, and international organizations.",
+      fr: "Diplômée en sémiotique à l'Université de la Sorbonne, Paris. Trois décennies de carrière comme traductrice et interprète auprès d'entités multilatérales, gouvernements et organisations internationales."
+    },
+    idiomas: ["ES", "EN", "FR"],
+    foto: "/imagenes/equipo/maria-nelly.jpg",
+    iniciales: "MN"
+  },
+  {
+    nombre: "Sandra",
+    cargo: { es: "Socia Fundadora", en: "Founding Partner", fr: "Associée Fondatrice" },
+    bio: {
+      es: "Graduada en traducción de la Universidad de Ginebra, Suiza. Más de 30 años como traductora e intérprete simultánea en español, alemán, inglés y francés.",
+      en: "Graduate in Translation from the University of Geneva, Switzerland. Over 30 years as a translator and simultaneous interpreter in Spanish, German, English, and French.",
+      fr: "Diplômée en traduction de l'Université de Genève, Suisse. Plus de 30 ans comme traductrice et interprète simultanée en espagnol, allemand, anglais et français."
+    },
+    idiomas: ["ES", "EN", "FR", "DE"],
+    foto: "/imagenes/equipo/sandra.jpg",
+    iniciales: "S"
+  },
+  {
+    nombre: "Constanza",
+    cargo: { es: "Socia · Intérprete", en: "Partner · Interpreter", fr: "Associée · Interprète" },
+    bio: {
+      es: "Egresada de Humanidades por la Universidad de la Sorbona, París. Contribuye en ESIT desde 2014. Experiencia en economía, finanzas, desarrollo y ciencias sociales.",
+      en: "Humanities graduate from the Sorbonne University, Paris. Contributing to ESIT since 2014. Experience in economics, finance, development, and social sciences.",
+      fr: "Diplômée en Humanités de l'Université de la Sorbonne, Paris. Contribue chez ESIT depuis 2014. Expérience en économie, finances, développement et sciences sociales."
+    },
+    idiomas: ["ES", "EN", "FR"],
+    foto: "/imagenes/equipo/constanza.jpg",
+    iniciales: "C"
+  },
+  {
+    nombre: "Isabel",
+    cargo: { es: "Gerente General", en: "General Manager", fr: "Directrice Générale" },
+    bio: {
+      es: "Administradora de empresas con especialización en marketing y diplomado en CRM. 15 años en ESIT a cargo del área administrativa y atención al cliente.",
+      en: "Business administrator with marketing specialization and CRM diploma. 15 years at ESIT leading administration and customer service.",
+      fr: "Administratrice d'entreprise spécialisée en marketing et diplômée en CRM. 15 ans chez ESIT en charge de l'administration et du service client."
+    },
+    idiomas: ["ES", "EN"],
+    foto: "/imagenes/equipo/isabel.jpg",
+    iniciales: "IH"
+  },
+  {
+    nombre: "Sidney",
+    cargo: { es: "Intérprete", en: "Interpreter", fr: "Interprète" },
+    bio: {
+      es: "Economista, traductor e intérprete graduado de la PUCP y la Universidad de la Sorbona. Diploma de la Universidad de Cambridge y del Institute of Linguists of London.",
+      en: "Economist, translator and interpreter graduated from PUCP and the Sorbonne University. Diploma from Cambridge University and the Institute of Linguists of London.",
+      fr: "Économiste, traducteur et interprète diplômé de la PUCP et de l'Université de la Sorbonne. Diplôme de l'Université de Cambridge et de l'Institute of Linguists of London."
+    },
+    idiomas: ["ES", "EN", "FR"],
+    foto: "/imagenes/equipo/sidney.jpg",
+    iniciales: "S"
+  },
+  {
+    nombre: "Jean Pierre",
+    cargo: { es: "Intérprete", en: "Interpreter", fr: "Interprète" },
+    bio: {
+      es: "Doce años de experiencia como intérprete en inglés y castellano. Especializado en aplicación de la ley, criminalística, lucha anti-drogas y anti-terrorismo.",
+      en: "Twelve years of experience as an English-Spanish interpreter. Specialized in law enforcement, criminology, anti-drug, and counter-terrorism operations.",
+      fr: "Douze ans d'expérience comme interprète anglais-espagnol. Spécialisé dans l'application de la loi, la criminalistique, la lutte anti-drogue et anti-terrorisme."
+    },
+    idiomas: ["ES", "EN"],
+    foto: "/imagenes/equipo/jean-pierre.jpg",
+    iniciales: "JP"
+  }
+];
+
+const titulo = { es: "Nuestro Equipo", en: "Our Team", fr: "Notre Équipe" };
+const subtitulo = {
+  es: "Profesionales con formación internacional y décadas de experiencia en traducción e interpretación",
+  en: "Internationally trained professionals with decades of experience in translation and interpretation",
+  fr: "Des professionnels formés à l'international avec des décennies d'expérience en traduction et interprétation"
+};
+const idiomasLabel = { es: "Idiomas", en: "Languages", fr: "Langues" };
+---
+
+<section class="py-20 md:py-28 bg-white dark:bg-oscuro-fondo relative overflow-hidden">
+  <!-- Decoracion -->
+  <div class="absolute top-20 right-0 w-80 h-80 rounded-full opacity-[0.02]" style="background: radial-gradient(circle, #C9A84C, transparent); filter: blur(80px);"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+    <!-- Encabezado -->
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5"
+        style="background: rgba(201,168,76,0.08); color: #C9A84C; border: 1px solid rgba(201,168,76,0.15);">
+        {idioma === 'es' ? 'Equipo profesional' : idioma === 'en' ? 'Professional team' : 'Équipe professionnelle'}
+      </span>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5" style="font-family: 'Sora', sans-serif; line-height: 1.15;">
+        {titulo[idioma]}
+      </h2>
+      <p class="text-base sm:text-lg text-marca-gris dark:text-oscuro-texto max-w-2xl mx-auto" style="line-height: 1.7;">
+        {subtitulo[idioma]}
+      </p>
+    </div>
+
+    <!-- Grid del equipo -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {equipo.map((miembro, i) => (
+        <div class="group relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1
+          bg-marca-grisSuave dark:bg-oscuro-tarjeta border border-gray-100 dark:border-oscuro-borde
+          hover:shadow-xl hover:shadow-marca-azul/5 dark:hover:shadow-marca-azulBrillante/5">
+
+          {/* Foto o placeholder con iniciales */}
+          <div class="relative h-56 overflow-hidden bg-gradient-to-br from-marca-azul to-marca-azulClaro">
+            {/* Imagen real - descomentar cuando tengan las fotos */}
+            {/* <img src={miembro.foto} alt={miembro.nombre} class="w-full h-full object-cover object-top" loading="lazy" /> */}
+
+            {/* Placeholder elegante con iniciales */}
+            <div class="w-full h-full flex items-center justify-center relative">
+              {/* Patron decorativo de fondo */}
+              <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-4 right-4 w-24 h-24 border border-white/30 rounded-full"></div>
+                <div class="absolute bottom-4 left-4 w-16 h-16 border border-white/20 rounded-full"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-white/10 rounded-full"></div>
+              </div>
+              <span class="text-5xl font-bold text-white/40" style="font-family: 'Sora', sans-serif;">
+                {miembro.iniciales}
+              </span>
+            </div>
+
+            {/* Overlay gradient */}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+
+            {/* Badge de idiomas flotante */}
+            <div class="absolute top-4 right-4 flex gap-1.5">
+              {miembro.idiomas.map((lang) => (
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded-md backdrop-blur-sm"
+                  style={`background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2);`}>
+                  {lang}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Info */}
+          <div class="p-6 lg:p-7">
+            <h3 class="text-lg font-bold text-marca-azul dark:text-white mb-1" style="font-family: 'Sora', sans-serif;">
+              {miembro.nombre}
+            </h3>
+            <p class="text-sm font-semibold text-marca-azulBrillante dark:text-marca-azulBrillante mb-4">
+              {miembro.cargo[idioma]}
+            </p>
+            <p class="text-sm text-marca-gris dark:text-oscuro-texto leading-relaxed">
+              {miembro.bio[idioma]}
+            </p>
+          </div>
+
+          {/* Linea decorativa hover */}
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-marca-azul via-marca-azulBrillante to-marca-dorado transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

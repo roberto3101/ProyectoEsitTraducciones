@@ -1,0 +1,13 @@
+---
+import Principal from '../../layout/Principal.astro';
+import ListaArticulos from '../../componentes/blog/ListaArticulos.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('es');
+// PENDIENTE: Conectar con Sanity cuando este configurado
+// import { obtenerArticulos } from '../../helpers/sanity';
+// const articulos = await obtenerArticulos('es');
+const articulos = [];
+---
+<Principal titulo={t.seo.blog.titulo} descripcion={t.seo.blog.descripcion} idioma="es" pagina="blog">
+  <ListaArticulos idioma="es" articulos={articulos} />
+</Principal>

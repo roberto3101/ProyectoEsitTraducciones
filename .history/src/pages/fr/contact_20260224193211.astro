@@ -1,0 +1,40 @@
+---
+import Principal from '../../layout/Principal.astro';
+import Formulario from '../../componentes/contacto/Formulario.astro';
+import InfoContacto from '../../componentes/contacto/InfoContacto.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('fr');
+---
+<Principal titulo={t.seo.contacto.titulo} descripcion={t.seo.contacto.descripcion} idioma="fr" pagina="contacto">
+  <section class="py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.03] dark:opacity-[0.02] bg-marca-azulBrillante blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.02] bg-marca-dorado blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5
+          bg-marca-azul/5 text-marca-azul border border-marca-azul/10
+          dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
+          Contact
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5"
+          style="font-family: 'Sora', sans-serif; line-height: 1.15;">
+          Contactez-nous
+        </h1>
+        <p class="text-base sm:text-lg max-w-2xl mx-auto text-marca-gris dark:text-slate-400" style="line-height: 1.7;">
+          Nous sommes prêts à vous aider avec votre projet. Dites-nous ce dont vous avez besoin et nous vous répondrons en moins de 24 heures.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 max-w-5xl mx-auto">
+        <div class="lg:col-span-3 bg-white dark:bg-oscuro-tarjeta rounded-2xl p-8 lg:p-10
+          border border-slate-100 dark:border-oscuro-borde shadow-sm dark:shadow-none">
+          <Formulario idioma="fr" />
+        </div>
+        <div class="lg:col-span-2">
+          <InfoContacto idioma="fr" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Principal>

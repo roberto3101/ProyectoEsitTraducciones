@@ -1,0 +1,14 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; categorias?: string[]; categoriaActual?: string; }
+const { idioma, categorias = [], categoriaActual } = Astro.props;
+const t = obtenerTextos(idioma);
+---
+{categorias.length > 0 && (
+  <div class="flex flex-wrap gap-2 justify-center mt-8">
+    <a href={'/' + idioma + '/blog'} class:list={['px-4 py-2 rounded-full text-sm font-medium transition-colors', !categoriaActual ? 'bg-marca-azulBrillante text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-oscuro-tarjeta dark:text-oscuro-texto']}>{t.blog.todas}</a>
+    {categorias.map((cat) => (
+      <a href={'/' + idioma + '/blog?cat=' + cat} class:list={['px-4 py-2 rounded-full text-sm font-medium transition-colors', categoriaActual === cat ? 'bg-marca-azulBrillante text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-oscuro-tarjeta dark:text-oscuro-texto']}>{cat}</a>
+    ))}
+  </div>
+)}

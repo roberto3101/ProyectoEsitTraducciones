@@ -1,0 +1,12 @@
+---
+import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
+interface Props { idioma: Idioma; }
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+---
+<section class="seccion">
+  <div class="contenedor px-4 max-w-4xl mx-auto">
+    <h2 class="titulo-seccion">{t.nosotrosPage.tituloHistoria}</h2>
+    <p class="mt-6 text-marca-gris dark:text-oscuro-texto leading-relaxed text-lg">{t.nosotrosPage.historia}</p>
+  </div>
+</section>

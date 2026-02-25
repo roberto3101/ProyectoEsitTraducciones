@@ -1,0 +1,49 @@
+---
+import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+
+interface Props { idioma: Idioma; }
+
+const { idioma } = Astro.props;
+const t = obtenerTextos(idioma);
+const rutas = obtenerRutas(idioma);
+---
+
+<section class="relative bg-marca-azul dark:bg-oscuro-fondo overflow-hidden">
+  <!-- Imagen de fondo con overlay -->
+  <div class="absolute inset-0">
+    <img
+      src="/imagenes/hero-bg.jpg"
+      alt=""
+      class="w-full h-full object-cover opacity-20"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-marca-azul/90 to-marca-azulClaro/70 dark:from-oscuro-fondo/95 dark:to-oscuro-tarjeta/80"></div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="contenedor relative z-10 px-4 py-24 md:py-36 lg:py-44">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-titulo font-bold text-white leading-tight">
+        {t.hero.titulo}
+      </h1>
+      <p class="mt-6 text-lg md:text-xl text-slate-200 leading-relaxed max-w-2xl">
+        {t.hero.subtitulo}
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <a href={rutas.servicios} class="boton-principal text-base px-8 py-4">
+          {t.hero.botonServicios}
+        </a>
+        <a href={rutas.contacto} class="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-titulo font-semibold rounded-lg hover:bg-white/10 transition-all duration-300">
+          {t.hero.botonContacto}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onda decorativa inferior -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
+      <path d="M0 60L1440 60L1440 30C1440 30 1140 0 720 0C300 0 0 30 0 30L0 60Z" class="fill-white dark:fill-oscuro-fondo"/>
+    </svg>
+  </div>
+</section>

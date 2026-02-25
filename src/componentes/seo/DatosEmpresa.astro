@@ -1,0 +1,45 @@
+---
+// Datos estructurados que Google usa para mostrar info de la empresa
+// directamente en los resultados de busqueda (direccion, telefono, etc)
+
+const datos = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Esit Traducciones",
+  "alternateName": "ESIT",
+  "url": "https://esittraducciones.com",
+  "logo": "https://esittraducciones.com/imagenes/logo.png",
+  "description": "Agencia de traducción e interpretación profesional con más de 33 años de experiencia.",
+  "foundingDate": "1991",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Pueblo Libre",
+    "addressRegion": "Lima",
+    "addressCountry": "PE"
+  },
+  "telephone": ["+51998152086", "+51998122941", "+51930872124"],
+  "email": "contacto@esittraducciones.com",
+  "sameAs": [],
+  "knowsLanguage": ["es", "en", "fr"],
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": -12.0464,
+      "longitude": -77.0428
+    },
+    "geoRadius": "50000"
+  },
+  "serviceType": [
+    "Traducción Legal",
+    "Traducción Técnica",
+    "Interpretación Simultánea",
+    "Interpretación Consecutiva",
+    "Subtitulado",
+    "Doblaje"
+  ],
+  "priceRange": "$$"
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />

@@ -1,0 +1,37 @@
+---
+// Etiquetas que Google lee para mostrar en resultados de busqueda
+interface Props {
+  titulo: string;
+  descripcion: string;
+  idioma: string;
+  urlCanonica?: string;
+}
+
+const { titulo, descripcion, idioma, urlCanonica } = Astro.props;
+const url = urlCanonica || Astro.url.href;
+---
+
+<!-- Titulo que aparece en la pestaña y en Google -->
+<title>{titulo}</title>
+
+<!-- Descripcion que Google muestra debajo del titulo -->
+<meta name="description" content={descripcion} />
+
+<!-- Idioma de la pagina -->
+<meta http-equiv="content-language" content={idioma} />
+
+<!-- URL unica de esta pagina (evita contenido duplicado) -->
+<link rel="canonical" href={url} />
+
+<!-- Indicar a Google que no traduzca automaticamente -->
+<meta name="google" content="notranslate" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/iconos/favicon.svg" />
+
+<!-- Charset y viewport -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Autor -->
+<meta name="author" content="Esit Traducciones" />

@@ -1,0 +1,11 @@
+---
+import Principal from '../../layout/Principal.astro';
+import ListaServicios from '../../componentes/servicios/ListaServicios.astro';
+import BotonCotizar from '../../componentes/servicios/BotonCotizar.astro';
+import BannerCotizar from '../../componentes/inicio/BannerCotizar.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('fr');
+---
+<Principal titulo={t.seo.servicios.titulo} descripcion={t.seo.servicios.descripcion} idioma="fr" pagina="servicios">
+  <ListaServicios idioma="fr" /><BotonCotizar idioma="fr" /><BannerCotizar idioma="fr" />
+</Principal>

@@ -1,0 +1,14 @@
+---
+interface Props { titulo: string; resumen: string; imagen?: string; fecha: string; categoria?: string; enlace: string; textoLeerMas: string; }
+const { titulo, resumen, imagen, fecha, categoria, enlace, textoLeerMas } = Astro.props;
+---
+<article class="tarjeta overflow-hidden group">
+  {imagen && <img src={imagen} alt={titulo} class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" />}
+  {categoria && <span class="text-xs font-semibold uppercase tracking-wider text-marca-azulBrillante">{categoria}</span>}
+  <h3 class="mt-2 font-titulo font-semibold text-xl text-marca-azul dark:text-oscuro-titulo group-hover:text-marca-azulBrillante transition-colors">{titulo}</h3>
+  <p class="mt-2 text-sm text-marca-gris dark:text-oscuro-texto line-clamp-3">{resumen}</p>
+  <div class="mt-4 flex items-center justify-between">
+    <time class="text-xs text-slate-400">{fecha}</time>
+    <a href={enlace} class="text-sm font-semibold text-marca-azulBrillante hover:underline">{textoLeerMas} →</a>
+  </div>
+</article>

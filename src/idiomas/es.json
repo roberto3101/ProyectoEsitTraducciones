@@ -1,0 +1,163 @@
+{
+  "seo": {
+    "inicio": {
+      "titulo": "Esit Traducciones | Agencia de Traducción Profesional en Perú",
+      "descripcion": "Traducciones certificadas en español, inglés y francés. Más de 33 años de experiencia al servicio de organismos internacionales y empresas."
+    },
+    "nosotros": {
+      "titulo": "Nosotros | Esit Traducciones",
+      "descripcion": "Conozca nuestra historia, misión y valores. Más de 33 años brindando servicios de traducción e interpretación profesional en Perú."
+    },
+    "servicios": {
+      "titulo": "Servicios | Esit Traducciones",
+      "descripcion": "Traducción legal, técnica, interpretación simultánea, subtitulado y más. Servicios profesionales en español, inglés y francés."
+    },
+    "blog": {
+      "titulo": "Blog | Esit Traducciones",
+      "descripcion": "Noticias, artículos y novedades del mundo de la traducción profesional e interpretación."
+    },
+    "contacto": {
+      "titulo": "Contacto | Esit Traducciones",
+      "descripcion": "Contáctenos para solicitar una cotización. Atención personalizada para sus proyectos de traducción e interpretación."
+    },
+    "preguntas": {
+      "titulo": "Preguntas Frecuentes | Esit Traducciones",
+      "descripcion": "Respuestas a las consultas más comunes sobre nuestros servicios de traducción e interpretación profesional."
+    }
+  },
+  "nav": {
+    "inicio": "Inicio",
+    "nosotros": "Nosotros",
+    "servicios": "Servicios",
+    "blog": "Blog",
+    "contacto": "Contacto",
+    "cotizar": "Solicitar Cotización"
+  },
+  "hero": {
+    "titulo": "Comunicación precisa en todos los idiomas",
+    "subtitulo": "Más de 33 años conectando al Perú con el mundo mediante traducciones e interpretaciones profesionales",
+    "botonServicios": "Nuestros Servicios",
+    "botonContacto": "Contáctenos"
+  },
+  "clientes": {
+    "titulo": "Confían en nosotros",
+    "subtitulo": "Organizaciones internacionales y empresas líderes eligen nuestros servicios"
+  },
+  "resumenServicios": {
+    "titulo": "Nuestros Servicios",
+    "subtitulo": "Soluciones lingüísticas integrales para cada necesidad",
+    "verTodos": "Ver todos los servicios",
+    "items": [
+      {
+        "titulo": "Traducción Legal",
+        "descripcion": "Documentos legales, contratos, certificados y poderes con precisión jurídica."
+      },
+      {
+        "titulo": "Traducción Técnica",
+        "descripcion": "Manuales, informes técnicos y documentación especializada en múltiples sectores."
+      },
+      {
+        "titulo": "Interpretación",
+        "descripcion": "Interpretación simultánea y consecutiva para conferencias, reuniones y eventos."
+      },
+      {
+        "titulo": "Subtitulado y Doblaje",
+        "descripcion": "Subtitulado profesional y doblaje para contenido audiovisual en varios idiomas."
+      }
+    ]
+  },
+  "porQueElegirnos": {
+    "titulo": "¿Por qué elegir ESIT?",
+    "subtitulo": "Tres décadas de excelencia nos respaldan",
+    "items": [
+      { "titulo": "33+ años", "descripcion": "De experiencia en el mercado peruano e internacional" },
+      { "titulo": "3 idiomas", "descripcion": "Español, inglés y francés con traductores nativos" },
+      { "titulo": "100% confidencial", "descripcion": "Protocolos estrictos de manejo de información" },
+      { "titulo": "Clientes globales", "descripcion": "ONU, OMS, OEA y cientos de empresas confían en nosotros" }
+    ]
+  },
+  "bannerCotizar": {
+    "titulo": "¿Necesita una traducción profesional?",
+    "subtitulo": "Solicite su cotización sin compromiso. Respondemos en menos de 24 horas.",
+    "boton": "Solicitar Cotización"
+  },
+  "nosotrosPage": {
+    "tituloHistoria": "Nuestra Historia",
+    "tituloMision": "Misión",
+    "tituloValores": "Nuestros Valores",
+    "tituloCompromiso": "Nuestro Compromiso",
+    "historia": "Al inicio de la década de los noventa, el Perú cambió a un ritmo acelerado marcado por su apertura al mercado internacional. Muchos nuevos actores multilingües empezaron a tratar con nuestro país y la demanda de traducción e interpretación creció rápidamente. La demanda era fuerte y el mercado propicio, pero también hubo sorpresas e inestabilidad a raíz de un fuerte ajuste estructural. Durante este periodo de turbulencia, ESIT se mantuvo en pie y pudo crecer y aprovechar todas las oportunidades que se presentaron. El contexto actual, con su dosis de incertidumbre y sorpresa, no es muy diferente. En ESIT nos enorgullecemos de nuestra organización, que nos permite adaptarnos a estas nuevas dificultades, pero también abrirnos a nuevas oportunidades. Todos nuestros servicios de traducción e interpretación, subtitulado, doblaje, y más, están disponibles para nuestros clientes de manera remota, presencial o híbrida. Ante cambios y crisis, con espíritu de innovación y flexibilidad, ESIT aporta a sus clientes la calidad y la puntualidad de siempre.",
+    "mision": "Contribuir con el éxito de nuestros clientes al comunicarse de manera precisa, fiel y eficaz en diversos idiomas y asegurarles la tranquilidad de contar con servicios idiomáticos de calidad, con la confidencialidad y oportunidad requeridas.",
+    "compromiso": "Estamos siempre comprometidos en establecer sólidos vínculos con nuestros clientes. Basados en nuestra responsabilidad, competencia, seriedad, conservamos clientes desde la fundación de la empresa y contamos con cientos de clientes satisfechos durante nuestros 33 años de experiencia.",
+    "valores": [
+      "Capacidad", "Colaboración", "Confidencialidad", "Honestidad",
+      "Puntualidad", "Respeto", "Responsabilidad", "Servicio",
+      "Superación", "Sostenibilidad"
+    ]
+  },
+  "contactoPage": {
+    "titulo": "Contáctenos",
+    "subtitulo": "Estamos listos para ayudarle con su proyecto",
+    "nombre": "Nombre completo",
+    "email": "Correo electrónico",
+    "telefono": "Teléfono",
+    "idiomaOrigen": "Idioma de origen",
+    "idiomaDestino": "Idioma de destino",
+    "mensaje": "Describa su proyecto",
+    "enviar": "Enviar mensaje",
+    "enviando": "Enviando...",
+    "exito": "¡Mensaje enviado! Nos pondremos en contacto pronto.",
+    "error": "Hubo un error. Intente nuevamente.",
+    "telefonos": "Teléfonos",
+    "correos": "Correos",
+    "direccion": "Dirección",
+    "direccionTexto": "Pueblo Libre, Lima - Perú"
+  },
+  "preguntas": {
+    "titulo": "Preguntas Frecuentes",
+    "subtitulo": "Respuestas a las consultas más comunes",
+    "items": [
+      {
+        "pregunta": "¿Qué tipos de traducción ofrecen?",
+        "respuesta": "Ofrecemos traducción legal, técnica, médica, financiera, interpretación simultánea y consecutiva, subtitulado y doblaje en español, inglés y francés."
+      },
+      {
+        "pregunta": "¿Cuánto tiempo toma una traducción?",
+        "respuesta": "El tiempo depende de la extensión y complejidad del documento. Contáctenos con los detalles de su proyecto para darle un estimado preciso."
+      },
+      {
+        "pregunta": "¿Sus traducciones son certificadas?",
+        "respuesta": "Sí, ofrecemos traducciones certificadas por traductores colegiados, válidas para trámites legales y oficiales."
+      },
+      {
+        "pregunta": "¿Trabajan con empresas y organizaciones internacionales?",
+        "respuesta": "Sí, tenemos más de 33 años de experiencia trabajando con organismos como la ONU, la OMS, la OEA y el Fondo Mundial, entre otros."
+      },
+      {
+        "pregunta": "¿Cómo puedo solicitar una cotización?",
+        "respuesta": "Puede llenar el formulario en nuestra página de contacto o escribirnos directamente a contacto@esittraducciones.com. Respondemos en menos de 24 horas."
+      }
+    ]
+  },
+  "blog": {
+    "titulo": "Blog",
+    "subtitulo": "Noticias y artículos del mundo de la traducción",
+    "leerMas": "Leer más",
+    "sinArticulos": "Próximamente publicaremos artículos.",
+    "categorias": "Categorías",
+    "todas": "Todas"
+  },
+  "pie": {
+    "descripcion": "Agencia de traducción e interpretación profesional con más de 33 años de experiencia en el mercado peruano e internacional.",
+    "enlaces": "Enlaces",
+    "contacto": "Contacto",
+    "legal": "Legal",
+    "privacidad": "Política de Privacidad",
+    "terminos": "Términos y Condiciones",
+    "derechos": "Todos los derechos reservados."
+  },
+  "modoOscuro": {
+    "activar": "Modo oscuro",
+    "desactivar": "Modo claro"
+  }
+}
