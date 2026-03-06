@@ -1,0 +1,8 @@
+# ESIT Traducciones - Security Contact
+# https://esittraducciones.com
+# Standard: RFC 9116
+
+Contact: mailto:info@esittraducciones.com
+Expires: 2027-03-05T00:00:00.000Z
+Preferred-Languages: es, en, fr
+Canonical: https://esittraducciones.com/.well-known/security.txt

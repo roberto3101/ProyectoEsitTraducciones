@@ -9,6 +9,7 @@ export default defineConfig({
   site: 'https://esittraducciones.com',
   adapter: vercel(),
   output: 'server',
+  trailingSlash: 'never',
   integrations: [
     tailwind(),
     sitemap({

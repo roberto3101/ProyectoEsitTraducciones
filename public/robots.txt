@@ -1,0 +1,120 @@
+# ============================================================
+# robots.txt — ESIT Traducciones
+# https://esittraducciones.com
+# Ultima actualizacion: 2026-03-05
+# ============================================================
+
+# --- Motores de busqueda principales ---
+# Permitir indexar todo el contenido publico
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?preview*
+Disallow: /*?draft*
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?preview*
+Disallow: /*?draft*
+Crawl-delay: 5
+
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 5
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 10
+
+# --- Reglas generales para todos los bots ---
+User-agent: *
+Allow: /
+Allow: /es/
+Allow: /en/
+Allow: /fr/
+Allow: /sitemap-index.xml
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /*?preview*
+Disallow: /*?draft*
+Disallow: /*?_astro*
+
+# --- Bots de AI Training (BLOQUEADOS) ---
+# Estos bots extraen contenido para entrenar modelos de IA.
+# Nuestras traducciones y contenido tienen valor comercial.
+# Bloquearlos protege la propiedad intelectual de ESIT.
+
+# OpenAI - GPT Training
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic - Claude Training
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Common Crawl - Dataset para AI
+User-agent: CCBot
+Disallow: /
+
+# Google AI Training (no afecta Google Search)
+User-agent: Google-Extended
+Disallow: /
+
+# Meta AI Training
+User-agent: FacebookBot
+Disallow: /
+
+# Diffbot - AI Data Extraction
+User-agent: Diffbot
+Disallow: /
+
+# Bytedance/TikTok AI
+User-agent: Bytespider
+Disallow: /
+
+# Amazon AI
+User-agent: Amazonbot
+Disallow: /
+
+# Apple AI Training
+User-agent: Applebot-Extended
+Disallow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Disallow: /
+
+# --- Bots de AI Search (PERMITIDOS) ---
+# Estos bots muestran resultados en busquedas de IA,
+# lo que nos trae trafico. Los permitimos.
+
+# ChatGPT Search (cuando usuarios buscan en ChatGPT)
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI Search Bot
+User-agent: OAI-SearchBot
+Allow: /
+
+# --- Sitemap ---
+Sitemap: https://esittraducciones.com/sitemap-index.xml
