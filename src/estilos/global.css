@@ -59,4 +59,57 @@
   .subtitulo-seccion {
     @apply text-lg text-marca-gris mt-4 max-w-2xl dark:text-oscuro-texto;
   }
+
+  /* Estilos para contenido de articulos del blog (Portable Text de Sanity) */
+  .contenido-articulo p {
+    @apply text-base md:text-lg leading-relaxed text-slate-700 dark:text-oscuro-texto mb-6;
+  }
+
+  .contenido-articulo h2 {
+    @apply text-2xl md:text-3xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo mt-10 mb-4;
+  }
+
+  .contenido-articulo h3 {
+    @apply text-xl md:text-2xl font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo mt-8 mb-3;
+  }
+
+  .contenido-articulo h4 {
+    @apply text-lg md:text-xl font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo mt-6 mb-2;
+  }
+
+  .contenido-articulo ul {
+    @apply list-disc pl-6 mb-6 space-y-2;
+  }
+
+  .contenido-articulo ol {
+    @apply list-decimal pl-6 mb-6 space-y-2;
+  }
+
+  .contenido-articulo li {
+    @apply text-base md:text-lg text-slate-700 dark:text-oscuro-texto leading-relaxed;
+  }
+
+  .contenido-articulo blockquote {
+    @apply border-l-4 border-marca-azulBrillante pl-4 py-2 my-6 italic text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-oscuro-tarjeta rounded-r-lg;
+  }
+
+  .contenido-articulo a {
+    @apply text-marca-azulBrillante hover:underline;
+  }
+
+  .contenido-articulo strong {
+    @apply font-bold text-slate-900 dark:text-oscuro-titulo;
+  }
+
+  .contenido-articulo code {
+    @apply bg-slate-100 dark:bg-oscuro-tarjeta px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .contenido-articulo img {
+    @apply w-full rounded-lg my-6;
+  }
+
+  .contenido-articulo figure {
+    @apply my-8;
+  }
 }

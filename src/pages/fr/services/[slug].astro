@@ -1,0 +1,19 @@
+---
+import Principal from '../../../layout/Principal.astro';
+import DetalleServicio from '../../../componentes/servicios/DetalleServicio.astro';
+import { obtenerTextos } from '../../../helpers/idiomas';
+import { obtenerSlugsServicios, obtenerServicioPorSlug } from '../../../datos/servicios';
+
+export function getStaticPaths() {
+  return obtenerSlugsServicios('fr');
+}
+
+const { slug } = Astro.params;
+const t = obtenerTextos('fr');
+const servicio = obtenerServicioPorSlug(slug!, 'fr');
+const titulo = servicio ? `${servicio.titulo.fr} | ESIT Traductions` : t.seo.servicios.titulo;
+const descripcion = servicio ? servicio.descripcion.fr.slice(0, 160) : t.seo.servicios.descripcion;
+---
+<Principal titulo={titulo} descripcion={descripcion} idioma="fr" pagina="servicios">
+  {servicio && <DetalleServicio idioma="fr" servicio={servicio} />}
+</Principal>

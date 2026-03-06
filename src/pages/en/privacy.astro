@@ -1,0 +1,44 @@
+---
+import Principal from '../../layout/Principal.astro';
+import { obtenerTextos } from '../../helpers/idiomas';
+const t = obtenerTextos('en');
+---
+<Principal titulo={t.seo.privacidad.titulo} descripcion={t.seo.privacidad.descripcion} idioma="en" pagina="privacidad">
+  <section class="py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.03] dark:opacity-[0.02] bg-marca-azulBrillante blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5
+          bg-marca-azul/5 text-marca-azul border border-marca-azul/10
+          dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
+          {t.privacidadPage.etiqueta}
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5"
+          style="font-family: 'Sora', sans-serif; line-height: 1.15;">
+          {t.privacidadPage.titulo}
+        </h1>
+        <p class="text-base sm:text-lg max-w-2xl mx-auto text-marca-gris dark:text-slate-400" style="line-height: 1.7;">
+          {t.privacidadPage.subtitulo}
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white dark:bg-oscuro-tarjeta rounded-2xl p-8 md:p-12 border border-slate-100 dark:border-oscuro-borde shadow-sm dark:shadow-none">
+          <p class="text-sm text-marca-gris dark:text-slate-500 mb-8">{t.privacidadPage.ultimaActualizacion}</p>
+
+          {t.privacidadPage.secciones.map((seccion: { titulo: string; contenido: string }, i: number) => (
+            <div class={i > 0 ? 'mt-8 pt-8 border-t border-slate-100 dark:border-oscuro-borde' : ''}>
+              <h2 class="text-xl md:text-2xl font-semibold text-marca-azul dark:text-white mb-4" style="font-family: 'Sora', sans-serif;">
+                {seccion.titulo}
+              </h2>
+              <p class="text-marca-gris dark:text-slate-400 leading-relaxed">
+                {seccion.contenido}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Principal>

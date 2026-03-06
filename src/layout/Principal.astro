@@ -20,11 +20,8 @@ interface Props {
 const { titulo, descripcion, idioma, pagina, imagenOG } = Astro.props;
 const rutaActual = Astro.url.pathname;
 
-// CONFIGURAR: Reemplazar con tu ID real de Google Analytics
-// 1. Ir a analytics.google.com
-// 2. Crear propiedad
-// 3. Copiar el Measurement ID (G-XXXXXXXXXX)
-const GA_ID = 'G-XXXXXXXXXX';
+// Google Analytics 4 - Lee el ID desde .env (PUBLIC_GA_MEASUREMENT_ID)
+const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
 ---
 
 <!doctype html>
@@ -51,10 +48,11 @@ const GA_ID = 'G-XXXXXXXXXX';
       imagen={imagenOG}
     />
 
-    <!-- Google Analytics: Monitoreo de visitas -->
+    <!-- Google Analytics 4: Monitoreo de visitas y eventos -->
     <script is:inline define:vars={{ GA_ID }}>
-      // Solo cargar en produccion (no en localhost)
-      if (window.location.hostname !== 'localhost') {
+      // Solo activar en produccion (no en localhost)
+      if (window.location.hostname !== 'localhost' && GA_ID !== 'G-XXXXXXXXXX') {
+        // 1. Cargar script de gtag
         const script = document.createElement('script');
         script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
         script.async = true;
@@ -62,9 +60,118 @@ const GA_ID = 'G-XXXXXXXXXX';
 
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
         gtag('js', new Date());
         gtag('config', GA_ID);
-      }
+
+        // 2. Tracking de eventos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+
+          // --- Clic en cualquier enlace de WhatsApp (boton flotante, servicios, contacto, blog) ---
+          document.querySelectorAll('a[href*="wa.me"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              // Identificar desde donde hizo clic
+              var ubicacion = 'otro';
+              if (link.classList.contains('fixed')) ubicacion = 'boton_flotante';
+              else if (link.closest('.hero, section')) ubicacion = link.closest('section')?.id || 'seccion';
+              else if (link.closest('footer')) ubicacion = 'footer';
+              gtag('event', 'clic_whatsapp', {
+                event_category: 'contacto',
+                event_label: ubicacion
+              });
+            });
+          });
+
+          // --- Clic en enlaces de teléfono ---
+          document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              gtag('event', 'clic_telefono', {
+                event_category: 'contacto',
+                event_label: link.getAttribute('href')
+              });
+            });
+          });
+
+          // --- Clic en enlaces de email ---
+          document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              gtag('event', 'clic_email', {
+                event_category: 'contacto',
+                event_label: link.getAttribute('href')
+              });
+            });
+          });
+
+          // --- Clic en botones CTA (Solicitar Cotización, etc.) ---
+          document.querySelectorAll('a[href*="contacto"], a[href*="contact"]').forEach(function(link) {
+            // Solo los que parecen botones CTA (no links del nav/footer)
+            if (link.classList.contains('boton-principal') ||
+                link.classList.contains('boton-secundario') ||
+                link.closest('.hero, section') && !link.closest('nav, footer')) {
+              link.addEventListener('click', function() {
+                gtag('event', 'clic_cta', {
+                  event_category: 'conversion',
+                  event_label: link.textContent.trim().substring(0, 50)
+                });
+              });
+            }
+          });
+
+          // --- Envío de formulario de contacto ---
+          var formulario = document.getElementById('formulario-contacto');
+          if (formulario) {
+            formulario.addEventListener('submit', function() {
+              var servicio = formulario.querySelector('#servicio');
+              var origen = formulario.querySelector('#campo-origen');
+              gtag('event', 'envio_formulario', {
+                event_category: 'conversion',
+                event_label: servicio ? servicio.value : 'no_especificado',
+                origen_visitante: origen ? origen.value : 'desconocido'
+              });
+            });
+          }
+
+          // --- Clic en redes sociales ---
+          document.querySelectorAll('a[aria-label="Facebook"], a[aria-label="Instagram"], a[aria-label="LinkedIn"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              gtag('event', 'clic_red_social', {
+                event_category: 'redes_sociales',
+                event_label: link.getAttribute('aria-label')
+              });
+            });
+          });
+
+          // --- Cambio de idioma (banderas en el navbar) ---
+          document.querySelectorAll('a[aria-label^="Cambiar idioma"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              // Extraer el idioma del aria-label: "Cambiar idioma a Español" -> "Español"
+              var idioma = (link.getAttribute('aria-label') || '').replace('Cambiar idioma a ', '');
+              gtag('event', 'cambio_idioma', {
+                event_category: 'navegacion',
+                event_label: idioma
+              });
+            });
+          });
+
+          // --- Scroll depth tracking (25%, 50%, 75%, 100%) ---
+          var scrollMarcas = { 25: false, 50: false, 75: false, 100: false };
+          window.addEventListener('scroll', function() {
+            var alturaDoc = document.documentElement.scrollHeight - window.innerHeight;
+            if (alturaDoc <= 0) return;
+            var porcentaje = Math.round((window.scrollY / alturaDoc) * 100);
+            [25, 50, 75, 100].forEach(function(marca) {
+              if (porcentaje >= marca && !scrollMarcas[marca]) {
+                scrollMarcas[marca] = true;
+                gtag('event', 'scroll_profundidad', {
+                  event_category: 'engagement',
+                  event_label: marca + '%'
+                });
+              }
+            });
+          });
+
+        }); // fin DOMContentLoaded
+      } // fin check produccion
     </script>
 
     <!-- Modo oscuro: leer preferencia guardada -->

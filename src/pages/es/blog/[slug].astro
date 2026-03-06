@@ -1,0 +1,32 @@
+---
+import Principal from '../../../layout/Principal.astro';
+import DetalleArticulo from '../../../componentes/blog/DetalleArticulo.astro';
+import { obtenerTextos } from '../../../helpers/idiomas';
+import { obtenerTodosSlugs, obtenerArticuloPorSlug } from '../../../helpers/sanity';
+
+export async function getStaticPaths() {
+  let slugs = [];
+  try {
+    slugs = await obtenerTodosSlugs('es');
+  } catch (e) {
+    console.error('Error al obtener slugs:', e);
+  }
+  return slugs.map((item: any) => ({ params: { slug: item.slug } }));
+}
+
+const { slug } = Astro.params;
+const t = obtenerTextos('es');
+
+let articulo = null;
+try {
+  articulo = await obtenerArticuloPorSlug(slug!, 'es');
+} catch (e) {
+  console.error('Error al obtener artículo:', e);
+}
+
+const titulo = articulo?.titulo || t.blog.noEncontrado;
+const descripcion = articulo?.resumen || t.blog.noEncontradoDesc;
+---
+<Principal titulo={titulo + ' | ESIT Blog'} descripcion={descripcion} idioma="es" pagina="blog" imagenOG={articulo?.imagen}>
+  <DetalleArticulo idioma="es" articulo={articulo} />
+</Principal>

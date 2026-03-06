@@ -1,13 +1,38 @@
 ---
 import Principal from '../../layout/Principal.astro';
 import ListaArticulos from '../../componentes/blog/ListaArticulos.astro';
+import FiltroCategoria from '../../componentes/blog/FiltroCategoria.astro';
 import { obtenerTextos } from '../../helpers/idiomas';
+import { obtenerArticulos, obtenerCategorias } from '../../helpers/sanity';
+
 const t = obtenerTextos('es');
-// PENDIENTE: Conectar con Sanity cuando este configurado
-// import { obtenerArticulos } from '../../helpers/sanity';
-// const articulos = await obtenerArticulos('es');
-const articulos = [];
+const categoriaActual = Astro.url.searchParams.get('cat') || '';
+
+let articulos = [];
+let categorias: string[] = [];
+
+try {
+  [articulos, categorias] = await Promise.all([
+    obtenerArticulos('es'),
+    obtenerCategorias('es'),
+  ]);
+} catch (e) {
+  console.error('Error al obtener artículos de Sanity:', e);
+}
+
+const articulosFiltrados = categoriaActual
+  ? articulos.filter((a: any) => a.categoria === categoriaActual)
+  : articulos;
 ---
 <Principal titulo={t.seo.blog.titulo} descripcion={t.seo.blog.descripcion} idioma="es" pagina="blog">
-  <ListaArticulos idioma="es" articulos={articulos} />
+  <section class="seccion pb-0">
+    <div class="contenedor px-4">
+      <div class="text-center">
+        <h1 class="titulo-seccion">{t.blog.titulo}</h1>
+        <p class="subtitulo-seccion mx-auto">{t.blog.subtitulo}</p>
+      </div>
+      <FiltroCategoria idioma="es" categorias={categorias} categoriaActual={categoriaActual} />
+    </div>
+  </section>
+  <ListaArticulos idioma="es" articulos={articulosFiltrados} />
 </Principal>

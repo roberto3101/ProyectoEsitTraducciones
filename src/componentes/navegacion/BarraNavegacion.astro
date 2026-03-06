@@ -2,6 +2,7 @@
 import Logo from './Logo.astro';
 import SelectorIdioma from './SelectorIdioma.astro';
 import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+import { servicios, obtenerRutaServicio } from '../../datos/servicios';
 
 interface Props {
   idioma: Idioma;
@@ -12,13 +13,29 @@ const { idioma, paginaActual } = Astro.props;
 const textos = obtenerTextos(idioma);
 const rutas = obtenerRutas(idioma);
 
-const enlaces = [
+// Links sin servicios (se maneja aparte por el dropdown)
+const enlacesSinServicios = [
   { nombre: textos.nav.inicio, ruta: rutas.inicio, clave: 'inicio' },
   { nombre: textos.nav.nosotros, ruta: rutas.nosotros, clave: 'nosotros' },
-  { nombre: textos.nav.servicios, ruta: rutas.servicios, clave: 'servicios' },
   { nombre: textos.nav.blog, ruta: rutas.blog, clave: 'blog' },
   { nombre: textos.nav.contacto, ruta: rutas.contacto, clave: 'contacto' },
 ];
+
+// Todos los links para mobile (incluye servicios como item normal + sublinks)
+const enlacesMovil = [
+  { nombre: textos.nav.inicio, ruta: rutas.inicio, clave: 'inicio' },
+  { nombre: textos.nav.nosotros, ruta: rutas.nosotros, clave: 'nosotros' },
+  { nombre: textos.nav.blog, ruta: rutas.blog, clave: 'blog' },
+  { nombre: textos.nav.contacto, ruta: rutas.contacto, clave: 'contacto' },
+];
+
+// Subservicios para dropdown
+const subServicios = servicios.map((srv) => ({
+  nombre: srv.titulo[idioma],
+  ruta: obtenerRutaServicio(srv, idioma),
+  color: srv.color,
+  icono: srv.icono,
+}));
 ---
 
 <header class="sticky top-0 z-50 bg-white/95 dark:bg-oscuro-fondo/95 backdrop-blur-md border-b border-slate-100 dark:border-oscuro-borde">
@@ -28,7 +45,80 @@ const enlaces = [
 
     <!-- Links de navegacion (desktop) -->
     <ul class="hidden lg:flex items-center gap-6">
-      {enlaces.map((enlace) => (
+      {/* Inicio y Nosotros */}
+      {enlacesSinServicios.slice(0, 2).map((enlace) => (
+        <li>
+          <a
+            href={enlace.ruta}
+            class:list={[
+              'font-cuerpo text-sm font-medium transition-colors duration-200',
+              paginaActual === enlace.clave
+                ? 'text-marca-azulBrillante border-b-2 border-marca-azulBrillante pb-1'
+                : 'text-slate-600 hover:text-marca-azul dark:text-oscuro-texto dark:hover:text-white',
+            ]}
+          >
+            {enlace.nombre}
+          </a>
+        </li>
+      ))}
+
+      {/* Servicios con dropdown */}
+      <li class="relative group/dropdown">
+        <a
+          href={rutas.servicios}
+          class:list={[
+            'font-cuerpo text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1',
+            paginaActual === 'servicios'
+              ? 'text-marca-azulBrillante border-b-2 border-marca-azulBrillante pb-1'
+              : 'text-slate-600 hover:text-marca-azul dark:text-oscuro-texto dark:hover:text-white',
+          ]}
+        >
+          {textos.nav.servicios}
+          <svg class="w-3.5 h-3.5 transition-transform group-hover/dropdown:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+
+        {/* Dropdown panel */}
+        <div class="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible
+          group-hover/dropdown:opacity-100 group-hover/dropdown:visible
+          transition-all duration-200 z-50">
+          <div class="w-72 bg-white dark:bg-oscuro-tarjeta rounded-xl shadow-xl shadow-black/10 dark:shadow-black/40
+            border border-slate-100 dark:border-oscuro-borde overflow-hidden">
+            {/* Flecha */}
+            <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white dark:bg-oscuro-tarjeta border-l border-t border-slate-100 dark:border-oscuro-borde"></div>
+
+            <div class="py-2">
+              {subServicios.map((sub) => (
+                <a href={sub.ruta}
+                  class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors">
+                  <div class="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center"
+                    style={`background: ${sub.color}10; color: ${sub.color};`}>
+                    <Fragment set:html={sub.icono.replace('w-8 h-8', 'w-4 h-4')} />
+                  </div>
+                  <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {sub.nombre}
+                  </span>
+                </a>
+              ))}
+            </div>
+
+            {/* Ver todos */}
+            <div class="border-t border-slate-100 dark:border-oscuro-borde px-4 py-3">
+              <a href={rutas.servicios}
+                class="flex items-center justify-center gap-2 text-xs font-semibold text-marca-azulBrillante hover:text-marca-azul dark:hover:text-blue-300 transition-colors">
+                {textos.nav.servicios}
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {/* Blog y Contacto */}
+      {enlacesSinServicios.slice(2).map((enlace) => (
         <li>
           <a
             href={enlace.ruta}
@@ -78,7 +168,7 @@ const enlaces = [
       <button
         id="btn-menu"
         class="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta"
-        aria-label="Abrir menú"
+        aria-label="Abrir menu"
       >
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -93,21 +183,103 @@ const enlaces = [
     class="hidden lg:hidden bg-white dark:bg-oscuro-fondo border-t border-slate-100 dark:border-oscuro-borde"
   >
     <ul class="py-4 px-4 space-y-2">
-      {enlaces.map((enlace) => (
-        <li>
-          <a
-            href={enlace.ruta}
-            class:list={[
-              'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-              paginaActual === enlace.clave
-                ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-                : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-            ]}
-          >
-            {enlace.nombre}
+      {/* Inicio */}
+      <li>
+        <a
+          href={rutas.inicio}
+          class:list={[
+            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
+            paginaActual === 'inicio'
+              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
+              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
+          ]}
+        >
+          {textos.nav.inicio}
+        </a>
+      </li>
+
+      {/* Nosotros */}
+      <li>
+        <a
+          href={rutas.nosotros}
+          class:list={[
+            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
+            paginaActual === 'nosotros'
+              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
+              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
+          ]}
+        >
+          {textos.nav.nosotros}
+        </a>
+      </li>
+
+      {/* Servicios con submenu expandible */}
+      <li>
+        <button
+          id="btn-servicios-movil"
+          class:list={[
+            'w-full flex items-center justify-between py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
+            paginaActual === 'servicios'
+              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
+              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
+          ]}
+        >
+          {textos.nav.servicios}
+          <svg id="icono-chevron-servicios" class="w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div id="submenu-servicios-movil" class="hidden mt-1 ml-4 space-y-1 border-l-2 border-slate-200 dark:border-oscuro-borde pl-3">
+          {/* Ver todos */}
+          <a href={rutas.servicios}
+            class="block py-2 px-3 rounded-lg text-sm font-semibold text-marca-azulBrillante hover:bg-slate-50 dark:hover:bg-oscuro-tarjeta transition-colors">
+            {textos.nav.servicios}
           </a>
-        </li>
-      ))}
+
+          {subServicios.map((sub) => (
+            <a href={sub.ruta}
+              class="flex items-center gap-2.5 py-2 px-3 rounded-lg text-sm font-medium text-slate-600 dark:text-oscuro-texto hover:bg-slate-50 dark:hover:bg-oscuro-tarjeta transition-colors">
+              <div class="w-6 h-6 rounded-md flex-shrink-0 flex items-center justify-center"
+                style={`background: ${sub.color}10; color: ${sub.color};`}>
+                <Fragment set:html={sub.icono.replace('w-8 h-8', 'w-3.5 h-3.5')} />
+              </div>
+              {sub.nombre}
+            </a>
+          ))}
+        </div>
+      </li>
+
+      {/* Blog */}
+      <li>
+        <a
+          href={rutas.blog}
+          class:list={[
+            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
+            paginaActual === 'blog'
+              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
+              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
+          ]}
+        >
+          {textos.nav.blog}
+        </a>
+      </li>
+
+      {/* Contacto */}
+      <li>
+        <a
+          href={rutas.contacto}
+          class:list={[
+            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
+            paginaActual === 'contacto'
+              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
+              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
+          ]}
+        >
+          {textos.nav.contacto}
+        </a>
+      </li>
+
       <li class="pt-2">
         <a href={rutas.contacto} class="boton-principal w-full justify-center text-sm">
           {textos.nav.cotizar}
@@ -121,6 +293,16 @@ const enlaces = [
   // Menu movil: abrir/cerrar
   document.getElementById('btn-menu')?.addEventListener('click', () => {
     document.getElementById('menu-movil')?.classList.toggle('hidden');
+  });
+
+  // Submenu de servicios en movil: expandir/colapsar
+  document.getElementById('btn-servicios-movil')?.addEventListener('click', () => {
+    const submenu = document.getElementById('submenu-servicios-movil');
+    const chevron = document.getElementById('icono-chevron-servicios');
+    if (submenu && chevron) {
+      submenu.classList.toggle('hidden');
+      chevron.classList.toggle('rotate-180');
+    }
   });
 
   // Modo oscuro: cambiar tema

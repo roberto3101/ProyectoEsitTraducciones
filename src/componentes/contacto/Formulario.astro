@@ -4,6 +4,10 @@ interface Props { idioma: Idioma; }
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 
+// HubSpot config desde .env
+const HUBSPOT_PORTAL_ID = import.meta.env.PUBLIC_HUBSPOT_PORTAL_ID || '';
+const HUBSPOT_FORM_ID = import.meta.env.PUBLIC_HUBSPOT_FORM_ID || '';
+
 const textos: Record<string, Record<string, string>> = {
   nombre: { es: "Nombre completo", en: "Full name", fr: "Nom complet" },
   email: { es: "Correo electrónico", en: "Email address", fr: "Adresse e-mail" },
@@ -29,7 +33,9 @@ const textos: Record<string, Record<string, string>> = {
 };
 ---
 
-<form id="formulario-contacto" class="space-y-6" novalidate>
+<form id="formulario-contacto" class="space-y-6" novalidate
+  data-portal={HUBSPOT_PORTAL_ID}
+  data-form={HUBSPOT_FORM_ID}>
   {/* Nombre */}
   <div class="grupo-campo">
     <label for="nombre" class="campo-label">{textos.nombre[idioma]}</label>
@@ -144,15 +150,166 @@ const textos: Record<string, Record<string, string>> = {
 </style>
 
 <script is:inline>
-  // Detectar origen del visitante
-  const ref = document.referrer || '';
-  const campo = document.getElementById('campo-origen');
-  if (campo) {
-    if (ref.includes('google')) campo.value = 'Google';
-    else if (ref.includes('facebook')) campo.value = 'Facebook';
-    else if (ref.includes('instagram')) campo.value = 'Instagram';
-    else if (ref.includes('linkedin')) campo.value = 'LinkedIn';
-    else if (ref === '') campo.value = 'Directo';
-    else campo.value = 'Otro: ' + ref;
-  }
+  (function() {
+    // 1. Detectar origen del visitante
+    var ref = document.referrer || '';
+    var campoOrigen = document.getElementById('campo-origen');
+    if (campoOrigen) {
+      if (ref.includes('google')) campoOrigen.value = 'Google';
+      else if (ref.includes('facebook')) campoOrigen.value = 'Facebook';
+      else if (ref.includes('instagram')) campoOrigen.value = 'Instagram';
+      else if (ref.includes('linkedin')) campoOrigen.value = 'LinkedIn';
+      else if (ref === '') campoOrigen.value = 'Directo';
+      else campoOrigen.value = 'Otro: ' + ref;
+    }
+
+    // 2. Manejar envío del formulario
+    var form = document.getElementById('formulario-contacto');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Validación básica
+      var nombre = document.getElementById('nombre');
+      var email = document.getElementById('email');
+      var servicio = document.getElementById('servicio');
+      var mensaje = document.getElementById('mensaje');
+      var btnTexto = document.getElementById('btn-texto');
+      var btnEnviar = document.getElementById('btn-enviar');
+      var msgEstado = document.getElementById('mensaje-estado');
+
+      // Verificar campos requeridos
+      var camposValidos = true;
+      [nombre, email, servicio, mensaje].forEach(function(campo) {
+        if (!campo || !campo.value || campo.value.trim() === '') {
+          campo.classList.add('border-red-500');
+          camposValidos = false;
+        } else {
+          campo.classList.remove('border-red-500');
+        }
+      });
+
+      // Validar formato de email
+      if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        email.classList.add('border-red-500');
+        camposValidos = false;
+      }
+
+      if (!camposValidos) return;
+
+      // Deshabilitar botón
+      var textoOriginal = btnTexto.textContent;
+      btnEnviar.disabled = true;
+      btnEnviar.classList.add('opacity-70', 'cursor-not-allowed');
+      btnTexto.textContent = btnTexto.closest('form').querySelector('[data-enviando]')
+        ? btnTexto.closest('form').getAttribute('data-enviando')
+        : 'Enviando...';
+
+      // Datos del formulario
+      var portalId = form.getAttribute('data-portal');
+      var formId = form.getAttribute('data-form');
+      var origen = campoOrigen ? campoOrigen.value : 'Directo';
+
+      // Construir el servicio seleccionado como texto
+      var servicioTexto = servicio.options[servicio.selectedIndex].text;
+
+      // Preparar datos para HubSpot
+      var datosHubSpot = {
+        fields: [
+          { name: 'firstname', value: nombre.value.trim() },
+          { name: 'email', value: email.value.trim() },
+          { name: 'phone', value: (document.getElementById('telefono').value || '').trim() },
+          { name: 'message', value: '[' + servicioTexto + '] ' + mensaje.value.trim() },
+        ],
+        context: {
+          pageUri: window.location.href,
+          pageName: document.title,
+        },
+      };
+
+      // Verificar que HubSpot esté configurado
+      if (!portalId || portalId === 'TU_PORTAL_ID' || !formId || formId === 'TU_FORM_ID') {
+        // HubSpot no configurado - mostrar éxito simulado (para desarrollo)
+        console.warn('HubSpot no configurado. Datos del formulario:', {
+          nombre: nombre.value,
+          email: email.value,
+          telefono: document.getElementById('telefono').value,
+          servicio: servicioTexto,
+          mensaje: mensaje.value,
+          origen: origen,
+        });
+        mostrarEstado('exito');
+        form.reset();
+        btnEnviar.disabled = false;
+        btnEnviar.classList.remove('opacity-70', 'cursor-not-allowed');
+        btnTexto.textContent = textoOriginal;
+        return;
+      }
+
+      // Enviar a HubSpot
+      var url = 'https://api.hsforms.com/submissions/v3/integration/submit/' + portalId + '/' + formId;
+
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datosHubSpot),
+      })
+      .then(function(resp) {
+        if (resp.ok) {
+          mostrarEstado('exito');
+          form.reset();
+          // Disparar evento de GA4 si está disponible
+          if (window.gtag) {
+            window.gtag('event', 'generate_lead', {
+              event_category: 'conversion',
+              event_label: servicioTexto,
+              value: 1,
+            });
+          }
+        } else {
+          mostrarEstado('error');
+        }
+      })
+      .catch(function() {
+        mostrarEstado('error');
+      })
+      .finally(function() {
+        btnEnviar.disabled = false;
+        btnEnviar.classList.remove('opacity-70', 'cursor-not-allowed');
+        btnTexto.textContent = textoOriginal;
+      });
+    });
+
+    // Función para mostrar mensaje de estado
+    function mostrarEstado(tipo) {
+      var msgEstado = document.getElementById('mensaje-estado');
+      if (!msgEstado) return;
+
+      msgEstado.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'bg-red-50', 'text-red-700',
+        'dark:bg-green-900/20', 'dark:text-green-400', 'dark:bg-red-900/20', 'dark:text-red-400');
+
+      if (tipo === 'exito') {
+        msgEstado.className = 'text-center text-sm font-medium py-3 px-4 rounded-xl bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400';
+        msgEstado.textContent = '✓ ' + (document.documentElement.lang === 'en'
+          ? 'Message sent! We\'ll get in touch soon.'
+          : document.documentElement.lang === 'fr'
+          ? 'Message envoyé ! Nous vous contacterons bientôt.'
+          : '¡Mensaje enviado! Nos pondremos en contacto pronto.');
+      } else {
+        msgEstado.className = 'text-center text-sm font-medium py-3 px-4 rounded-xl bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400';
+        msgEstado.textContent = '✕ ' + (document.documentElement.lang === 'en'
+          ? 'An error occurred. Please try again.'
+          : document.documentElement.lang === 'fr'
+          ? 'Une erreur est survenue. Veuillez réessayer.'
+          : 'Hubo un error. Intente de nuevo.');
+      }
+
+      // Ocultar después de 6 segundos
+      setTimeout(function() {
+        msgEstado.classList.add('hidden');
+      }, 6000);
+    }
+
+  })();
 </script>

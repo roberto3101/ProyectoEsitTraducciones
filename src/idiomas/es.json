@@ -23,6 +23,14 @@
     "preguntas": {
       "titulo": "Preguntas Frecuentes | Esit Traducciones",
       "descripcion": "Respuestas a las consultas más comunes sobre nuestros servicios de traducción e interpretación profesional."
+    },
+    "privacidad": {
+      "titulo": "Política de Privacidad | Esit Traducciones",
+      "descripcion": "Conozca cómo protegemos su información personal. Política de privacidad de ESIT Interpretación, Traducción y Eventos."
+    },
+    "terminos": {
+      "titulo": "Términos y Condiciones | Esit Traducciones",
+      "descripcion": "Términos y condiciones de uso del sitio web de ESIT Interpretación, Traducción y Eventos."
     }
   },
   "nav": {
@@ -145,7 +153,85 @@
     "leerMas": "Leer más",
     "sinArticulos": "Próximamente publicaremos artículos.",
     "categorias": "Categorías",
-    "todas": "Todas"
+    "todas": "Todas",
+    "volver": "Volver al blog",
+    "compartir": "Compartir",
+    "noEncontrado": "Artículo no encontrado",
+    "noEncontradoDesc": "El artículo que buscas no existe o fue removido.",
+    "publicado": "Publicado el",
+    "autor": "Por"
+  },
+  "privacidadPage": {
+    "titulo": "Política de Privacidad",
+    "subtitulo": "Cómo protegemos su información personal",
+    "etiqueta": "Legal",
+    "ultimaActualizacion": "Última actualización: Marzo 2026",
+    "secciones": [
+      {
+        "titulo": "Política de Privacidad",
+        "contenido": "Esta Política de Privacidad establece los términos en que se usa la información proporcionada por los usuarios al momento de utilizar este sitio web y sobre cómo se la protege. Nuestra compañía está comprometida con la seguridad de los datos de sus usuarios. Cuando le pedimos llenar los campos de información personal con la cual se le pueda identificar, lo hacemos asegurando que sólo se empleará de acuerdo con los términos de este documento. Sin embargo, esta Política de Privacidad puede cambiar con el tiempo o ser actualizada, por lo que le recomendamos enfáticamente revisar esta página continuamente para asegurarse de que está de acuerdo con dichos cambios."
+      },
+      {
+        "titulo": "La información que se recoge",
+        "contenido": "Nuestro sitio web podrá recoger información personal, por ejemplo: nombre, información de contacto, dirección de correo electrónico e información demográfica. Asimismo, cuando sea necesario, se puede pedir información específica para procesar algún pedido o realizar una entrega o facturación."
+      },
+      {
+        "titulo": "Uso de la información recogida",
+        "contenido": "Nuestro sitio web usa la información para proporcionar el mejor servicio posible, particularmente para mantener un registro de usuarios, de pedidos en caso aplique, y mejorar nuestros productos y servicios. Es posible que se le envíen correos electrónicos periódicamente a través de nuestro sitio con ofertas especiales, nuevos productos y otra información publicitaria que consideremos relevante para usted o que pueda brindarle algún beneficio. Se enviará estos correos electrónicos a la dirección que usted proporcione y usted puede cancelar esta función en cualquier momento. ESIT Interpretación, Traducción y Eventos está sumamente comprometido en mantener su información segura. Usamos los sistemas más avanzados y los actualizamos constantemente para asegurarnos de que no exista ningún acceso no autorizado."
+      },
+      {
+        "titulo": "Cookies",
+        "contenido": "Una cookie se refiere a un fichero que es enviado con la finalidad de solicitar permiso para almacenarse en su ordenador. Al aceptar la cookie, se crea dicho fichero y la cookie sirve entonces para tener información respecto al tráfico web, y también facilita las futuras visitas a una web recurrente. Otra función que tienen las cookies es que con ellas las páginas web pueden reconocerle individualmente y por tanto brindarle el mejor servicio personalizado de su web. Nuestro sitio web emplea las cookies para poder identificar las páginas que visita y con qué frecuencia. Esta información es empleada únicamente para análisis estadístico y después la información se elimina de forma permanente. Usted puede eliminar las cookies en cualquier momento desde su ordenador. Sin embargo, las cookies ayudan a proporcionar un mejor servicio de los sitios web. Ellas no dan acceso a información de su ordenador ni de usted, a menos de que usted así lo quiera y la proporcione directamente. Usted puede aceptar o rechazar el uso de cookies, pero la mayoría de navegadores aceptan cookies automáticamente pues sirven para tener un mejor servicio web. También usted puede cambiar la configuración de su ordenador para declinar las cookies. Si se declinan es posible que no pueda utilizar algunos de nuestros servicios."
+      },
+      {
+        "titulo": "Enlaces a terceros",
+        "contenido": "Este sitio web podría contener enlaces a otros sitios que pudieran ser de su interés. Una vez que usted dé clic en estos enlaces y abandone nuestra página, ya no tenemos control sobre el sitio al que es redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de sus datos en esos otros sitios de terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consulte para confirmar que usted esté de acuerdo con ellas."
+      },
+      {
+        "titulo": "Control de su información personal",
+        "contenido": "Usted puede restringir la recopilación o el uso de la información personal que es proporcionada a nuestro sitio web en cualquier momento. Cada vez que se le solicite rellenar un formulario, como el de alta de usuario, puede marcar o desmarcar la opción de recibir información por correo electrónico. En caso de que haya marcado la opción de recibir nuestro boletín o publicidad usted puede cancelarla en cualquier momento. Esta compañía no venderá, cederá ni distribuirá la información personal que es recopilada sin su consentimiento, salvo que sea requerida por un juez con una orden judicial. Se reserva el derecho de cambiar los términos de la presente Política de Privacidad en cualquier momento."
+      }
+    ]
+  },
+  "terminosPage": {
+    "titulo": "Términos y Condiciones",
+    "subtitulo": "Condiciones de uso de nuestro sitio web",
+    "etiqueta": "Legal",
+    "ultimaActualizacion": "Última actualización: Marzo 2026",
+    "secciones": [
+      {
+        "titulo": "Aceptación de los Términos",
+        "contenido": "Al acceder y utilizar este sitio web de ESIT Interpretación, Traducción y Eventos, usted acepta estar sujeto a estos Términos y Condiciones de uso. Si no está de acuerdo con alguna parte de estos términos, le recomendamos no utilizar nuestro sitio web."
+      },
+      {
+        "titulo": "Uso del Sitio Web",
+        "contenido": "El contenido de este sitio web es para su información general y uso personal. Está sujeto a cambios sin previo aviso. No garantizamos la exactitud, oportunidad, rendimiento, integridad o idoneidad de la información y materiales encontrados u ofrecidos en este sitio web para cualquier propósito particular."
+      },
+      {
+        "titulo": "Propiedad Intelectual",
+        "contenido": "Este sitio web contiene material que es propiedad de o está licenciado a ESIT Interpretación, Traducción y Eventos. Este material incluye, pero no se limita a, el diseño, la disposición, el aspecto, la apariencia y los gráficos. Queda prohibida la reproducción sin autorización expresa."
+      },
+      {
+        "titulo": "Servicios Profesionales",
+        "contenido": "Los servicios de traducción, interpretación y otros servicios lingüísticos ofrecidos están sujetos a acuerdos específicos entre ESIT y el cliente. Las cotizaciones proporcionadas son válidas por el período indicado en cada propuesta. Los plazos de entrega se establecen de mutuo acuerdo."
+      },
+      {
+        "titulo": "Confidencialidad",
+        "contenido": "ESIT se compromete a mantener la confidencialidad de todos los documentos y materiales proporcionados por los clientes para la prestación de servicios. Nuestros traductores e intérpretes están sujetos a acuerdos de confidencialidad."
+      },
+      {
+        "titulo": "Limitación de Responsabilidad",
+        "contenido": "En ningún caso ESIT Interpretación, Traducción y Eventos será responsable de cualquier daño indirecto, incidental, especial o consecuente que surja del uso o la imposibilidad de uso de este sitio web o de los servicios proporcionados."
+      },
+      {
+        "titulo": "Legislación Aplicable",
+        "contenido": "Estos términos y condiciones se rigen por las leyes de la República del Perú. Cualquier disputa relacionada con estos términos estará sujeta a la jurisdicción exclusiva de los tribunales de Lima, Perú."
+      },
+      {
+        "titulo": "Contacto",
+        "contenido": "Si tiene preguntas sobre estos Términos y Condiciones, puede contactarnos en contacto@esittraducciones.com o llamarnos al +51 998 152 086."
+      }
+    ]
   },
   "pie": {
     "descripcion": "Agencia de traducción e interpretación profesional con más de 33 años de experiencia en el mercado peruano e internacional.",

@@ -23,6 +23,14 @@
     "preguntas": {
       "titulo": "FAQ | Esit Translations",
       "descripcion": "Answers to the most common questions about our professional translation and interpretation services."
+    },
+    "privacidad": {
+      "titulo": "Privacy Policy | Esit Translations",
+      "descripcion": "Learn how we protect your personal information. Privacy policy of ESIT Interpretation, Translation and Events."
+    },
+    "terminos": {
+      "titulo": "Terms and Conditions | Esit Translations",
+      "descripcion": "Terms and conditions of use for the ESIT Interpretation, Translation and Events website."
     }
   },
   "nav": {
@@ -145,7 +153,85 @@
     "leerMas": "Read more",
     "sinArticulos": "Articles coming soon.",
     "categorias": "Categories",
-    "todas": "All"
+    "todas": "All",
+    "volver": "Back to blog",
+    "compartir": "Share",
+    "noEncontrado": "Article not found",
+    "noEncontradoDesc": "The article you are looking for does not exist or has been removed.",
+    "publicado": "Published on",
+    "autor": "By"
+  },
+  "privacidadPage": {
+    "titulo": "Privacy Policy",
+    "subtitulo": "How we protect your personal information",
+    "etiqueta": "Legal",
+    "ultimaActualizacion": "Last updated: March 2026",
+    "secciones": [
+      {
+        "titulo": "Privacy Policy",
+        "contenido": "This Privacy Policy sets out the terms under which information provided by users is used when using this website and how it is protected. Our company is committed to the security of its users' data. When we ask you to fill in personal information fields that can identify you, we do so ensuring that it will only be used in accordance with the terms of this document. However, this Privacy Policy may change over time or be updated, so we strongly recommend that you continually review this page to ensure you agree with such changes."
+      },
+      {
+        "titulo": "Information We Collect",
+        "contenido": "Our website may collect personal information, for example: name, contact information, email address and demographic information. Additionally, when necessary, specific information may be requested to process an order or carry out a delivery or billing."
+      },
+      {
+        "titulo": "Use of Collected Information",
+        "contenido": "Our website uses information to provide the best possible service, particularly to maintain a record of users, orders where applicable, and to improve our products and services. You may periodically receive emails through our site with special offers, new products and other advertising information that we consider relevant to you or that may benefit you. These emails will be sent to the address you provide and you can cancel this feature at any time. ESIT Interpretation, Translation and Events is extremely committed to keeping your information secure. We use the most advanced systems and constantly update them to ensure there is no unauthorized access."
+      },
+      {
+        "titulo": "Cookies",
+        "contenido": "A cookie refers to a file that is sent in order to request permission to be stored on your computer. By accepting the cookie, the file is created and the cookie then serves to have information about web traffic, and also facilitates future visits to a recurring website. Another function of cookies is that they allow web pages to recognize you individually and therefore provide you with the best personalized service. Our website uses cookies to identify the pages you visit and how often. This information is used solely for statistical analysis and the information is then permanently deleted. You can delete cookies at any time from your computer. However, cookies help provide better website service. They do not give access to information from your computer or about you, unless you want to and provide it directly. You can accept or reject the use of cookies, but most browsers accept cookies automatically as they serve to have a better web service. You can also change your computer settings to decline cookies. If declined, you may not be able to use some of our services."
+      },
+      {
+        "titulo": "Third-Party Links",
+        "contenido": "This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or the protection of your data on those other third-party sites. Such sites are subject to their own privacy policies, so we recommend that you consult them to confirm that you agree with them."
+      },
+      {
+        "titulo": "Control of Your Personal Information",
+        "contenido": "You can restrict the collection or use of personal information that is provided to our website at any time. Whenever you are asked to fill out a form, such as a user registration form, you can check or uncheck the option to receive information by email. If you have checked the option to receive our newsletter or advertising, you can cancel it at any time. This company will not sell, transfer or distribute the personal information that is collected without your consent, unless required by a judge with a court order. We reserve the right to change the terms of this Privacy Policy at any time."
+      }
+    ]
+  },
+  "terminosPage": {
+    "titulo": "Terms and Conditions",
+    "subtitulo": "Conditions of use for our website",
+    "etiqueta": "Legal",
+    "ultimaActualizacion": "Last updated: March 2026",
+    "secciones": [
+      {
+        "titulo": "Acceptance of Terms",
+        "contenido": "By accessing and using this ESIT Interpretation, Translation and Events website, you agree to be bound by these Terms and Conditions of use. If you do not agree with any part of these terms, we recommend that you do not use our website."
+      },
+      {
+        "titulo": "Use of the Website",
+        "contenido": "The content of this website is for your general information and personal use. It is subject to change without notice. We do not guarantee the accuracy, timeliness, performance, completeness or suitability of the information and materials found or offered on this website for any particular purpose."
+      },
+      {
+        "titulo": "Intellectual Property",
+        "contenido": "This website contains material that is owned by or licensed to ESIT Interpretation, Translation and Events. This material includes, but is not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited without express authorization."
+      },
+      {
+        "titulo": "Professional Services",
+        "contenido": "Translation, interpretation and other linguistic services offered are subject to specific agreements between ESIT and the client. Quotations provided are valid for the period indicated in each proposal. Delivery deadlines are established by mutual agreement."
+      },
+      {
+        "titulo": "Confidentiality",
+        "contenido": "ESIT is committed to maintaining the confidentiality of all documents and materials provided by clients for the provision of services. Our translators and interpreters are subject to confidentiality agreements."
+      },
+      {
+        "titulo": "Limitation of Liability",
+        "contenido": "In no event shall ESIT Interpretation, Translation and Events be liable for any indirect, incidental, special or consequential damages arising from the use or inability to use this website or the services provided."
+      },
+      {
+        "titulo": "Applicable Law",
+        "contenido": "These terms and conditions are governed by the laws of the Republic of Peru. Any dispute related to these terms shall be subject to the exclusive jurisdiction of the courts of Lima, Peru."
+      },
+      {
+        "titulo": "Contact",
+        "contenido": "If you have questions about these Terms and Conditions, you can contact us at contacto@esittraducciones.com or call us at +51 998 152 086."
+      }
+    ]
   },
   "pie": {
     "descripcion": "Professional translation and interpretation agency with over 33 years of experience in the Peruvian and international market.",

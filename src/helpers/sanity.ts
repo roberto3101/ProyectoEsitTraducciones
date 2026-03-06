@@ -1,16 +1,38 @@
 import { createClient } from '@sanity/client';
 
-// CONFIGURAR: Reemplazar con los datos reales del proyecto en Sanity
-// 1. Crear cuenta en sanity.io
-// 2. Crear proyecto nuevo
-// 3. Copiar el Project ID y Dataset
+const projectId = import.meta.env.SANITY_PROJECT_ID;
+const dataset = import.meta.env.SANITY_DATASET;
+const apiVersion = import.meta.env.SANITY_API_VERSION;
+const token = import.meta.env.SANITY_TOKEN;
 
 export const sanityCliente = createClient({
-  projectId: 'TU_PROJECT_ID', // <-- cambiar esto
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: true, // CDN para velocidad (bueno para SEO)
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: true,
+  token,
 });
+
+// Construir URL de imagen desde referencia de Sanity
+export function urlImagen(ref: string): string {
+  if (!ref) return '';
+  // Si ya es una URL completa, devolverla
+  if (ref.startsWith('http')) return ref;
+  // Convertir referencia de asset a URL
+  const [, id, dimensiones, formato] = ref.replace('image-', '').split('-');
+  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensiones}.${formato}`;
+}
+
+// Formatear fecha para mostrar
+export function formatearFecha(fecha: string, idioma: string = 'es'): string {
+  if (!fecha) return '';
+  const locales: Record<string, string> = { es: 'es-PE', en: 'en-US', fr: 'fr-FR' };
+  return new Date(fecha).toLocaleDateString(locales[idioma] || locales.es, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
 
 // Traer todos los articulos del blog
 export async function obtenerArticulos(idioma: string = 'es') {
@@ -18,7 +40,7 @@ export async function obtenerArticulos(idioma: string = 'es') {
     _id,
     titulo,
     resumen,
-    slug,
+    "slug": slug.current,
     fecha,
     categoria,
     "imagen": imagen.asset->url
@@ -36,7 +58,9 @@ export async function obtenerArticuloPorSlug(slug: string, idioma: string = 'es'
     contenido,
     fecha,
     categoria,
-    "imagen": imagen.asset->url
+    autor,
+    "imagen": imagen.asset->url,
+    "slug": slug.current
   }`;
 
   return await sanityCliente.fetch(consulta, { slug, idioma });
@@ -51,4 +75,13 @@ export async function obtenerCategorias(idioma: string = 'es') {
   const articulos = await sanityCliente.fetch(consulta, { idioma });
   const categorias = [...new Set(articulos.map((a: any) => a.categoria))];
   return categorias.filter(Boolean);
+}
+
+// Traer todos los slugs (para generar paginas estaticas)
+export async function obtenerTodosSlugs(idioma: string = 'es') {
+  const consulta = `*[_type == "articulo" && idioma == $idioma] {
+    "slug": slug.current
+  }`;
+
+  return await sanityCliente.fetch(consulta, { idioma });
 }

@@ -1,0 +1,103 @@
+---
+/**
+ * Renderiza bloques de Portable Text de Sanity a HTML.
+ * Soporta: headings, paragraphs, lists, links, bold, italic, images, blockquotes.
+ */
+interface Props { bloques: any[]; }
+const { bloques } = Astro.props;
+
+function renderizarMarcas(children: any[]): string {
+  if (!children) return '';
+  return children.map((child: any) => {
+    let texto = child.text || '';
+    // Escapar HTML
+    texto = texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (!child.marks || child.marks.length === 0) return texto;
+    // Aplicar marcas
+    for (const marca of child.marks) {
+      if (marca === 'strong') texto = `<strong>${texto}</strong>`;
+      else if (marca === 'em') texto = `<em>${texto}</em>`;
+      else if (marca === 'underline') texto = `<u>${texto}</u>`;
+      else if (marca === 'code') texto = `<code>${texto}</code>`;
+    }
+    return texto;
+  }).join('');
+}
+
+function renderizarBloque(bloque: any): string {
+  if (bloque._type === 'image') {
+    const url = bloque.asset?._ref
+      ? '' // Se necesita resolver la referencia
+      : bloque.asset?.url || '';
+    if (url) return `<figure class="my-8"><img src="${url}" alt="${bloque.alt || ''}" class="w-full rounded-lg" loading="lazy" /></figure>`;
+    return '';
+  }
+
+  if (bloque._type !== 'block') return '';
+
+  const contenido = renderizarMarcas(bloque.children);
+  if (!contenido.trim()) return '';
+
+  // Manejar marcas de definicion (links)
+  if (bloque.markDefs?.length > 0) {
+    let html = contenido;
+    for (const def of bloque.markDefs) {
+      if (def._type === 'link') {
+        // Los children con esta marca ya fueron procesados, ahora envolvemos
+        // Buscamos el texto que tiene esta marca
+        const childrenConMarca = bloque.children.filter((c: any) => c.marks?.includes(def._key));
+        for (const child of childrenConMarca) {
+          const textoOriginal = child.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          html = html.replace(textoOriginal, `<a href="${def.href}" target="_blank" rel="noopener noreferrer" class="text-marca-azulBrillante hover:underline">${textoOriginal}</a>`);
+        }
+      }
+    }
+    return envolver(bloque.style, html);
+  }
+
+  return envolver(bloque.style, contenido);
+}
+
+function envolver(estilo: string, contenido: string): string {
+  switch (estilo) {
+    case 'h1': return `<h1>${contenido}</h1>`;
+    case 'h2': return `<h2>${contenido}</h2>`;
+    case 'h3': return `<h3>${contenido}</h3>`;
+    case 'h4': return `<h4>${contenido}</h4>`;
+    case 'blockquote': return `<blockquote>${contenido}</blockquote>`;
+    default: return `<p>${contenido}</p>`;
+  }
+}
+
+// Agrupar items de lista consecutivos
+function renderizarBloques(bloques: any[]): string {
+  let html = '';
+  let listaAbierta = false;
+  let tipoLista = '';
+
+  for (const bloque of bloques) {
+    if (bloque.listItem) {
+      const nuevoTipo = bloque.listItem === 'number' ? 'ol' : 'ul';
+      if (!listaAbierta || tipoLista !== nuevoTipo) {
+        if (listaAbierta) html += `</${tipoLista}>`;
+        html += `<${nuevoTipo}>`;
+        tipoLista = nuevoTipo;
+        listaAbierta = true;
+      }
+      html += `<li>${renderizarMarcas(bloque.children)}</li>`;
+    } else {
+      if (listaAbierta) {
+        html += `</${tipoLista}>`;
+        listaAbierta = false;
+      }
+      html += renderizarBloque(bloque);
+    }
+  }
+
+  if (listaAbierta) html += `</${tipoLista}>`;
+  return html;
+}
+
+const htmlContenido = renderizarBloques(bloques);
+---
+<div class="contenido-articulo" set:html={htmlContenido} />

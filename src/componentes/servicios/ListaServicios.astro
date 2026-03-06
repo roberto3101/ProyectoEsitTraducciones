@@ -1,191 +1,17 @@
 ---
 import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
+import { servicios, textosServicios, obtenerRutaServicio } from '../../datos/servicios';
 
 interface Props { idioma: Idioma; }
 
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 const rutas = obtenerRutas(idioma);
-
-// ── 5 servicios reales de ESIT (investigados desde esittraducciones.com) ──
-const servicios = [
-  {
-    id: "traduccion",
-    icono: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-    </svg>`,
-    titulo: { es: "Traducción de Documentos", en: "Document Translation", fr: "Traduction de Documents" },
-    subtitulo: {
-      es: "Precisión lingüística y validez legal en cada documento",
-      en: "Linguistic precision and legal validity in every document",
-      fr: "Précision linguistique et validité juridique dans chaque document"
-    },
-    descripcion: {
-      es: "Traducción profesional de documentos legales, técnicos, médicos, financieros y académicos. Todos nuestros trabajos son realizados por traductores colegiados con certificación oficial, garantizando validez para trámites nacionales e internacionales. Trabajamos con contratos, poderes, certificados, informes de auditoría, estudios de impacto ambiental, manuales de operación, y toda clase de documentación especializada.",
-      en: "Professional translation of legal, technical, medical, financial, and academic documents. All our work is performed by licensed translators with official certification, ensuring validity for national and international procedures. We work with contracts, powers of attorney, certificates, audit reports, environmental impact studies, operation manuals, and all types of specialized documentation.",
-      fr: "Traduction professionnelle de documents juridiques, techniques, médicaux, financiers et académiques. Tous nos travaux sont réalisés par des traducteurs assermentés avec certification officielle, garantissant la validité pour les procédures nationales et internationales. Nous travaillons avec des contrats, procurations, certificats, rapports d'audit, études d'impact environnemental, manuels d'opération et tout type de documentation spécialisée."
-    },
-    especialidades: {
-      es: ["Traducción Legal", "Traducción Técnica", "Traducción Médica", "Traducción Financiera", "Traducción Académica", "Documentos Certificados"],
-      en: ["Legal Translation", "Technical Translation", "Medical Translation", "Financial Translation", "Academic Translation", "Certified Documents"],
-      fr: ["Traduction Juridique", "Traduction Technique", "Traduction Médicale", "Traduction Financière", "Traduction Académique", "Documents Certifiés"]
-    },
-    sectores: {
-      es: ["Gobierno", "Minería", "Energía", "Salud", "Cooperación Internacional"],
-      en: ["Government", "Mining", "Energy", "Health", "International Cooperation"],
-      fr: ["Gouvernement", "Mines", "Énergie", "Santé", "Coopération Internationale"]
-    },
-    color: "#2563EB",
-    colorLight: "#DBEAFE",
-    colorDark: "#1E3A5F",
-  },
-  {
-    id: "interpretacion",
-    icono: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-    </svg>`,
-    titulo: { es: "Interpretación Profesional", en: "Professional Interpretation", fr: "Interprétation Professionnelle" },
-    subtitulo: {
-      es: "Comunicación en tiempo real para eventos de alto nivel",
-      en: "Real-time communication for high-level events",
-      fr: "Communication en temps réel pour événements de haut niveau"
-    },
-    descripcion: {
-      es: "Servicio de interpretación simultánea y consecutiva para conferencias, seminarios, reuniones bilaterales, talleres y eventos corporativos. Nuestro equipo cuenta con décadas de experiencia trabajando con organismos como la ONU, USAID, la OEA, embajadas y gobiernos. Ofrecemos modalidad presencial, remota (plataformas Zoom, Teams, Webex) e híbrida, con cobertura en español, inglés, francés, alemán y más.",
-      en: "Simultaneous and consecutive interpretation service for conferences, seminars, bilateral meetings, workshops, and corporate events. Our team has decades of experience working with organizations such as the UN, USAID, the OAS, embassies, and governments. We offer in-person, remote (Zoom, Teams, Webex platforms), and hybrid modalities, covering Spanish, English, French, German, and more.",
-      fr: "Service d'interprétation simultanée et consécutive pour conférences, séminaires, réunions bilatérales, ateliers et événements corporatifs. Notre équipe a des décennies d'expérience avec des organisations telles que l'ONU, l'USAID, l'OEA, des ambassades et gouvernements. Nous offrons des modalités en présentiel, à distance (plateformes Zoom, Teams, Webex) et hybrides, couvrant l'espagnol, l'anglais, le français, l'allemand et plus."
-    },
-    especialidades: {
-      es: ["Simultánea", "Consecutiva", "Susurrada (Chuchotage)", "Enlace", "Remota / Virtual", "Híbrida"],
-      en: ["Simultaneous", "Consecutive", "Whispered (Chuchotage)", "Liaison", "Remote / Virtual", "Hybrid"],
-      fr: ["Simultanée", "Consécutive", "Chuchotage", "De liaison", "À distance / Virtuelle", "Hybride"]
-    },
-    sectores: {
-      es: ["Diplomacia", "Defensa", "Desarrollo", "Sector Privado", "Justicia"],
-      en: ["Diplomacy", "Defense", "Development", "Private Sector", "Justice"],
-      fr: ["Diplomatie", "Défense", "Développement", "Secteur Privé", "Justice"]
-    },
-    color: "#059669",
-    colorLight: "#D1FAE5",
-    colorDark: "#134E3A",
-  },
-  {
-    id: "subtitulado",
-    icono: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5" />
-    </svg>`,
-    titulo: { es: "Subtitulado y Doblaje", en: "Subtitling & Dubbing", fr: "Sous-titrage et Doublage" },
-    subtitulo: {
-      es: "Contenido audiovisual accesible en cualquier idioma",
-      en: "Audiovisual content accessible in any language",
-      fr: "Contenu audiovisuel accessible dans toutes les langues"
-    },
-    descripcion: {
-      es: "Subtitulado profesional, doblaje y locución (voice-over) para videos corporativos, material de capacitación, documentales, contenido educativo y campañas institucionales. Utilizamos software especializado para garantizar sincronización perfecta y calidad broadcast. Ofrecemos subtítulos abiertos, cerrados (CC), y subtitulado para personas con discapacidad auditiva.",
-      en: "Professional subtitling, dubbing, and voice-over for corporate videos, training material, documentaries, educational content, and institutional campaigns. We use specialized software to ensure perfect synchronization and broadcast quality. We offer open subtitles, closed captions (CC), and subtitling for the hearing impaired.",
-      fr: "Sous-titrage professionnel, doublage et voix off pour vidéos corporatives, matériel de formation, documentaires, contenu éducatif et campagnes institutionnelles. Nous utilisons des logiciels spécialisés pour garantir une synchronisation parfaite et une qualité broadcast. Nous offrons des sous-titres ouverts, fermés (CC) et pour les malentendants."
-    },
-    especialidades: {
-      es: ["Subtitulado", "Doblaje", "Voice-over", "Closed Captions", "E-learning", "Videos Corporativos"],
-      en: ["Subtitling", "Dubbing", "Voice-over", "Closed Captions", "E-learning", "Corporate Videos"],
-      fr: ["Sous-titrage", "Doublage", "Voix off", "Closed Captions", "E-learning", "Vidéos Corporatives"]
-    },
-    sectores: {
-      es: ["Educación", "ONG", "Medios", "Corporativo", "Gobierno"],
-      en: ["Education", "NGOs", "Media", "Corporate", "Government"],
-      fr: ["Éducation", "ONG", "Médias", "Corporatif", "Gouvernement"]
-    },
-    color: "#7C3AED",
-    colorLight: "#EDE9FE",
-    colorDark: "#3B1F70",
-  },
-  {
-    id: "textos",
-    icono: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-    </svg>`,
-    titulo: { es: "Servicios para Textos", en: "Text Services", fr: "Services pour Textes" },
-    subtitulo: {
-      es: "Edición, corrección y adaptación cultural de contenidos",
-      en: "Editing, proofreading, and cultural adaptation of content",
-      fr: "Édition, correction et adaptation culturelle de contenus"
-    },
-    descripcion: {
-      es: "Edición y corrección de estilo en español, inglés y francés. Transcripción de audio y video. Redacción y adaptación cultural de textos para mercados específicos. Localización de contenido web, aplicaciones y material de marketing. Revisión de traducciones existentes para asegurar calidad y coherencia terminológica.",
-      en: "Editing and proofreading in Spanish, English, and French. Audio and video transcription. Copywriting and cultural adaptation of texts for specific markets. Localization of web content, applications, and marketing material. Review of existing translations to ensure quality and terminological consistency.",
-      fr: "Édition et correction de style en espagnol, anglais et français. Transcription audio et vidéo. Rédaction et adaptation culturelle de textes pour des marchés spécifiques. Localisation de contenu web, applications et matériel marketing. Révision de traductions existantes pour assurer qualité et cohérence terminologique."
-    },
-    especialidades: {
-      es: ["Edición", "Corrección de Estilo", "Transcripción", "Localización", "Redacción", "Revisión"],
-      en: ["Editing", "Proofreading", "Transcription", "Localization", "Copywriting", "Review"],
-      fr: ["Édition", "Correction", "Transcription", "Localisation", "Rédaction", "Révision"]
-    },
-    sectores: {
-      es: ["Marketing", "Editorial", "Tecnología", "Investigación", "Comunicación"],
-      en: ["Marketing", "Publishing", "Technology", "Research", "Communications"],
-      fr: ["Marketing", "Édition", "Technologie", "Recherche", "Communication"]
-    },
-    color: "#D97706",
-    colorLight: "#FEF3C7",
-    colorDark: "#6B3A00",
-  },
-  {
-    id: "equipamiento",
-    icono: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" />
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>`,
-    titulo: { es: "Equipamiento Técnico", en: "Technical Equipment", fr: "Équipement Technique" },
-    subtitulo: {
-      es: "Todo lo que necesita para conferencias multilingües",
-      en: "Everything you need for multilingual conferences",
-      fr: "Tout ce dont vous avez besoin pour des conférences multilingues"
-    },
-    descripcion: {
-      es: "Alquiler de cabinas de interpretación simultánea (portátiles e ISO), equipos de sonido profesional, receptores inalámbricos, transmisores y micrófonos. Incluye instalación, pruebas técnicas y soporte durante todo el evento. Servicio disponible para conferencias presenciales, híbridas y eventos al aire libre.",
-      en: "Rental of simultaneous interpretation booths (portable and ISO), professional sound equipment, wireless receivers, transmitters, and microphones. Includes installation, technical testing, and support throughout the event. Service available for in-person conferences, hybrid events, and outdoor venues.",
-      fr: "Location de cabines d'interprétation simultanée (portables et ISO), équipements sonores professionnels, récepteurs sans fil, émetteurs et microphones. Comprend l'installation, les tests techniques et le support pendant tout l'événement. Service disponible pour conférences en présentiel, événements hybrides et lieux en plein air."
-    },
-    especialidades: {
-      es: ["Cabinas ISO", "Cabinas Portátiles", "Receptores", "Audio Profesional", "Soporte Técnico", "Instalación"],
-      en: ["ISO Booths", "Portable Booths", "Receivers", "Professional Audio", "Tech Support", "Installation"],
-      fr: ["Cabines ISO", "Cabines Portables", "Récepteurs", "Audio Professionnel", "Support Technique", "Installation"]
-    },
-    sectores: {
-      es: ["Conferencias", "Cumbres", "Foros", "Talleres", "Eventos Corporativos"],
-      en: ["Conferences", "Summits", "Forums", "Workshops", "Corporate Events"],
-      fr: ["Conférences", "Sommets", "Forums", "Ateliers", "Événements Corporatifs"]
-    },
-    color: "#0891B2",
-    colorLight: "#CFFAFE",
-    colorDark: "#164E63",
-  },
-];
-
-const txt: Record<string, Record<string, string>> = {
-  badge: { es: "Nuestros Servicios", en: "Our Services", fr: "Nos Services" },
-  titulo: { es: "Servicios Profesionales", en: "Professional Services", fr: "Services Professionnels" },
-  subtitulo: {
-    es: "Más de 33 años ofreciendo soluciones lingüísticas integrales a organismos internacionales, gobiernos y empresas líderes.",
-    en: "Over 33 years offering comprehensive linguistic solutions to international organizations, governments, and leading companies.",
-    fr: "Plus de 33 ans à offrir des solutions linguistiques complètes aux organisations internationales, gouvernements et entreprises leaders."
-  },
-  especialidades: { es: "Especialidades", en: "Specialties", fr: "Spécialités" },
-  sectores: { es: "Sectores", en: "Sectors", fr: "Secteurs" },
-  cotizar: { es: "Solicitar cotización", en: "Request a quote", fr: "Demander un devis" },
-  ctaTitulo: { es: "¿Listo para empezar?", en: "Ready to get started?", fr: "Prêt à commencer ?" },
-  ctaDesc: {
-    es: "Cuéntenos sobre su proyecto y reciba una cotización personalizada en menos de 24 horas.",
-    en: "Tell us about your project and receive a personalized quote within 24 hours.",
-    fr: "Parlez-nous de votre projet et recevez un devis personnalisé en moins de 24 heures."
-  },
-  ctaBoton: { es: "Contáctenos ahora", en: "Contact us now", fr: "Contactez-nous maintenant" },
-  ctaWhatsapp: { es: "Escribir por WhatsApp", en: "Message on WhatsApp", fr: "Écrire sur WhatsApp" },
-};
+const txt = textosServicios;
 ---
 
 <section class="py-20 md:py-28 relative overflow-hidden bg-white dark:bg-oscuro-fondo">
-  <!-- Decoración -->
+  <!-- Decoracion -->
   <div class="absolute top-40 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.025] dark:opacity-[0.015]"
     style="background: radial-gradient(circle, #2563EB, transparent); filter: blur(100px);"></div>
   <div class="absolute bottom-40 -left-32 w-[500px] h-[500px] rounded-full opacity-[0.02] dark:opacity-[0.015]"
@@ -209,119 +35,73 @@ const txt: Record<string, Record<string, string>> = {
       </p>
     </div>
 
-    <!-- Lista de servicios -->
-    <div class="space-y-8">
-      {servicios.map((srv, i) => (
-        <div id={srv.id}
-          class="group relative rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-xl
+    <!-- Grid de servicios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {servicios.map((srv) => (
+        <a href={obtenerRutaServicio(srv, idioma)}
+          class="group relative rounded-2xl overflow-hidden transition-all duration-500
             bg-white dark:bg-oscuro-tarjeta
             border border-slate-100 dark:border-oscuro-borde
-            hover:shadow-black/[0.04] dark:hover:shadow-black/30"
-        >
-          {/* Línea lateral de color */}
-          <div class="absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 group-hover:w-1.5"
+            hover:shadow-xl hover:-translate-y-1 hover:shadow-black/[0.06] dark:hover:shadow-black/30">
+
+          {/* Linea superior de color */}
+          <div class="absolute top-0 left-0 right-0 h-1 transition-all duration-500 group-hover:h-1.5"
             style={`background: ${srv.color};`}></div>
 
-          <div class="p-7 sm:p-8 lg:p-10 pl-8 sm:pl-10 lg:pl-12">
-            {/* Header: icono + título + subtítulo */}
-            <div class="flex flex-col sm:flex-row sm:items-start gap-5 mb-6">
-              <div class="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300
-                group-hover:scale-110 group-hover:shadow-lg"
-                style={`background: ${srv.color}10; color: ${srv.color}; --tw-shadow-color: ${srv.color}20;`}>
-                <Fragment set:html={srv.icono} />
-              </div>
-              <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl font-bold text-marca-azul dark:text-white mb-1.5"
-                  style="font-family: 'Sora', sans-serif;">
-                  {srv.titulo[idioma]}
-                </h2>
-                <p class="text-sm font-medium" style={`color: ${srv.color};`}>
-                  {srv.subtitulo[idioma]}
-                </p>
-              </div>
+          <div class="p-7 sm:p-8 pt-8">
+            {/* Icono */}
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300
+              group-hover:scale-110 group-hover:shadow-lg"
+              style={`background: ${srv.color}10; color: ${srv.color}; --tw-shadow-color: ${srv.color}20;`}>
+              <Fragment set:html={srv.icono} />
             </div>
 
-            {/* Descripción */}
-            <p class="text-sm sm:text-[15px] text-marca-gris dark:text-slate-400 leading-relaxed mb-7"
-              style="line-height: 1.75;">
-              {srv.descripcion[idioma]}
+            {/* Titulo */}
+            <h2 class="text-xl font-bold text-marca-azul dark:text-white mb-2"
+              style="font-family: 'Sora', sans-serif;">
+              {srv.titulo[idioma]}
+            </h2>
+
+            {/* Subtitulo */}
+            <p class="text-sm font-medium mb-4" style={`color: ${srv.color};`}>
+              {srv.subtitulo[idioma]}
             </p>
 
-            {/* Grid: Especialidades + Sectores */}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7">
-              {/* Especialidades */}
-              <div>
-                <h4 class="text-[11px] font-bold uppercase tracking-wider mb-3
-                  text-slate-400 dark:text-slate-500">
-                  {txt.especialidades[idioma]}
-                </h4>
-                <div class="flex flex-wrap gap-2">
-                  {srv.especialidades[idioma].map((esp: string) => (
-                    <span class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors
-                      bg-slate-50 text-slate-600 border border-slate-100
-                      dark:bg-white/[0.04] dark:text-slate-300 dark:border-white/[0.08]
-                      group-hover:border-opacity-60"
-                      style={`--hover-bg: ${srv.color}08;`}>
-                      {esp}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Sectores */}
-              <div>
-                <h4 class="text-[11px] font-bold uppercase tracking-wider mb-3
-                  text-slate-400 dark:text-slate-500">
-                  {txt.sectores[idioma]}
-                </h4>
-                <div class="flex flex-wrap gap-2">
-                  {srv.sectores[idioma].map((sec: string) => (
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
-                      bg-slate-50 text-slate-500 border border-slate-100
-                      dark:bg-white/[0.03] dark:text-slate-400 dark:border-white/[0.06]">
-                      <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style={`background: ${srv.color}60;`}></span>
-                      {sec}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            {/* Especialidades (primeras 3) */}
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              {srv.especialidades[idioma].slice(0, 3).map((esp: string) => (
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-lg
+                  bg-slate-50 text-slate-500 border border-slate-100
+                  dark:bg-white/[0.04] dark:text-slate-400 dark:border-white/[0.08]">
+                  {esp}
+                </span>
+              ))}
+              {srv.especialidades[idioma].length > 3 && (
+                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-lg
+                  bg-slate-50 text-slate-400 dark:bg-white/[0.04] dark:text-slate-500">
+                  +{srv.especialidades[idioma].length - 3}
+                </span>
+              )}
             </div>
 
             {/* CTA */}
-            <div class="flex flex-wrap gap-3 pt-5 border-t border-slate-100 dark:border-oscuro-borde">
-              <a href={rutas.contacto}
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white
-                  transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
-                style={`background: ${srv.color}; --tw-shadow-color: ${srv.color}30;`}>
-                {txt.cotizar[idioma]}
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-              <a href="https://wa.me/51998152086" target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
-                  bg-green-50 text-green-700 border border-green-200
-                  hover:bg-green-100
-                  dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20
-                  dark:hover:bg-green-500/20
-                  transition-all duration-300">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.498A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.296 0-4.429-.67-6.24-1.822l-.436-.29-2.65.89.887-2.637-.318-.462A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                </svg>
-                WhatsApp
-              </a>
+            <div class="flex items-center gap-2 text-sm font-semibold transition-colors"
+              style={`color: ${srv.color};`}>
+              {txt.verDetalle[idioma]}
+              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </div>
           </div>
-        </div>
+        </a>
       ))}
     </div>
 
     <!-- CTA Final -->
     <div class="mt-16 text-center p-8 sm:p-10 lg:p-14 rounded-2xl relative overflow-hidden"
       style="background: linear-gradient(135deg, #0C2340 0%, #1B4D8E 50%, #0C2340 100%);">
-      
-      {/* Decoración */}
+
+      {/* Decoracion */}
       <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-[0.06]"
         style="background: radial-gradient(circle, #60a5fa, transparent); filter: blur(60px);"></div>
       <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-[0.04]"
