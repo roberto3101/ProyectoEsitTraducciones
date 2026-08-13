@@ -8,139 +8,326 @@ const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 const rutas = obtenerRutas(idioma);
 const txt = textosServicios;
+
+const imagenes: Record<string, string> = {
+  traduccion: '/imagenes/servicios/traduccion',
+  interpretacion: '/imagenes/servicios/interpretacion',
+  subtitulado: '/imagenes/servicios/subtitulado',
+  textos: '/imagenes/servicios/textos',
+  equipamiento: '/imagenes/servicios/equipamiento',
+};
+
+const total = String(servicios.length).padStart(2, '0');
 ---
 
-<section class="py-20 md:py-28 relative overflow-hidden bg-white dark:bg-oscuro-fondo">
-  <!-- Decoracion -->
-  <div class="absolute top-40 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.025] dark:opacity-[0.015]"
-    style="background: radial-gradient(circle, #2563EB, transparent); filter: blur(100px);"></div>
-  <div class="absolute bottom-40 -left-32 w-[500px] h-[500px] rounded-full opacity-[0.02] dark:opacity-[0.015]"
-    style="background: radial-gradient(circle, #059669, transparent); filter: blur(100px);"></div>
-
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-
-    <!-- Encabezado -->
-    <div class="text-center mb-16 md:mb-20">
-      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5
-        bg-marca-azul/5 text-marca-azul border border-marca-azul/10
-        dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20">
-        {txt.badge[idioma]}
-      </span>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5"
-        style="font-family: 'Sora', sans-serif; line-height: 1.15;">
-        {txt.titulo[idioma]}
-      </h1>
-      <p class="text-base sm:text-lg text-marca-gris dark:text-slate-400 max-w-2xl mx-auto" style="line-height: 1.7;">
-        {txt.subtitulo[idioma]}
-      </p>
+<section class="srv" id="servicios-showcase">
+  <!-- Cabecera editorial -->
+  <header class="srv-cabecera">
+    <div class="contenedor">
+      <p class="antetitulo">{txt.badge[idioma]}</p>
+      <h1 class="srv-titulo">{txt.titulo[idioma]}</h1>
     </div>
+  </header>
 
-    <!-- Grid de servicios -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {servicios.map((srv) => (
-        <a href={obtenerRutaServicio(srv, idioma)}
-          class="group relative rounded-2xl overflow-hidden transition-all duration-500
-            bg-white dark:bg-oscuro-tarjeta
-            border border-slate-100 dark:border-oscuro-borde
-            hover:shadow-xl hover:-translate-y-1 hover:shadow-black/[0.06] dark:hover:shadow-black/30">
-
-          {/* Linea superior de color */}
-          <div class="absolute top-0 left-0 right-0 h-1 transition-all duration-500 group-hover:h-1.5"
-            style={`background: ${srv.color};`}></div>
-
-          <div class="p-7 sm:p-8 pt-8">
-            {/* Icono */}
-            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300
-              group-hover:scale-110 group-hover:shadow-lg"
-              style={`background: ${srv.color}10; color: ${srv.color}; --tw-shadow-color: ${srv.color}20;`}>
-              <Fragment set:html={srv.icono} />
-            </div>
-
-            {/* Titulo */}
-            <h2 class="text-xl font-bold text-marca-azul dark:text-white mb-2"
-              style="font-family: 'Sora', sans-serif;">
-              {srv.titulo[idioma]}
-            </h2>
-
-            {/* Subtitulo */}
-            <p class="text-sm font-medium mb-4" style={`color: ${srv.color};`}>
-              {srv.subtitulo[idioma]}
-            </p>
-
-            {/* Especialidades (primeras 3) */}
-            <div class="flex flex-wrap gap-1.5 mb-6">
-              {srv.especialidades[idioma].slice(0, 3).map((esp: string) => (
-                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-lg
-                  bg-slate-50 text-slate-500 border border-slate-100
-                  dark:bg-white/[0.04] dark:text-slate-400 dark:border-white/[0.08]">
-                  {esp}
-                </span>
-              ))}
-              {srv.especialidades[idioma].length > 3 && (
-                <span class="px-2.5 py-1 text-[11px] font-semibold rounded-lg
-                  bg-slate-50 text-slate-400 dark:bg-white/[0.04] dark:text-slate-500">
-                  +{srv.especialidades[idioma].length - 3}
-                </span>
-              )}
-            </div>
-
-            {/* CTA */}
-            <div class="flex items-center gap-2 text-sm font-semibold transition-colors"
-              style={`color: ${srv.color};`}>
-              {txt.verDetalle[idioma]}
-              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-
-    <!-- CTA Final -->
-    <div class="mt-16 text-center p-8 sm:p-10 lg:p-14 rounded-2xl relative overflow-hidden"
-      style="background: linear-gradient(135deg, #0C2340 0%, #1B4D8E 50%, #0C2340 100%);">
-
-      {/* Decoracion */}
-      <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-[0.06]"
-        style="background: radial-gradient(circle, #60a5fa, transparent); filter: blur(60px);"></div>
-      <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-[0.04]"
-        style="background: radial-gradient(circle, #fbbf24, transparent); filter: blur(50px);"></div>
-
-      <div class="relative z-10">
-        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3"
-          style="font-family: 'Sora', sans-serif;">
-          {txt.ctaTitulo[idioma]}
-        </h3>
-        <p class="text-sm sm:text-base text-slate-300/80 max-w-lg mx-auto mb-8" style="line-height: 1.7;">
-          {txt.ctaDesc[idioma]}
-        </p>
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={rutas.contacto}
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold
-              bg-white text-marca-azul hover:bg-slate-100
-              shadow-xl shadow-black/20
-              transition-all duration-300 hover:-translate-y-0.5"
-            style="font-family: 'Sora', sans-serif;">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            {txt.ctaBoton[idioma]}
-          </a>
-          <a href="https://wa.me/51998152086" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold
-              bg-green-500 hover:bg-green-600 text-white
-              shadow-xl shadow-green-500/20
-              transition-all duration-300 hover:-translate-y-0.5"
-            style="font-family: 'Sora', sans-serif;">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.498A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.296 0-4.429-.67-6.24-1.822l-.436-.29-2.65.89.887-2.637-.318-.462A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-            </svg>
-            {txt.ctaWhatsapp[idioma]}
-          </a>
+  <!-- Un servicio por bloque, alternando el lado de la fotografia -->
+  <div class="contenedor">
+    {servicios.map((srv, i) => (
+      <article class="srv-bloque" id={`srv-${i}`} data-revelar>
+        <div class="srv-foto">
+          <picture>
+            <source srcset={`${imagenes[srv.id]}.webp`} type="image/webp" />
+            <img
+              src={`${imagenes[srv.id]}.jpg`}
+              alt={srv.titulo[idioma]}
+              width="1400"
+              height="933"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </picture>
         </div>
+
+        <div class="srv-cuerpo">
+          <p class="srv-indice">
+            <span class="cifra">{String(i + 1).padStart(2, '0')}</span>
+            <span class="srv-indice-barra"></span>
+            <span class="cifra srv-indice-total">{total}</span>
+          </p>
+
+          <h2 class="srv-nombre">{srv.titulo[idioma]}</h2>
+          <p class="srv-sub">{srv.subtitulo[idioma]}</p>
+          <p class="srv-desc">{srv.descripcion[idioma]}</p>
+
+          <div class="srv-esp">
+            <p class="srv-esp-titulo">{txt.especialidades[idioma]}</p>
+            <ul class="srv-esp-lista">
+              {srv.especialidades[idioma].map((esp: string) => (
+                <li>{esp}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="srv-acciones">
+            <a href={obtenerRutaServicio(srv, idioma)} class="boton-principal">
+              {txt.verDetalle[idioma]}
+            </a>
+            <a href={rutas.contacto} class="srv-enlace">
+              {txt.cotizar[idioma]}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <!-- Cierre -->
+  <div class="srv-cierre">
+    <div class="contenedor srv-cierre-fila">
+      <div>
+        <h3 class="srv-cierre-titulo">{txt.ctaTitulo[idioma]}</h3>
+        <p class="srv-cierre-desc">{txt.ctaDesc[idioma]}</p>
+      </div>
+      <div class="srv-cierre-acciones">
+        <a href={rutas.contacto} class="boton-principal">{txt.ctaBoton[idioma]}</a>
+        <a href="https://wa.me/51998152086" target="_blank" rel="noopener noreferrer" class="boton-secundario">
+          WhatsApp
+        </a>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* ============================================================
+     CABECERA
+     ============================================================ */
+  .srv-cabecera {
+    padding-block: clamp(3rem, 2rem + 4vw, 5.5rem) clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .srv-titulo {
+    margin-top: 1.25rem;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2.25rem, 1.7rem + 2.4vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    max-width: 18ch;
+  }
+  :global(.dark) .srv-titulo {
+    color: var(--texto);
+  }
+
+  /* ============================================================
+     BLOQUE DE SERVICIO
+     ============================================================ */
+  .srv-bloque {
+    display: grid;
+    gap: 2rem;
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5.5rem);
+    border-top: 1px solid var(--borde);
+  }
+
+  @media (min-width: 900px) {
+    .srv-bloque {
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5rem;
+      align-items: center;
+    }
+
+    /* Alterna el lado: rompe el ritmo de lista y obliga a mirar */
+    .srv-bloque:nth-child(even) .srv-foto {
+      order: 2;
+    }
+  }
+
+  .srv-foto {
+    overflow: hidden;
+    border-radius: var(--radio-grande);
+    background-color: var(--fondo-hundido);
+    aspect-ratio: 3 / 2;
+  }
+  .srv-foto picture,
+  .srv-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .srv-foto img {
+    object-fit: cover;
+    transition: transform 900ms var(--sale);
+  }
+  .srv-bloque:hover .srv-foto img {
+    transform: scale(1.02);
+  }
+
+  /* --- Indice --- */
+  .srv-indice {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--texto-tenue);
+  }
+  .srv-indice-barra {
+    width: 2rem;
+    height: 1px;
+    background-color: var(--ambar);
+  }
+  .srv-indice-total {
+    opacity: 0.55;
+  }
+
+  /* --- Texto --- */
+  .srv-nombre {
+    margin-top: 1.25rem;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.625rem, 1.35rem + 1.2vw, 2.375rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .srv-nombre {
+    color: var(--texto);
+  }
+
+  .srv-sub {
+    margin-top: 0.75rem;
+    font-family: 'Sora', sans-serif;
+    font-size: var(--t-guia);
+    font-weight: 500;
+    color: var(--acento);
+  }
+
+  .srv-desc {
+    margin-top: 1.25rem;
+    max-width: 52ch;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--texto-medio);
+  }
+
+  /* --- Especialidades: lista con filetes, no burbujas --- */
+  .srv-esp {
+    margin-top: 2rem;
+  }
+
+  .srv-esp-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+
+  .srv-esp-lista {
+    margin-top: 0.875rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    list-style: none;
+  }
+
+  .srv-esp-lista li {
+    padding-block: 0.5rem;
+    padding-right: 1rem;
+    border-top: 1px solid var(--borde);
+    font-size: 0.875rem;
+    color: var(--texto-medio);
+  }
+
+  /* --- Acciones --- */
+  .srv-acciones {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+  }
+
+  .srv-enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--texto-medio);
+    text-decoration: none;
+    transition: color var(--ms-ui) var(--sale);
+  }
+  .srv-enlace svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .srv-enlace:hover {
+    color: var(--texto);
+  }
+  .srv-enlace:hover svg {
+    transform: translateX(0.25rem);
+  }
+
+  /* ============================================================
+     CIERRE
+     ============================================================ */
+  .srv-cierre {
+    border-top: 1px solid var(--borde);
+    background-color: var(--fondo-hundido);
+  }
+
+  .srv-cierre-fila {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+  }
+
+  @media (min-width: 800px) {
+    .srv-cierre-fila {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+  }
+
+  .srv-cierre-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--navy);
+    max-width: 22ch;
+  }
+  :global(.dark) .srv-cierre-titulo {
+    color: var(--texto);
+  }
+
+  .srv-cierre-desc {
+    margin-top: 0.75rem;
+    max-width: 46ch;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--texto-medio);
+  }
+
+  .srv-cierre-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+</style>

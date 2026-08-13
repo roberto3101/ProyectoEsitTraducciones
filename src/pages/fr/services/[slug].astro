@@ -1,6 +1,8 @@
 ---
 import Principal from '../../../layout/Principal.astro';
 import DetalleServicio from '../../../componentes/servicios/DetalleServicio.astro';
+import DatosServicio from '../../../componentes/seo/DatosServicio.astro';
+import MigasDePan from '../../../componentes/seo/MigasDePan.astro';
 import { obtenerTextos } from '../../../helpers/idiomas';
 import { obtenerSlugsServicios, obtenerServicioPorSlug } from '../../../datos/servicios';
 
@@ -15,5 +17,18 @@ const titulo = servicio ? `${servicio.titulo.fr} | ESIT Traductions` : t.seo.ser
 const descripcion = servicio ? servicio.descripcion.fr.slice(0, 160) : t.seo.servicios.descripcion;
 ---
 <Principal titulo={titulo} descripcion={descripcion} idioma="fr" pagina="servicios">
+  {servicio && (
+    <DatosServicio
+      nombre={servicio.titulo.fr}
+      descripcion={servicio.descripcion.fr.slice(0, 200)}
+      idioma="fr"
+      url={`/fr/services/${slug}`}
+    />
+  )}
+  <MigasDePan items={[
+    { nombre: 'Accueil', url: '/fr/' },
+    { nombre: 'Services', url: '/fr/services' },
+    ...(servicio ? [{ nombre: servicio.titulo.fr, url: `/fr/services/${slug}` }] : []),
+  ]} />
   {servicio && <DetalleServicio idioma="fr" servicio={servicio} />}
 </Principal>

@@ -4,9 +4,44 @@ interface Props { idioma: Idioma; }
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 ---
-<section class="seccion bg-marca-grisSuave dark:bg-oscuro-tarjeta">
-  <div class="contenedor px-4 max-w-4xl mx-auto">
-    <h2 class="titulo-seccion">{t.nosotrosPage.tituloMision}</h2>
-    <blockquote class="mt-8 text-xl md:text-2xl text-marca-azulClaro dark:text-marca-azulBrillante font-titulo leading-relaxed italic border-l-4 border-marca-azulBrillante pl-6">{t.nosotrosPage.mision}</blockquote>
+
+<!-- Fondo hundido: corta el ritmo entre dos bloques de prosa seguidos -->
+<section class="mision">
+  <div class="contenedor mision-caja" data-revelar>
+    <p class="antetitulo">{t.nosotrosPage.tituloMision}</p>
+    <p class="mision-texto">{t.nosotrosPage.mision}</p>
   </div>
 </section>
+
+<style>
+  .mision {
+    background-color: var(--fondo-hundido);
+    border-block: 1px solid var(--borde);
+  }
+
+  .mision-caja {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+  }
+
+  /* Cuerpo grande: la mision se lee como declaracion, no como parrafo */
+  .mision-texto {
+    margin-top: 1.75rem;
+    max-width: 26ch;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .mision-texto {
+    color: var(--texto);
+  }
+
+  @media (min-width: 800px) {
+    .mision-texto {
+      max-width: 32ch;
+    }
+  }
+</style>

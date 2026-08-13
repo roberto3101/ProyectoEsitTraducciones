@@ -1,0 +1,23 @@
+---
+// Schema FAQPage - para que Google muestre las preguntas directamente en resultados
+interface Props {
+  preguntas: { pregunta: string; respuesta: string }[];
+}
+
+const { preguntas } = Astro.props;
+
+const datos = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": preguntas.map((item) => ({
+    "@type": "Question",
+    "name": item.pregunta,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.respuesta,
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />

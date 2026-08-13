@@ -3,79 +3,83 @@ import { obtenerTextos } from '../../helpers/idiomas';
 const { idioma = 'es' } = Astro.props as { idioma: 'es' | 'en' | 'fr' };
 const t = obtenerTextos(idioma);
 
-// Equipo real de ESIT Traducciones
 const equipo = [
   {
     nombre: "María Nelly",
     cargo: { es: "Socia Fundadora", en: "Founding Partner", fr: "Associée Fondatrice" },
     bio: {
-      es: "Graduada en semiótica en la Universidad de la Sorbona, París. Tres décadas de carrera como traductora e intérprete con entidades multilaterales, gobiernos y organizaciones internacionales.",
-      en: "Graduate in Semiotics from the Sorbonne University, Paris. Three decades as a translator and interpreter for multilateral entities, governments, and international organizations.",
-      fr: "Diplômée en sémiotique à l'Université de la Sorbonne, Paris. Trois décennies de carrière comme traductrice et interprète auprès d'entités multilatérales, gouvernements et organisations internationales."
+      es: "Graduada en semiótica en la École des Hautes Études en Sciences Sociales – Universidad de la Sorbona en París-Francia. Es socia fundadora de ESIT. Ha sido profesora universitaria en la Pontificia Universidad Católica del Perú, en la Universidad Ricardo Palma y en la Universidad Peruana de Ciencias Aplicadas. Ha desarrollado tres décadas de fructífera carrera de traductora e intérprete con entidades multilaterales, gobiernos nacionales, compañías, organizaciones de la sociedad civil, instituciones académicas y ONGs en la gran vastedad de temas de los que se ocupan tan diversas entidades en sus publicaciones y conferencias, en inglés, español y francés.",
+      en: "Graduate in Semiotics from the École des Hautes Études en Sciences Sociales – Sorbonne University in Paris, France. Founding partner of ESIT. She has been a university professor at the Pontificia Universidad Católica del Perú, Universidad Ricardo Palma, and Universidad Peruana de Ciencias Aplicadas. She has built three decades of fruitful career as a translator and interpreter with multilateral entities, national governments, companies, civil society organizations, academic institutions, and NGOs across the vast range of topics these diverse entities address in their publications and conferences, in English, Spanish, and French.",
+      fr: "Diplômée en sémiotique à l'École des Hautes Études en Sciences Sociales – Université de la Sorbonne à Paris, France. Associée fondatrice d'ESIT. Elle a été professeure universitaire à la Pontificia Universidad Católica del Perú, à l'Universidad Ricardo Palma et à l'Universidad Peruana de Ciencias Aplicadas. Elle a développé trois décennies de carrière fructueuse comme traductrice et interprète auprès d'entités multilatérales, de gouvernements nationaux, d'entreprises, d'organisations de la société civile, d'institutions académiques et d'ONG dans la vaste gamme de sujets dont s'occupent ces diverses entités dans leurs publications et conférences, en anglais, espagnol et français."
     },
     idiomas: ["ES", "EN", "FR"],
-    foto: "/imagenes/equipo/maria-nelly.jpg",
-    iniciales: "MN"
+    foto: "/imagenes/maria.jpg",
   },
   {
     nombre: "Sandra",
     cargo: { es: "Socia Fundadora", en: "Founding Partner", fr: "Associée Fondatrice" },
     bio: {
-      es: "Graduada en traducción de la Universidad de Ginebra, Suiza. Más de 30 años como traductora e intérprete simultánea en español, alemán, inglés y francés.",
-      en: "Graduate in Translation from the University of Geneva, Switzerland. Over 30 years as a translator and simultaneous interpreter in Spanish, German, English, and French.",
-      fr: "Diplômée en traduction de l'Université de Genève, Suisse. Plus de 30 ans comme traductrice et interprète simultanée en espagnol, allemand, anglais et français."
+      es: "Graduada en traducción de la École de Traduction et d'Interprétation, de la Universidad de Ginebra, Suiza, Sandra es socia fundadora de ESIT. Lleva más de 30 años trabajando con éxito como traductora del y al español, alemán, inglés y francés en el Perú y mercados internacionales. Paralelamente, se desempeña como intérprete simultánea y consecutiva en los más diversos temas, tanto para el sector privado como para instancias públicas nacionales e internacionales. Gracias a los nuevos avances tecnológicos, desarrolla ahora esta última actividad a través de medios virtuales como un nuevo desafío en su carrera.",
+      en: "Graduate in Translation from the École de Traduction et d'Interprétation at the University of Geneva, Switzerland, Sandra is a founding partner of ESIT. She has over 30 years of successful work as a translator to and from Spanish, German, English, and French in Peru and international markets. Simultaneously, she works as a simultaneous and consecutive interpreter across the most diverse topics, for both the private sector and national and international public institutions. Thanks to new technological advances, she now develops this activity through virtual means as a new challenge in her career.",
+      fr: "Diplômée en traduction de l'École de Traduction et d'Interprétation de l'Université de Genève, Suisse, Sandra est associée fondatrice d'ESIT. Elle travaille avec succès depuis plus de 30 ans comme traductrice de et vers l'espagnol, l'allemand, l'anglais et le français au Pérou et sur les marchés internationaux. Parallèlement, elle exerce comme interprète simultanée et consécutive sur les sujets les plus divers, tant pour le secteur privé que pour les instances publiques nationales et internationales. Grâce aux nouvelles avancées technologiques, elle développe désormais cette activité par des moyens virtuels comme un nouveau défi dans sa carrière."
     },
     idiomas: ["ES", "EN", "FR", "DE"],
-    foto: "/imagenes/equipo/sandra.jpg",
-    iniciales: "S"
+    foto: "/imagenes/sandra_socia.jpg",
   },
   {
     nombre: "Constanza",
     cargo: { es: "Socia · Intérprete", en: "Partner · Interpreter", fr: "Associée · Interprète" },
     bio: {
-      es: "Egresada de Humanidades por la Universidad de la Sorbona, París. Contribuye en ESIT desde 2014. Experiencia en economía, finanzas, desarrollo y ciencias sociales.",
-      en: "Humanities graduate from the Sorbonne University, Paris. Contributing to ESIT since 2014. Experience in economics, finance, development, and social sciences.",
-      fr: "Diplômée en Humanités de l'Université de la Sorbonne, Paris. Contribue chez ESIT depuis 2014. Expérience en économie, finances, développement et sciences sociales."
+      es: "Egresada de Humanidades por la Universidad de la Sorbona en París, Francia, y cuenta con un posgrado en gestión del IFM. Contribuye en Esit desde el 2014, en calidad de socia, intérprete y traductora. Sus idiomas de trabajo son el inglés, el castellano y el francés, y tiene experiencia en áreas tales como economía y finanzas, desarrollo, ciencias sociales, comunicación y marketing, industrias creativas, entre otras.",
+      en: "Humanities graduate from the Sorbonne University in Paris, France, with a postgraduate degree in management from IFM. She has contributed to ESIT since 2014 as a partner, interpreter, and translator. Her working languages are English, Spanish, and French, with experience in areas such as economics and finance, development, social sciences, communication and marketing, creative industries, among others.",
+      fr: "Diplômée en Humanités de l'Université de la Sorbonne à Paris, France, et titulaire d'un diplôme de troisième cycle en gestion de l'IFM. Elle contribue chez ESIT depuis 2014, en qualité d'associée, interprète et traductrice. Ses langues de travail sont l'anglais, l'espagnol et le français, avec une expérience dans des domaines tels que l'économie et les finances, le développement, les sciences sociales, la communication et le marketing, les industries créatives, entre autres."
     },
     idiomas: ["ES", "EN", "FR"],
-    foto: "/imagenes/equipo/constanza.jpg",
-    iniciales: "C"
+    foto: "/imagenes/constanza.jpg",
   },
   {
     nombre: "Isabel",
     cargo: { es: "Gerente General", en: "General Manager", fr: "Directrice Générale" },
     bio: {
-      es: "Administradora de empresas con especialización en marketing y diplomado en CRM. 15 años en ESIT a cargo del área administrativa y atención al cliente.",
-      en: "Business administrator with marketing specialization and CRM diploma. 15 years at ESIT leading administration and customer service.",
-      fr: "Administratrice d'entreprise spécialisée en marketing et diplômée en CRM. 15 ans chez ESIT en charge de l'administration et du service client."
+      es: "Administradora de empresas con especialización en marketing y diplomado en CRM (Customer Relationship Management). A lo largo de sus 15 años de trabajo en ESIT ha estado a cargo del área administrativa y de la atención al cliente. Como parte de esta función, brinda asesoría, coordina servicios y supervisa la calidad del servicio entregado.",
+      en: "Business administrator with a specialization in marketing and a diploma in CRM (Customer Relationship Management). Throughout her 15 years at ESIT, she has been in charge of administration and customer service. As part of this role, she provides advisory services, coordinates services, and supervises the quality of delivered work.",
+      fr: "Administratrice d'entreprise spécialisée en marketing et diplômée en CRM (Customer Relationship Management). Au cours de ses 15 années de travail chez ESIT, elle a été en charge de l'administration et du service client. Dans le cadre de cette fonction, elle fournit des conseils, coordonne les services et supervise la qualité du service rendu."
     },
     idiomas: ["ES", "EN"],
-    foto: "/imagenes/equipo/isabel.jpg",
-    iniciales: "IH"
+    foto: "/imagenes/isabel.jpg",
+  },
+  {
+    nombre: "Sandra",
+    cargo: { es: "Ejecutiva de Ventas Senior", en: "Senior Sales Executive", fr: "Cadre Commercial Senior" },
+    bio: {
+      es: "Bachiller en Ciencias de la Comunicación por la Universidad de Lima y dispone de 20 años de experiencia atendiendo y asesorando clientes en el sector de la interpretación y traducción. Tiene también exitosa experiencia coordinando eventos multilingües, servicios de traducción e interpretación (virtual y presencial), y servicios de subtitulado y doblaje.",
+      en: "Bachelor's degree in Communication Sciences from the University of Lima, with 20 years of experience serving and advising clients in the interpretation and translation sector. She also has successful experience coordinating multilingual events, translation and interpretation services (virtual and in-person), and subtitling and dubbing services.",
+      fr: "Titulaire d'un diplôme en Sciences de la Communication de l'Université de Lima, avec 20 ans d'expérience dans le conseil et l'accompagnement de clients dans le secteur de l'interprétation et de la traduction. Elle possède également une expérience réussie dans la coordination d'événements multilingues, de services de traduction et d'interprétation (virtuelle et en présentiel), ainsi que de services de sous-titrage et de doublage."
+    },
+    idiomas: ["ES", "EN"],
+    foto: "/imagenes/sandra.jpg",
   },
   {
     nombre: "Sidney",
     cargo: { es: "Intérprete", en: "Interpreter", fr: "Interprète" },
     bio: {
-      es: "Economista, traductor e intérprete graduado de la PUCP y la Universidad de la Sorbona. Diploma de la Universidad de Cambridge y del Institute of Linguists of London.",
-      en: "Economist, translator and interpreter graduated from PUCP and the Sorbonne University. Diploma from Cambridge University and the Institute of Linguists of London.",
-      fr: "Économiste, traducteur et interprète diplômé de la PUCP et de l'Université de la Sorbonne. Diplôme de l'Université de Cambridge et de l'Institute of Linguists of London."
+      es: "Economista y traductor e intérprete profesional graduado de la Pontificia Universidad Católica – Perú y de la Universidad de La Sorbona – Francia. Asimismo tiene Diploma de Estudios Avanzados en Idioma y Literatura de la Universidad de Cambridge, y Diploma de Traducción del Institute of Linguists of London. Ha trabajado para numerosas organizaciones, con sede en el Perú y el extranjero, tanto públicas como privadas y multilaterales. Experiencia en economía, administración, minería y maquinaria de minería, derecho y contratos, ingeniería, y miscelánea. También se dedica a la edición y corrección de textos en inglés y castellano.",
+      en: "Economist and professional translator and interpreter graduated from the Pontificia Universidad Católica – Peru and the Sorbonne University – France. He also holds a Diploma of Advanced Studies in Language and Literature from the University of Cambridge, and a Translation Diploma from the Institute of Linguists of London. He has worked for numerous organizations based in Peru and abroad, both public and private as well as multilateral. Experience in economics, administration, mining and mining machinery, law and contracts, engineering, and miscellaneous fields. He also dedicates himself to editing and proofreading texts in English and Spanish.",
+      fr: "Économiste et traducteur-interprète professionnel diplômé de la Pontificia Universidad Católica – Pérou et de l'Université de la Sorbonne – France. Il détient également un Diplôme d'Études Avancées en Langue et Littérature de l'Université de Cambridge et un Diplôme de Traduction de l'Institute of Linguists of London. Il a travaillé pour de nombreuses organisations basées au Pérou et à l'étranger, tant publiques que privées et multilatérales. Expérience en économie, administration, mines et machines minières, droit et contrats, ingénierie et domaines divers. Il se consacre également à l'édition et la correction de textes en anglais et espagnol."
     },
     idiomas: ["ES", "EN", "FR"],
-    foto: "/imagenes/equipo/sidney.jpg",
-    iniciales: "S"
+    foto: "/imagenes/sidney.jpg",
   },
   {
     nombre: "Jean Pierre",
     cargo: { es: "Intérprete", en: "Interpreter", fr: "Interprète" },
     bio: {
-      es: "Doce años de experiencia como intérprete en inglés y castellano. Especializado en aplicación de la ley, criminalística, lucha anti-drogas y anti-terrorismo.",
-      en: "Twelve years of experience as an English-Spanish interpreter. Specialized in law enforcement, criminology, anti-drug, and counter-terrorism operations.",
-      fr: "Douze ans d'expérience comme interprète anglais-espagnol. Spécialisé dans l'application de la loi, la criminalistique, la lutte anti-drogue et anti-terrorisme."
+      es: "Tiene doce años de experiencia de trabajo como intérprete en inglés y castellano. Ha participado en numerosos eventos y misiones de campo. Se especializa en temas de aplicación de la ley. En esta área ha trabajado con fuerzas policiales, militares, magistrados y fiscales de diversos países y cubierto temas como criminalística, lucha anti-drogas, lucha anti-terrorismo, entre otros. También tiene experiencia en otros temas, tales como comercio, minería e industria creativa y cultural.",
+      en: "He has twelve years of experience working as an English-Spanish interpreter. He has participated in numerous events and field missions. He specializes in law enforcement topics. In this area, he has worked with police forces, military personnel, magistrates, and prosecutors from various countries, covering topics such as forensics, anti-drug operations, counter-terrorism, among others. He also has experience in other areas such as trade, mining, and creative and cultural industries.",
+      fr: "Il a douze ans d'expérience comme interprète anglais-espagnol. Il a participé à de nombreux événements et missions de terrain. Il se spécialise dans les sujets d'application de la loi. Dans ce domaine, il a travaillé avec des forces de police, des militaires, des magistrats et des procureurs de divers pays, couvrant des sujets tels que la criminalistique, la lutte anti-drogue, la lutte anti-terrorisme, entre autres. Il a également de l'expérience dans d'autres domaines tels que le commerce, l'industrie minière et l'industrie créative et culturelle."
     },
     idiomas: ["ES", "EN"],
-    foto: "/imagenes/equipo/jean-pierre.jpg",
-    iniciales: "JP"
+    foto: "/imagenes/jean.jpg",
   }
 ];
 
@@ -85,84 +89,177 @@ const subtitulo = {
   en: "Internationally trained professionals with decades of experience in translation and interpretation",
   fr: "Des professionnels formés à l'international avec des décennies d'expérience en traduction et interprétation"
 };
-const idiomasLabel = { es: "Idiomas", en: "Languages", fr: "Langues" };
 ---
 
-<section class="py-20 md:py-28 bg-white dark:bg-oscuro-fondo relative overflow-hidden">
-  <!-- Decoracion -->
-  <div class="absolute top-20 right-0 w-80 h-80 rounded-full opacity-[0.02]" style="background: radial-gradient(circle, #C9A84C, transparent); filter: blur(80px);"></div>
+<section class="equipo">
+  <div class="contenedor">
+    <header class="equipo-cabecera" data-revelar>
+      <h2 class="equipo-titulo">{titulo[idioma]}</h2>
+      <p class="equipo-bajada">{subtitulo[idioma]}</p>
+    </header>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-    <!-- Encabezado -->
-    <div class="text-center mb-16">
-      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5"
-        style="background: rgba(201,168,76,0.08); color: #C9A84C; border: 1px solid rgba(201,168,76,0.15);">
-        {idioma === 'es' ? 'Equipo profesional' : idioma === 'en' ? 'Professional team' : 'Équipe professionnelle'}
-      </span>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5" style="font-family: 'Sora', sans-serif; line-height: 1.15;">
-        {titulo[idioma]}
-      </h2>
-      <p class="text-base sm:text-lg text-marca-gris dark:text-oscuro-texto max-w-2xl mx-auto" style="line-height: 1.7;">
-        {subtitulo[idioma]}
-      </p>
-    </div>
+    <!-- Ficha por persona: la trayectoria es el argumento de venta,
+         asi que se lee entera en vez de comprimirse en una tarjeta. -->
+    <div class="equipo-lista">
+      {equipo.map((miembro) => (
+        <article class="equipo-ficha" data-revelar>
+          <div class="equipo-retrato">
+            <img
+              src={miembro.foto}
+              alt={miembro.nombre}
+              width="400"
+              height="500"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
 
-    <!-- Grid del equipo -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-      {equipo.map((miembro, i) => (
-        <div class="group relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1
-          bg-marca-grisSuave dark:bg-oscuro-tarjeta border border-gray-100 dark:border-oscuro-borde
-          hover:shadow-xl hover:shadow-marca-azul/5 dark:hover:shadow-marca-azulBrillante/5">
+          <div class="equipo-datos">
+            <h3 class="equipo-nombre">{miembro.nombre}</h3>
+            <p class="equipo-cargo">{miembro.cargo[idioma]}</p>
 
-          {/* Foto o placeholder con iniciales */}
-          <div class="relative h-56 overflow-hidden bg-gradient-to-br from-marca-azul to-marca-azulClaro">
-            {/* Imagen real - descomentar cuando tengan las fotos */}
-            {/* <img src={miembro.foto} alt={miembro.nombre} class="w-full h-full object-cover object-top" loading="lazy" /> */}
-
-            {/* Placeholder elegante con iniciales */}
-            <div class="w-full h-full flex items-center justify-center relative">
-              {/* Patron decorativo de fondo */}
-              <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-4 right-4 w-24 h-24 border border-white/30 rounded-full"></div>
-                <div class="absolute bottom-4 left-4 w-16 h-16 border border-white/20 rounded-full"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-white/10 rounded-full"></div>
-              </div>
-              <span class="text-5xl font-bold text-white/40" style="font-family: 'Sora', sans-serif;">
-                {miembro.iniciales}
-              </span>
-            </div>
-
-            {/* Overlay gradient */}
-            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-
-            {/* Badge de idiomas flotante */}
-            <div class="absolute top-4 right-4 flex gap-1.5">
+            <ul class="equipo-idiomas" aria-label="Idiomas">
               {miembro.idiomas.map((lang) => (
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded-md backdrop-blur-sm"
-                  style={`background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2);`}>
-                  {lang}
-                </span>
+                <li>{lang}</li>
               ))}
-            </div>
-          </div>
+            </ul>
 
-          {/* Info */}
-          <div class="p-6 lg:p-7">
-            <h3 class="text-lg font-bold text-marca-azul dark:text-white mb-1" style="font-family: 'Sora', sans-serif;">
-              {miembro.nombre}
-            </h3>
-            <p class="text-sm font-semibold text-marca-azulBrillante dark:text-marca-azulBrillante mb-4">
-              {miembro.cargo[idioma]}
-            </p>
-            <p class="text-sm text-marca-gris dark:text-oscuro-texto leading-relaxed">
-              {miembro.bio[idioma]}
-            </p>
+            <p class="equipo-bio">{miembro.bio[idioma]}</p>
           </div>
-
-          {/* Linea decorativa hover */}
-          <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-marca-azul via-marca-azulBrillante to-marca-dorado transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
-        </div>
+        </article>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .equipo {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+    border-top: 1px solid var(--borde);
+  }
+
+  .equipo-cabecera {
+    max-width: 44rem;
+  }
+
+  .equipo-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.875rem, 1.5rem + 1.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.032em;
+    color: var(--navy);
+  }
+  :global(.dark) .equipo-titulo {
+    color: var(--texto);
+  }
+
+  .equipo-bajada {
+    margin-top: 1.125rem;
+    max-width: 52ch;
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto-medio);
+  }
+
+  .equipo-lista {
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .equipo-ficha {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: 2.5rem;
+    border-top: 1px solid var(--borde);
+  }
+  .equipo-ficha:last-child {
+    border-bottom: 1px solid var(--borde);
+  }
+
+  @media (min-width: 760px) {
+    .equipo-ficha {
+      grid-template-columns: 11rem 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  /* Retrato en blanco y negro: unifica fotos tomadas en momentos
+     y con camaras distintas. Recupera el color al pasar el cursor. */
+  .equipo-retrato {
+    width: 8.5rem;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radio);
+    background-color: var(--fondo-hundido);
+  }
+
+  @media (min-width: 760px) {
+    .equipo-retrato {
+      width: 100%;
+    }
+  }
+
+  .equipo-retrato img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(1);
+    transition:
+      filter 600ms var(--sale),
+      transform 900ms var(--sale);
+  }
+  .equipo-ficha:hover .equipo-retrato img {
+    filter: grayscale(0);
+    transform: scale(1.03);
+  }
+
+  .equipo-nombre {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.022em;
+    color: var(--navy);
+  }
+  :global(.dark) .equipo-nombre {
+    color: var(--texto);
+  }
+
+  .equipo-cargo {
+    margin-top: 0.25rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--acento);
+  }
+
+  .equipo-idiomas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 1rem;
+    list-style: none;
+  }
+
+  .equipo-idiomas li {
+    padding: 0.1875rem 0.5rem;
+    border: 1px solid var(--borde-marcado);
+    border-radius: 0.25rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--texto-tenue);
+  }
+
+  .equipo-bio {
+    margin-top: 1.25rem;
+    max-width: 68ch;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--texto-medio);
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+// Schema Service - para que Google entienda cada servicio individual
+import type { Idioma } from '../../helpers/idiomas';
+
+interface Props {
+  nombre: string;
+  descripcion: string;
+  idioma: Idioma;
+  url: string;
+}
+
+const { nombre, descripcion, idioma, url } = Astro.props;
+
+const datos = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": nombre,
+  "description": descripcion,
+  "url": `https://esittraducciones.com${url}`,
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "Esit Traducciones",
+    "url": "https://esittraducciones.com",
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Peru",
+  },
+  "availableLanguage": ["es", "en", "fr"],
+  "inLanguage": idioma,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />

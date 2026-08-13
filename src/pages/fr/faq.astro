@@ -2,9 +2,16 @@
 import Principal from '../../layout/Principal.astro';
 import ListaPreguntas from '../../componentes/preguntas/ListaPreguntas.astro';
 import BannerCotizar from '../../componentes/inicio/BannerCotizar.astro';
+import DatosPreguntas from '../../componentes/seo/DatosPreguntas.astro';
+import MigasDePan from '../../componentes/seo/MigasDePan.astro';
 import { obtenerTextos } from '../../helpers/idiomas';
 const t = obtenerTextos('fr');
 ---
 <Principal titulo={t.seo.preguntas.titulo} descripcion={t.seo.preguntas.descripcion} idioma="fr" pagina="preguntas">
+  <DatosPreguntas preguntas={t.preguntas.items} />
+  <MigasDePan items={[
+    { nombre: 'Accueil', url: '/fr/' },
+    { nombre: 'FAQ', url: '/fr/faq' },
+  ]} />
   <ListaPreguntas idioma="fr" /><BannerCotizar idioma="fr" />
 </Principal>

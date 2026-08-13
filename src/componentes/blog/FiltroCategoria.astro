@@ -1,14 +1,103 @@
 ---
 import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
-interface Props { idioma: Idioma; categorias?: string[]; categoriaActual?: string; }
+
+interface Props {
+  idioma: Idioma;
+  categorias?: string[];
+  categoriaActual?: string;
+}
 const { idioma, categorias = [], categoriaActual } = Astro.props;
 const t = obtenerTextos(idioma);
 ---
+
 {categorias.length > 0 && (
-  <div class="flex flex-wrap gap-2 justify-center mt-8">
-    <a href={'/' + idioma + '/blog'} class:list={['px-4 py-2 rounded-full text-sm font-medium transition-colors', !categoriaActual ? 'bg-marca-azulBrillante text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-oscuro-tarjeta dark:text-oscuro-texto']}>{t.blog.todas}</a>
-    {categorias.map((cat) => (
-      <a href={'/' + idioma + '/blog?cat=' + cat} class:list={['px-4 py-2 rounded-full text-sm font-medium transition-colors', categoriaActual === cat ? 'bg-marca-azulBrillante text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-oscuro-tarjeta dark:text-oscuro-texto']}>{cat}</a>
-    ))}
-  </div>
+  <nav class="filtro" aria-label={t.blog.todas}>
+    <ul class="filtro-lista">
+      <li>
+        <a
+          href={'/' + idioma + '/blog'}
+          class="filtro-item"
+          aria-current={!categoriaActual ? 'page' : undefined}
+        >
+          {t.blog.todas}
+        </a>
+      </li>
+      {categorias.map((cat) => (
+        <li>
+          <a
+            href={'/' + idioma + '/blog?cat=' + encodeURIComponent(cat)}
+            class="filtro-item"
+            aria-current={categoriaActual === cat ? 'page' : undefined}
+          >
+            {cat}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
 )}
+
+<style>
+  .filtro {
+    margin-top: 2.5rem;
+    border-bottom: 1px solid var(--borde);
+    /* En movil la lista se desplaza en vez de romperse en varias filas */
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .filtro::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filtro-lista {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    list-style: none;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .filtro-item {
+    position: relative;
+    display: inline-block;
+    padding-block: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--texto-tenue);
+    text-decoration: none;
+    transition: color var(--ms-ui) var(--sale);
+  }
+
+  .filtro-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--navy);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  :global(.dark) .filtro-item::after {
+    background-color: var(--acento);
+  }
+
+  .filtro-item:hover {
+    color: var(--texto);
+  }
+
+  .filtro-item[aria-current='page'] {
+    color: var(--texto);
+    font-weight: 600;
+  }
+  .filtro-item[aria-current='page']::after,
+  .filtro-item:hover::after {
+    transform: scaleX(1);
+  }
+</style>

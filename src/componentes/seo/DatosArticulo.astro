@@ -1,0 +1,48 @@
+---
+// Schema BlogPosting - para que Google muestre rich snippets en articulos del blog
+interface Props {
+  titulo: string;
+  descripcion: string;
+  imagen?: string;
+  fecha?: string;
+  autor?: string;
+  categoria?: string;
+  url: string;
+}
+
+const { titulo, descripcion, imagen, fecha, autor, categoria, url } = Astro.props;
+
+const datos = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": titulo,
+  "description": descripcion,
+  ...(imagen && { "image": imagen }),
+  ...(fecha && { "datePublished": fecha }),
+  ...(fecha && { "dateModified": fecha }),
+  ...(autor && {
+    "author": {
+      "@type": "Person",
+      "name": autor,
+    },
+  }),
+  "publisher": {
+    "@type": "Organization",
+    "name": "Esit Traducciones",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://esittraducciones.com/imagenes/logo.png",
+    },
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": url,
+  },
+  ...(categoria && {
+    "articleSection": categoria,
+  }),
+  "inLanguage": url.includes('/en/') ? 'en' : url.includes('/fr/') ? 'fr' : 'es',
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />

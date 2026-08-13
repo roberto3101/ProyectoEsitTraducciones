@@ -18,7 +18,7 @@ export function obtenerTextos(idioma: Idioma) {
 export function obtenerRutas(idioma: Idioma) {
   const rutas = {
     es: {
-      inicio: '/es/',
+      inicio: '/es',
       nosotros: '/es/nosotros',
       servicios: '/es/servicios',
       blog: '/es/blog',
@@ -28,7 +28,7 @@ export function obtenerRutas(idioma: Idioma) {
       terminos: '/es/terminos',
     },
     en: {
-      inicio: '/en/',
+      inicio: '/en',
       nosotros: '/en/about',
       servicios: '/en/services',
       blog: '/en/blog',
@@ -38,7 +38,7 @@ export function obtenerRutas(idioma: Idioma) {
       terminos: '/en/terms',
     },
     fr: {
-      inicio: '/fr/',
+      inicio: '/fr',
       nosotros: '/fr/a-propos',
       servicios: '/fr/services',
       blog: '/fr/blog',

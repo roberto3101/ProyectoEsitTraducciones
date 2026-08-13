@@ -139,7 +139,9 @@ const TARGETS = [
   { coords: [139.6917, 35.6895],  lang: "ja" },  // Tokio
 ];
 
-const WORLD_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+// Geometria servida desde el propio sitio: sin depender de un CDN externo
+// (que ademas bloquea el CSP) y sin latencia de terceros.
+const WORLD_URL = "/datos/paises-110m.json";
 
 // ── Detectar dark mode ──
 function useIsDark() {
@@ -188,6 +190,7 @@ export default function MapaIdiomas({ idioma = "es" }) {
   const [activo, setActivo] = useState(null);
   const [worldData, setWorldData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [fallo, setFallo] = useState(false);
   const [hover, setHover] = useState(null);
   const [dims, setDims] = useState({ w: 960, h: 480 });
   const isDark = useIsDark();
@@ -200,6 +203,8 @@ export default function MapaIdiomas({ idioma = "es" }) {
       subtitulo: "Conectamos culturas a través de traducciones precisas en los idiomas que mueven al mundo. Desde Lima, Perú, hacia todos los continentes.",
       vistaGlobal: "✕ Vista global",
       cargando: "Cargando mapa...",
+        fallo: "No se pudo cargar el mapa.",
+        reintentar: "Reintentar",
       explorar: "Seleccione un idioma o explore el mapa",
       paises: "países",
       hablantes: "hablantes",
@@ -223,6 +228,8 @@ export default function MapaIdiomas({ idioma = "es" }) {
       subtitulo: "We connect cultures through precise translations in the languages that move the world. From Lima, Peru, to every continent.",
       vistaGlobal: "✕ View all",
       cargando: "Loading map...",
+        fallo: "The map could not be loaded.",
+        reintentar: "Try again",
       explorar: "Select a language or explore the map",
       paises: "countries",
       hablantes: "speakers",
@@ -246,6 +253,8 @@ export default function MapaIdiomas({ idioma = "es" }) {
       subtitulo: "Nous connectons les cultures grâce à des traductions précises dans les langues qui font bouger le monde. De Lima, Pérou, vers tous les continents.",
       vistaGlobal: "✕ Voir tous",
       cargando: "Chargement de la carte...",
+        fallo: "La carte n'a pas pu etre chargee.",
+        reintentar: "Reessayer",
       explorar: "Sélectionnez une langue ou explorez la carte",
       paises: "pays",
       hablantes: "locuteurs",
@@ -325,10 +334,30 @@ export default function MapaIdiomas({ idioma = "es" }) {
       };
 
   useEffect(() => {
-    fetch(WORLD_URL)
-      .then((r) => r.json())
-      .then((topo) => { setWorldData(feature(topo, topo.objects.countries)); setLoading(false); })
-      .catch(() => setLoading(false));
+    let vivo = true;
+    // Sin timeout la peticion puede quedarse colgada y dejar el spinner
+    // girando para siempre, que es justo lo que pasaba antes.
+    const corte = AbortController ? new AbortController() : null;
+    const reloj = setTimeout(() => corte?.abort(), 10000);
+
+    fetch(WORLD_URL, { signal: corte?.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
+      .then((topo) => {
+        if (!vivo) return;
+        setWorldData(feature(topo, topo.objects.countries));
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!vivo) return;
+        setFallo(true);
+        setLoading(false);
+      })
+      .finally(() => clearTimeout(reloj));
+
+    return () => { vivo = false; clearTimeout(reloj); };
   }, []);
 
   useEffect(() => {
@@ -409,6 +438,13 @@ export default function MapaIdiomas({ idioma = "es" }) {
     }}>
 
       {/* ── Botones de idioma ── */}
+      {/* Instruccion explicita: sin ella los botones se leen como leyenda */}
+      <p style={{
+        textAlign: "center", marginBottom: "12px",
+        fontSize: "13px", color: P.textMuted,
+      }}>
+        {t.explorar}
+      </p>
       <div style={{
         display: "flex", justifyContent: "center", gap: "6px",
         marginBottom: "20px", flexWrap: "wrap", alignItems: "center",
@@ -424,10 +460,7 @@ export default function MapaIdiomas({ idioma = "es" }) {
                 background: isActive ? v.color + (isDark ? "18" : "12") : P.btnBg,
                 color: isActive ? P.btnTextActive : P.btnText,
                 fontWeight: 600, fontSize: "12px",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                transform: isActive ? "scale(1.05)" : "scale(1)",
-                boxShadow: isActive ? `0 0 20px ${v.color}${isDark ? "25" : "18"}` : "0 2px 6px rgba(0,0,0,0.04)",
-                backdropFilter: "blur(12px)",
+                transition: "border-color 200ms cubic-bezier(0.16,1,0.3,1), background-color 200ms cubic-bezier(0.16,1,0.3,1), color 200ms cubic-bezier(0.16,1,0.3,1)",
                 display: "flex", alignItems: "center", gap: "6px",
               }}
             >
@@ -483,7 +516,26 @@ export default function MapaIdiomas({ idioma = "es" }) {
           }} />
         )}
 
-        {loading ? (
+        {fallo ? (
+          <div style={{
+            height: "420px", display: "flex", alignItems: "center", justifyContent: "center",
+            color: P.textMuted, fontSize: "14px", textAlign: "center", padding: "0 24px",
+          }}>
+            <div>
+              <p style={{ marginBottom: "14px" }}>{t.fallo}</p>
+              <button
+                type="button"
+                onClick={() => { setFallo(false); setLoading(true); window.location.reload(); }}
+                style={{
+                  padding: "9px 18px", borderRadius: "10px", cursor: "pointer",
+                  border: `1px solid ${P.counterBorder}`, background: "transparent",
+                  color: P.textMuted, font: "inherit", fontSize: "13px",
+                }}>
+                {t.reintentar}
+              </button>
+            </div>
+          </div>
+        ) : loading ? (
           <div style={{
             height: "420px", display: "flex", alignItems: "center", justifyContent: "center",
             color: P.textMuted, fontSize: "14px",
@@ -620,29 +672,11 @@ export default function MapaIdiomas({ idioma = "es" }) {
           display: "flex", justifyContent: "space-between", alignItems: "center",
           flexWrap: "wrap", gap: "6px",
         }}>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {Object.entries(IDIOMAS).map(([k, v]) => (
-              <span key={k} style={{
-                display: "flex", alignItems: "center", gap: "4px",
-                fontSize: "10px",
-                color: activo === k ? v.color : P.textMuted,
-                fontWeight: activo === k ? 700 : 400,
-                transition: "all 0.3s",
-                cursor: "pointer",
-                opacity: activo && activo !== k ? 0.4 : 1,
-              }} onClick={() => setActivo(activo === k ? null : k)}>
-                <span style={{
-                  width: 6, height: 6, borderRadius: "50%",
-                  background: v.color, display: "inline-block",
-                  boxShadow: activo === k ? `0 0 6px ${v.color}` : "none",
-                }} />
-                {v.nombre}
-              </span>
-            ))}
-          </div>
-          <span style={{ color: P.textLight, fontSize: "10px", fontStyle: "italic" }}>
+          {/* Una sola barra de estado: la leyenda duplicada de idiomas se
+              eliminó porque los botones de arriba ya cumplen esa función. */}
+          <span style={{ color: P.textMuted, fontSize: "12px", fontWeight: 500 }}>
             {activo
-              ? `${IDIOMAS[activo].paises} ${t.paises} · ${IDIOMAS[activo].hablantes} ${t.hablantes}`
+              ? `${IDIOMAS[activo].nombre} · ${IDIOMAS[activo].paises} ${t.paises} · ${IDIOMAS[activo].hablantes} ${t.hablantes}`
               : hover
                 ? `${hover.name}${hover.langs.length > 0 ? " — " + hover.langs.map(l => IDIOMAS[l].nombre).join(", ") : ""}`
                 : t.explorar
@@ -658,31 +692,30 @@ export default function MapaIdiomas({ idioma = "es" }) {
         gap: "12px",
         marginTop: "20px",
       }}>
+        {/* Cifras separadas por filete, sin caja ni emoji: mismo lenguaje
+            que el resto del sitio. */}
         {[
-          { valor: 8, sufijo: "+", label: t.stats.idiomas, icon: "🌐" },
-          { valor: totalPaises, sufijo: "+", label: t.stats.paises, icon: "🗺️" },
-          { valor: 12, sufijo: "+", label: t.stats.sectores, icon: "🏛️" },
-          { valor: 33, sufijo: "+", label: t.stats.anios, icon: "📅" },
+          { valor: 8, sufijo: "+", label: t.stats.idiomas },
+          { valor: totalPaises, sufijo: "+", label: t.stats.paises },
+          { valor: 12, sufijo: "+", label: t.stats.sectores },
+          { valor: 33, sufijo: "+", label: t.stats.anios },
         ].map((stat, i) => (
           <div key={i} style={{
-            textAlign: "center", padding: "20px 12px",
-            borderRadius: "14px",
-            background: isDark ? P.counterBg : P.counterBg,
-            border: `1px solid ${isDark ? P.counterBorder : P.counterBorder}`,
-            backdropFilter: "blur(10px)",
+            padding: "18px 12px 0 0",
+            borderTop: `1px solid ${P.counterBorder}`,
           }}>
-            <div style={{ fontSize: "20px", marginBottom: "6px" }}>{stat.icon}</div>
             <div style={{
-              fontSize: "28px", fontWeight: 800, lineHeight: 1,
-              color: isDark ? "#e2e8f0" : "#1e293b",
+              fontSize: "clamp(26px, 3vw, 34px)", fontWeight: 600, lineHeight: 1,
+              letterSpacing: "-0.03em",
+              fontVariantNumeric: "tabular-nums",
+              color: isDark ? "#e6ebf3" : "#0c2340",
               fontFamily: "'Sora', system-ui, sans-serif",
             }}>
               <AnimatedCounter end={stat.valor} suffix={stat.sufijo} />
             </div>
             <div style={{
-              fontSize: "11px", marginTop: "6px",
-              color: isDark ? "#64748b" : "#94a3b8",
-              fontWeight: 500,
+              fontSize: "12px", marginTop: "8px", lineHeight: 1.4,
+              color: isDark ? "#8494ad" : "#78849a",
             }}>
               {stat.label}
             </div>

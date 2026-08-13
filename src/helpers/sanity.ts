@@ -23,6 +23,39 @@ export function urlImagen(ref: string): string {
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensiones}.${formato}`;
 }
 
+/**
+ * Pide a la CDN de Sanity la imagen ya recortada al tamano de entrega.
+ *
+ * Sin esto se sirve el asset original: un archivo de 300x300 estirado a
+ * 976x480 se ve roto, y uno de 4000px penaliza la carga sin necesidad.
+ *
+ * - `fit=max` nunca amplia por encima del original, asi que una imagen
+ *   pequena se entrega a su tamano real en vez de pixelada.
+ * - `auto=format` negocia WebP/AVIF segun el navegador.
+ */
+export function imagenEntrega(
+  url: string,
+  opciones: { ancho?: number; alto?: number; recortar?: boolean } = {},
+): string {
+  if (!url) return '';
+
+  const { ancho = 1600, alto, recortar = false } = opciones;
+  const params = new URLSearchParams({ w: String(ancho), auto: 'format', q: '82' });
+
+  if (alto) params.set('h', String(alto));
+
+  if (recortar && alto) {
+    params.set('fit', 'crop');
+    // `entropy` elige la zona con mas informacion visual en vez del centro
+    // geometrico: evita encuadres vacios cuando suben capturas con margenes.
+    params.set('crop', 'entropy');
+  } else {
+    params.set('fit', 'max');
+  }
+
+  return `${url}${url.includes('?') ? '&' : '?'}${params.toString()}`;
+}
+
 // Formatear fecha para mostrar
 export function formatearFecha(fecha: string, idioma: string = 'es'): string {
   if (!fecha) return '';
@@ -47,6 +80,47 @@ export async function obtenerArticulos(idioma: string = 'es') {
   }`;
 
   return await sanityCliente.fetch(consulta, { idioma });
+}
+
+// Traer articulos paginados con total
+const POSTS_POR_PAGINA = 9;
+
+export async function obtenerArticulosPaginados(
+  idioma: string = 'es',
+  pagina: number = 1,
+  categoria: string = '',
+) {
+  const filtroCategoria = categoria ? ' && categoria == $categoria' : '';
+  const inicio = (pagina - 1) * POSTS_POR_PAGINA;
+  const fin = inicio + POSTS_POR_PAGINA;
+
+  const consultaArticulos = `*[_type == "articulo" && idioma == $idioma${filtroCategoria}] | order(fecha desc) [$inicio...$fin] {
+    _id,
+    titulo,
+    resumen,
+    "slug": slug.current,
+    fecha,
+    categoria,
+    "imagen": imagen.asset->url
+  }`;
+
+  const consultaTotal = `count(*[_type == "articulo" && idioma == $idioma${filtroCategoria}])`;
+
+  const params: Record<string, any> = { idioma, inicio, fin };
+  if (categoria) params.categoria = categoria;
+
+  const [articulos, total] = await Promise.all([
+    sanityCliente.fetch(consultaArticulos, params),
+    sanityCliente.fetch(consultaTotal, params),
+  ]);
+
+  return {
+    articulos,
+    total,
+    pagina,
+    totalPaginas: Math.ceil(total / POSTS_POR_PAGINA),
+    porPagina: POSTS_POR_PAGINA,
+  };
 }
 
 // Traer un articulo por su slug

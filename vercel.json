@@ -22,6 +22,14 @@
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.sanity.io https://www.clarity.ms https://*.clarity.ms https://js.hs-scripts.com https://js.hsforms.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.sanity.io https://*.apicdn.sanity.io https://api.hsforms.com https://forms.hscollectedforms.net https://www.clarity.ms https://*.clarity.ms; frame-src 'self' https://*.sanity.io; base-uri 'self'; form-action 'self'"
         }
       ]
     },

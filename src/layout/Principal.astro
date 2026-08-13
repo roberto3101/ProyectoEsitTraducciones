@@ -15,18 +15,33 @@ interface Props {
   idioma: Idioma;
   pagina: string; // nombre de la pagina actual (inicio, nosotros, etc)
   imagenOG?: string;
+  /** La barra flota transparente sobre una fotografia oscura a sangre */
+  sobreHero?: boolean;
 }
 
-const { titulo, descripcion, idioma, pagina, imagenOG } = Astro.props;
+const { titulo, descripcion, idioma, pagina, imagenOG, sobreHero = false } = Astro.props;
 const rutaActual = Astro.url.pathname;
+const esBlogArticulo = pagina === 'blog' && rutaActual.includes('/blog/') && rutaActual.split('/').filter(Boolean).length > 2;
 
 // Google Analytics 4 - Lee el ID desde .env (PUBLIC_GA_MEASUREMENT_ID)
 const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+
+// Microsoft Clarity - mapas de calor y grabaciones de sesion.
+// GA4 dice CUANTOS clics; Clarity dice DONDE. Si no hay ID, no carga nada.
+const CLARITY_ID = import.meta.env.PUBLIC_CLARITY_ID || '';
 ---
 
 <!doctype html>
-<html lang={idioma} class="scroll-smooth">
+<html lang={idioma} class="sin-js">
   <head>
+    <!-- Optimizacion de fuentes: preconnect + carga no-bloqueante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap" /></noscript>
+
     <!-- SEO: Etiquetas basicas -->
     <EtiquetasPagina
       titulo={titulo}
@@ -46,6 +61,7 @@ const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
       descripcion={descripcion}
       idioma={idioma}
       imagen={imagenOG}
+      tipoContenido={esBlogArticulo ? 'article' : 'website'}
     />
 
     <!-- Google Analytics 4: Monitoreo de visitas y eventos -->
@@ -174,8 +190,20 @@ const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
       } // fin check produccion
     </script>
 
-    <!-- Modo oscuro: leer preferencia guardada -->
+    <!-- Microsoft Clarity: mapas de calor, mapas de scroll y grabaciones -->
+    <script is:inline define:vars={{ CLARITY_ID }}>
+      if (CLARITY_ID && window.location.hostname !== 'localhost') {
+        (function (c, l, a, r, i, t, y) {
+          c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+          t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, 'clarity', 'script', CLARITY_ID);
+      }
+    </script>
+
+    <!-- Tema y disponibilidad de JS: antes del primer pintado, sin parpadeo -->
     <script is:inline>
+      document.documentElement.classList.remove('sin-js');
       const tema = localStorage.getItem('tema');
       if (tema === 'oscuro' || (!tema && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -184,11 +212,16 @@ const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
   </head>
 
   <body class="min-h-screen flex flex-col">
+    <!-- Accesibilidad: saltar al contenido principal -->
+    <a href="#contenido-principal" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-marca-azul focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">
+      Saltar al contenido
+    </a>
+
     <!-- Barra de navegacion -->
-    <BarraNavegacion idioma={idioma} paginaActual={pagina} />
+    <BarraNavegacion idioma={idioma} paginaActual={pagina} sobreHero={sobreHero} />
 
     <!-- Contenido de la pagina -->
-    <main class="flex-grow">
+    <main id="contenido-principal" class="flex-grow">
       <slot />
     </main>
 
@@ -200,5 +233,10 @@ const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
 
     <!-- SEO: Datos de la empresa para Google -->
     <DatosEmpresa />
+
+    <!-- Scroll suave, revelados y comportamiento de la barra -->
+    <script>
+      import '../scripts/movimiento';
+    </script>
   </body>
 </html>

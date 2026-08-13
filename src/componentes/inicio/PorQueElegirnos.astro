@@ -9,22 +9,67 @@ const t = obtenerTextos(idioma);
 
 <section class="seccion bg-marca-grisSuave dark:bg-oscuro-tarjeta">
   <div class="contenedor px-4">
-    <div class="text-center">
+    <div class="max-w-2xl" data-revelar>
       <h2 class="titulo-seccion">{t.porQueElegirnos.titulo}</h2>
-      <p class="subtitulo-seccion mx-auto">{t.porQueElegirnos.subtitulo}</p>
+      <p class="subtitulo-seccion">{t.porQueElegirnos.subtitulo}</p>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" data-revelar-grupo>
       {t.porQueElegirnos.items.map((item) => (
-        <div class="text-center">
-          <div class="text-4xl md:text-5xl font-titulo font-bold text-marca-azulBrillante">
-            {item.titulo}
-          </div>
-          <p class="mt-3 text-sm text-marca-gris dark:text-oscuro-texto">
-            {item.descripcion}
-          </p>
+        <div class="pqe-celda">
+          <div class="pqe-valor">{item.titulo}</div>
+          <p class="pqe-texto">{item.descripcion}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  /* Alineado a la izquierda: rompe la monotonia de secciones centradas */
+  .pqe-celda {
+    /* min-width:0 evita que un titulo largo desborde su columna del grid */
+    min-width: 0;
+    padding: 1.75rem 1.5rem 1.75rem 0;
+    border-top: 1px solid var(--borde);
+  }
+
+  @media (min-width: 640px) {
+    .pqe-celda:nth-child(even) {
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--borde);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pqe-celda + .pqe-celda {
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--borde);
+    }
+  }
+
+  /* Son frases cortas ("100% confidencial"), no cifras sueltas:
+     el cuerpo se modera y se permite el corte de linea. */
+  .pqe-valor {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.125rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: var(--navy);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  :global(.dark) .pqe-valor {
+    color: var(--texto);
+  }
+
+  .pqe-texto {
+    margin-top: 0.875rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--texto-medio);
+    max-width: 26ch;
+  }
+</style>

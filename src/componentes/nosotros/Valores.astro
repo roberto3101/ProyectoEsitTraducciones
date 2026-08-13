@@ -4,15 +4,82 @@ interface Props { idioma: Idioma; }
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 ---
-<section class="seccion">
-  <div class="contenedor px-4 text-center">
-    <h2 class="titulo-seccion">{t.nosotrosPage.tituloValores}</h2>
-    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-      {t.nosotrosPage.valores.map((valor) => (
-        <div class="tarjeta text-center py-6">
-          <span class="font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo">{valor}</span>
-        </div>
+
+<!-- Lista numerada con filetes en lugar de cinco tarjetas identicas -->
+<section class="valores">
+  <div class="contenedor">
+    <h2 class="valores-titulo" data-revelar>{t.nosotrosPage.tituloValores}</h2>
+
+    <ol class="valores-lista" data-revelar-grupo>
+      {t.nosotrosPage.valores.map((valor, i) => (
+        <li class="valores-item">
+          <span class="cifra valores-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="valores-nombre">{valor}</span>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
+
+<style>
+  .valores {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+    border-top: 1px solid var(--borde);
+  }
+
+  .valores-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    color: var(--navy);
+  }
+  :global(.dark) .valores-titulo {
+    color: var(--texto);
+  }
+
+  .valores-lista {
+    margin-top: 2.5rem;
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+
+  @media (min-width: 700px) {
+    .valores-lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .valores-lista {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .valores-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 1.125rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .valores-num {
+    flex-shrink: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ambar);
+  }
+
+  .valores-nombre {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--texto);
+  }
+</style>

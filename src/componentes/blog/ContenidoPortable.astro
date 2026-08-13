@@ -29,7 +29,7 @@ function renderizarBloque(bloque: any): string {
     const url = bloque.asset?._ref
       ? '' // Se necesita resolver la referencia
       : bloque.asset?.url || '';
-    if (url) return `<figure class="my-8"><img src="${url}" alt="${bloque.alt || ''}" class="w-full rounded-lg" loading="lazy" /></figure>`;
+    if (url) return `<figure class="my-8"><img src="${url}" alt="${bloque.alt || ''}" width="768" height="432" decoding="async" class="w-full rounded-lg" loading="lazy" /></figure>`;
     return '';
   }
 

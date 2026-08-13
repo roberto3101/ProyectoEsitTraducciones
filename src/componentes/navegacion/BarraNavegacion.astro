@@ -7,127 +7,77 @@ import { servicios, obtenerRutaServicio } from '../../datos/servicios';
 interface Props {
   idioma: Idioma;
   paginaActual: string;
+  /** En el inicio la barra flota transparente sobre la fotografia del hero */
+  sobreHero?: boolean;
 }
 
-const { idioma, paginaActual } = Astro.props;
+const { idioma, paginaActual, sobreHero = false } = Astro.props;
 const textos = obtenerTextos(idioma);
 const rutas = obtenerRutas(idioma);
 
-// Links sin servicios (se maneja aparte por el dropdown)
-const enlacesSinServicios = [
+const enlaces = [
   { nombre: textos.nav.inicio, ruta: rutas.inicio, clave: 'inicio' },
   { nombre: textos.nav.nosotros, ruta: rutas.nosotros, clave: 'nosotros' },
   { nombre: textos.nav.blog, ruta: rutas.blog, clave: 'blog' },
   { nombre: textos.nav.contacto, ruta: rutas.contacto, clave: 'contacto' },
 ];
 
-// Todos los links para mobile (incluye servicios como item normal + sublinks)
-const enlacesMovil = [
-  { nombre: textos.nav.inicio, ruta: rutas.inicio, clave: 'inicio' },
-  { nombre: textos.nav.nosotros, ruta: rutas.nosotros, clave: 'nosotros' },
-  { nombre: textos.nav.blog, ruta: rutas.blog, clave: 'blog' },
-  { nombre: textos.nav.contacto, ruta: rutas.contacto, clave: 'contacto' },
-];
-
-// Subservicios para dropdown
 const subServicios = servicios.map((srv) => ({
   nombre: srv.titulo[idioma],
   ruta: obtenerRutaServicio(srv, idioma),
-  color: srv.color,
   icono: srv.icono,
 }));
 ---
 
-<header class="sticky top-0 z-50 bg-white/95 dark:bg-oscuro-fondo/95 backdrop-blur-md border-b border-slate-100 dark:border-oscuro-borde">
-  <nav class="contenedor flex items-center justify-between h-16 md:h-20 px-4">
-    <!-- Logo -->
+<header class="barra" data-sobre-hero={sobreHero ? 'si' : 'no'} data-desplazada="no">
+  <nav class="contenedor barra-fila" aria-label={textos.nav.inicio}>
     <Logo />
 
-    <!-- Links de navegacion (desktop) -->
-    <ul class="hidden lg:flex items-center gap-6">
-      {/* Inicio y Nosotros */}
-      {enlacesSinServicios.slice(0, 2).map((enlace) => (
+    <ul class="barra-lista">
+      {enlaces.slice(0, 2).map((enlace) => (
         <li>
           <a
             href={enlace.ruta}
-            class:list={[
-              'font-cuerpo text-sm font-medium transition-colors duration-200',
-              paginaActual === enlace.clave
-                ? 'text-marca-azulBrillante border-b-2 border-marca-azulBrillante pb-1'
-                : 'text-slate-600 hover:text-marca-azul dark:text-oscuro-texto dark:hover:text-white',
-            ]}
+            class="barra-enlace"
+            aria-current={paginaActual === enlace.clave ? 'page' : undefined}
           >
             {enlace.nombre}
           </a>
         </li>
       ))}
 
-      {/* Servicios con dropdown */}
-      <li class="relative group/dropdown">
+      <li class="barra-desplegable">
         <a
           href={rutas.servicios}
-          class:list={[
-            'font-cuerpo text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1',
-            paginaActual === 'servicios'
-              ? 'text-marca-azulBrillante border-b-2 border-marca-azulBrillante pb-1'
-              : 'text-slate-600 hover:text-marca-azul dark:text-oscuro-texto dark:hover:text-white',
-          ]}
+          class="barra-enlace barra-enlace-icono"
+          aria-current={paginaActual === 'servicios' ? 'page' : undefined}
         >
           {textos.nav.servicios}
-          <svg class="w-3.5 h-3.5 transition-transform group-hover/dropdown:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
 
-        {/* Dropdown panel */}
-        <div class="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible
-          group-hover/dropdown:opacity-100 group-hover/dropdown:visible
-          transition-all duration-200 z-50">
-          <div class="w-72 bg-white dark:bg-oscuro-tarjeta rounded-xl shadow-xl shadow-black/10 dark:shadow-black/40
-            border border-slate-100 dark:border-oscuro-borde overflow-hidden">
-            {/* Flecha */}
-            <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white dark:bg-oscuro-tarjeta border-l border-t border-slate-100 dark:border-oscuro-borde"></div>
-
-            <div class="py-2">
-              {subServicios.map((sub) => (
-                <a href={sub.ruta}
-                  class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors">
-                  <div class="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center"
-                    style={`background: ${sub.color}10; color: ${sub.color};`}>
-                    <Fragment set:html={sub.icono.replace('w-8 h-8', 'w-4 h-4')} />
-                  </div>
-                  <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    {sub.nombre}
-                  </span>
+        <div class="barra-panel">
+          <ul>
+            {subServicios.map((sub) => (
+              <li>
+                <a href={sub.ruta} class="barra-panel-item">
+                  <span class="barra-panel-icono" set:html={sub.icono.replace('w-8 h-8', 'w-4 h-4')} />
+                  <span>{sub.nombre}</span>
                 </a>
-              ))}
-            </div>
-
-            {/* Ver todos */}
-            <div class="border-t border-slate-100 dark:border-oscuro-borde px-4 py-3">
-              <a href={rutas.servicios}
-                class="flex items-center justify-center gap-2 text-xs font-semibold text-marca-azulBrillante hover:text-marca-azul dark:hover:text-blue-300 transition-colors">
-                {textos.nav.servicios}
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </li>
 
-      {/* Blog y Contacto */}
-      {enlacesSinServicios.slice(2).map((enlace) => (
+      {enlaces.slice(2).map((enlace) => (
         <li>
           <a
             href={enlace.ruta}
-            class:list={[
-              'font-cuerpo text-sm font-medium transition-colors duration-200',
-              paginaActual === enlace.clave
-                ? 'text-marca-azulBrillante border-b-2 border-marca-azulBrillante pb-1'
-                : 'text-slate-600 hover:text-marca-azul dark:text-oscuro-texto dark:hover:text-white',
-            ]}
+            class="barra-enlace"
+            aria-current={paginaActual === enlace.clave ? 'page' : undefined}
           >
             {enlace.nombre}
           </a>
@@ -135,180 +85,266 @@ const subServicios = servicios.map((srv) => ({
       ))}
     </ul>
 
-    <!-- Lado derecho: idiomas + modo oscuro + boton cotizar -->
-    <div class="flex items-center gap-3">
-      <!-- Selector de idioma (banderas) -->
+    <div class="barra-acciones">
       <SelectorIdioma idioma={idioma} />
 
-      <!-- Boton modo oscuro -->
-      <button
-        id="btn-tema"
-        class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta transition-colors"
-        aria-label="Cambiar tema"
-      >
-        <!-- Icono sol (modo claro) -->
-        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      <button id="btn-tema" class="barra-icono" aria-label="Cambiar tema" type="button">
+        <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke-linecap="round" />
         </svg>
-        <!-- Icono luna (modo oscuro) -->
-        <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M20.4 15.4A8.5 8.5 0 018.6 3.6a8.5 8.5 0 1011.8 11.8z" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
 
-      <!-- Boton cotizar (desktop) -->
-      <a
-        href={rutas.contacto}
-        class="hidden md:inline-flex boton-principal text-sm"
-      >
-        {textos.nav.cotizar}
-      </a>
+      <a href={rutas.contacto} class="boton-principal barra-cotizar">{textos.nav.cotizar}</a>
 
-      <!-- Boton hamburguesa (movil) -->
       <button
         id="btn-menu"
-        class="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta"
-        aria-label="Abrir menu"
+        class="barra-icono barra-hamburguesa"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="menu-movil"
+        type="button"
       >
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
         </svg>
       </button>
     </div>
   </nav>
 
-  <!-- Menu movil -->
-  <div
-    id="menu-movil"
-    class="hidden lg:hidden bg-white dark:bg-oscuro-fondo border-t border-slate-100 dark:border-oscuro-borde"
-  >
-    <ul class="py-4 px-4 space-y-2">
-      {/* Inicio */}
-      <li>
-        <a
-          href={rutas.inicio}
-          class:list={[
-            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-            paginaActual === 'inicio'
-              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-          ]}
-        >
-          {textos.nav.inicio}
-        </a>
-      </li>
+  <div class="progreso" aria-hidden="true"></div>
 
-      {/* Nosotros */}
-      <li>
-        <a
-          href={rutas.nosotros}
-          class:list={[
-            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-            paginaActual === 'nosotros'
-              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-          ]}
-        >
-          {textos.nav.nosotros}
-        </a>
-      </li>
+  <div id="menu-movil" class="menu-movil" hidden>
+    <ul class="contenedor">
+      {enlaces.slice(0, 2).map((enlace) => (
+        <li>
+          <a href={enlace.ruta} class="menu-movil-enlace" aria-current={paginaActual === enlace.clave ? 'page' : undefined}>
+            {enlace.nombre}
+          </a>
+        </li>
+      ))}
 
-      {/* Servicios con submenu expandible */}
       <li>
         <button
           id="btn-servicios-movil"
-          class:list={[
-            'w-full flex items-center justify-between py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-            paginaActual === 'servicios'
-              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-          ]}
+          class="menu-movil-enlace menu-movil-boton"
+          aria-expanded="false"
+          aria-controls="submenu-servicios-movil"
+          type="button"
         >
           {textos.nav.servicios}
-          <svg id="icono-chevron-servicios" class="w-4 h-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
-
-        <div id="submenu-servicios-movil" class="hidden mt-1 ml-4 space-y-1 border-l-2 border-slate-200 dark:border-oscuro-borde pl-3">
-          {/* Ver todos */}
-          <a href={rutas.servicios}
-            class="block py-2 px-3 rounded-lg text-sm font-semibold text-marca-azulBrillante hover:bg-slate-50 dark:hover:bg-oscuro-tarjeta transition-colors">
-            {textos.nav.servicios}
-          </a>
-
+        <ul id="submenu-servicios-movil" class="menu-movil-sub" hidden>
+          <li>
+            <a href={rutas.servicios} class="menu-movil-sub-enlace">{textos.nav.servicios}</a>
+          </li>
           {subServicios.map((sub) => (
-            <a href={sub.ruta}
-              class="flex items-center gap-2.5 py-2 px-3 rounded-lg text-sm font-medium text-slate-600 dark:text-oscuro-texto hover:bg-slate-50 dark:hover:bg-oscuro-tarjeta transition-colors">
-              <div class="w-6 h-6 rounded-md flex-shrink-0 flex items-center justify-center"
-                style={`background: ${sub.color}10; color: ${sub.color};`}>
-                <Fragment set:html={sub.icono.replace('w-8 h-8', 'w-3.5 h-3.5')} />
-              </div>
-              {sub.nombre}
-            </a>
+            <li>
+              <a href={sub.ruta} class="menu-movil-sub-enlace">{sub.nombre}</a>
+            </li>
           ))}
-        </div>
+        </ul>
       </li>
 
-      {/* Blog */}
-      <li>
-        <a
-          href={rutas.blog}
-          class:list={[
-            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-            paginaActual === 'blog'
-              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-          ]}
-        >
-          {textos.nav.blog}
-        </a>
-      </li>
+      {enlaces.slice(2).map((enlace) => (
+        <li>
+          <a href={enlace.ruta} class="menu-movil-enlace" aria-current={paginaActual === enlace.clave ? 'page' : undefined}>
+            {enlace.nombre}
+          </a>
+        </li>
+      ))}
 
-      {/* Contacto */}
-      <li>
-        <a
-          href={rutas.contacto}
-          class:list={[
-            'block py-3 px-4 rounded-lg font-cuerpo font-medium transition-colors',
-            paginaActual === 'contacto'
-              ? 'bg-marca-azulBrillante/10 text-marca-azulBrillante'
-              : 'text-slate-600 hover:bg-slate-50 dark:text-oscuro-texto dark:hover:bg-oscuro-tarjeta',
-          ]}
-        >
-          {textos.nav.contacto}
-        </a>
-      </li>
-
-      <li class="pt-2">
-        <a href={rutas.contacto} class="boton-principal w-full justify-center text-sm">
-          {textos.nav.cotizar}
-        </a>
+      <li class="menu-movil-cta">
+        <a href={rutas.contacto} class="boton-principal">{textos.nav.cotizar}</a>
       </li>
     </ul>
   </div>
 </header>
 
-<script is:inline>
-  // Menu movil: abrir/cerrar
-  document.getElementById('btn-menu')?.addEventListener('click', () => {
-    document.getElementById('menu-movil')?.classList.toggle('hidden');
-  });
+<style>
+  .barra-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 4.5rem;
+  }
 
-  // Submenu de servicios en movil: expandir/colapsar
-  document.getElementById('btn-servicios-movil')?.addEventListener('click', () => {
-    const submenu = document.getElementById('submenu-servicios-movil');
-    const chevron = document.getElementById('icono-chevron-servicios');
-    if (submenu && chevron) {
-      submenu.classList.toggle('hidden');
-      chevron.classList.toggle('rotate-180');
-    }
-  });
+  @media (min-width: 1024px) {
+    .barra-fila { height: 5rem; }
+  }
 
-  // Modo oscuro: cambiar tema
-  document.getElementById('btn-tema')?.addEventListener('click', () => {
-    const html = document.documentElement;
-    html.classList.toggle('dark');
-    localStorage.setItem('tema', html.classList.contains('dark') ? 'oscuro' : 'claro');
-  });
-</script>
+  .barra-lista {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  @media (min-width: 1024px) {
+    .barra-lista { display: flex; }
+  }
+
+  .barra-enlace-icono {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .barra-enlace-icono svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .barra-desplegable:hover .barra-enlace-icono svg {
+    transform: rotate(180deg);
+  }
+
+  /* --- Panel de servicios --- */
+  .barra-desplegable { position: relative; }
+
+  .barra-panel {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: 0.75rem;
+    width: 17rem;
+    translate: -50% 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.375rem);
+    background-color: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra-menu);
+    padding: 0.375rem;
+    transition:
+      opacity var(--ms-ui) var(--sale),
+      transform var(--ms-ui) var(--sale),
+      visibility var(--ms-ui);
+  }
+  .barra-desplegable:hover .barra-panel,
+  .barra-desplegable:focus-within .barra-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .barra-panel ul { list-style: none; }
+
+  .barra-panel-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--texto-medio);
+    text-decoration: none;
+    transition:
+      background-color var(--ms-rapido) var(--sale),
+      color var(--ms-rapido) var(--sale);
+  }
+  .barra-panel-item:hover {
+    background-color: var(--fondo-hundido);
+    color: var(--texto);
+  }
+
+  .barra-panel-icono {
+    display: inline-flex;
+    color: var(--texto-tenue);
+  }
+
+  /* --- Acciones --- */
+  .barra-acciones {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .barra-icono svg { width: 1.25rem; height: 1.25rem; }
+
+  .icono-sol { display: none; }
+  :global(.dark) .icono-sol { display: block; }
+  :global(.dark) .icono-luna { display: none; }
+
+  .barra-cotizar {
+    display: none;
+    margin-left: 0.25rem;
+  }
+  @media (min-width: 768px) {
+    .barra-cotizar { display: inline-flex; }
+  }
+
+  .barra-hamburguesa { display: inline-flex; }
+  @media (min-width: 1024px) {
+    .barra-hamburguesa { display: none; }
+  }
+
+  /* Sobre el hero los botones cambian de traje */
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-cotizar {
+    background-color: rgb(255 255 255 / 0.12);
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.2);
+    backdrop-filter: blur(8px);
+  }
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-cotizar:hover {
+    background-color: rgb(255 255 255 / 0.2);
+  }
+
+  /* --- Menu movil --- */
+  .menu-movil {
+    border-top: 1px solid var(--borde);
+    background-color: var(--fondo);
+    max-height: calc(100svh - 4.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .menu-movil ul { list-style: none; }
+  .menu-movil > ul { padding-block: 0.75rem 1.5rem; }
+
+  .menu-movil-enlace {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.875rem 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--texto);
+    text-decoration: none;
+    border-bottom: 1px solid var(--borde);
+    text-align: left;
+  }
+  .menu-movil-enlace[aria-current='page'] { color: var(--acento); }
+  .menu-movil-boton svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--texto-tenue);
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .menu-movil-boton[aria-expanded='true'] svg { transform: rotate(180deg); }
+
+  .menu-movil-sub {
+    padding: 0.5rem 0 0.75rem 1rem;
+    border-left: 1px solid var(--borde);
+    margin-left: 0.25rem;
+  }
+  .menu-movil-sub-enlace {
+    display: block;
+    padding: 0.5rem 0;
+    font-size: 0.9375rem;
+    color: var(--texto-medio);
+    text-decoration: none;
+  }
+  .menu-movil-sub-enlace:hover { color: var(--texto); }
+
+  .menu-movil-cta { padding-top: 1.5rem; }
+  .menu-movil-cta .boton-principal { width: 100%; }
+</style>

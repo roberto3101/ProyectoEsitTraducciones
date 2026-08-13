@@ -1,115 +1,645 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;500;600;700;800&display=swap');
+/* Fuentes cargadas via <link> en Principal.astro para mejor rendimiento */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   TOKENS DE DISENO
+   Fuente unica de verdad para color, tipografia, espacio,
+   elevacion y movimiento. Nada de valores sueltos en componentes.
+   ============================================================ */
 @layer base {
+  :root {
+    /* --- Neutrales: ni negro ni blanco puros, todos con temperatura --- */
+    --papel: #fbfaf8;
+    --papel-hundido: #f4f2ee;
+    --tinta: #141a24;
+    --tinta-media: #47536a;
+    --tinta-tenue: #78849a;
+    --linea: #e6e3dc;
+    --linea-marcada: #d4cfc5;
+
+    /* --- Marca. El ambar sale del grado de color de las fotos --- */
+    --navy: #0c2340;
+    --navy-hondo: #060c18;
+    --indigo: #1b4d8e;
+    --azul: #2563eb;
+    --ambar: #c9a84c;
+
+    /* --- Superficies semanticas --- */
+    --fondo: var(--papel);
+    --fondo-hundido: var(--papel-hundido);
+    --superficie: #ffffff;
+    --texto: var(--tinta);
+    --texto-medio: var(--tinta-media);
+    --texto-tenue: var(--tinta-tenue);
+    --borde: var(--linea);
+    --borde-marcado: var(--linea-marcada);
+    --acento: var(--indigo);
+
+    /* --- Escala tipografica fluida: 5 tamanos, no mas --- */
+    --t-micro: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+    --t-cuerpo: clamp(1rem, 0.97rem + 0.16vw, 1.0625rem);
+    --t-guia: clamp(1.125rem, 1.06rem + 0.32vw, 1.3125rem);
+    --t-titulo: clamp(1.875rem, 1.5rem + 1.6vw, 3rem);
+    --t-display: clamp(2.5rem, 1.7rem + 3.4vw, 5.25rem);
+
+    /* --- Espacio: escala de 4px, sin valores a ojo --- */
+    --e1: 0.25rem;
+    --e2: 0.5rem;
+    --e3: 0.75rem;
+    --e4: 1rem;
+    --e6: 1.5rem;
+    --e8: 2rem;
+    --e12: 3rem;
+    --e16: 4rem;
+    --e24: 6rem;
+    --e32: 8rem;
+
+    /* --- Elevacion: el borde estructura, la sombra solo flota --- */
+    --sombra-flotante: 0 1px 1px rgb(12 35 64 / 0.04), 0 4px 10px -3px rgb(12 35 64 / 0.07),
+      0 12px 28px -10px rgb(12 35 64 / 0.09);
+    --sombra-menu: 0 2px 4px -2px rgb(12 35 64 / 0.06), 0 18px 36px -14px rgb(12 35 64 / 0.16);
+
+    /* --- Movimiento: UI corta, entradas largas --- */
+    --ms-rapido: 140ms;
+    --ms-ui: 200ms;
+    --ms-entrada: 800ms;
+    --sale: cubic-bezier(0.16, 1, 0.3, 1);
+    --entra: cubic-bezier(0.4, 0, 1, 1);
+
+    /* --- Capas: escala corta y documentada --- */
+    --z-encima: 1;
+    --z-pegado: 40;
+    --z-menu: 60;
+    --z-overlay: 80;
+
+    /* --- Medidas --- */
+    --medida: 68ch;
+    --radio: 0.625rem;
+    --radio-grande: 1rem;
+  }
+
+  .dark {
+    --fondo: #0b1121;
+    --fondo-hundido: #070d1a;
+    --superficie: #131d33;
+    --texto: #e6ebf3;
+    --texto-medio: #b3c0d4;
+    --texto-tenue: #8494ad;
+    --borde: #1e2d4a;
+    --borde-marcado: #2b3d5e;
+    --acento: #7aa5f0;
+    --sombra-flotante: 0 1px 1px rgb(0 0 0 / 0.2), 0 4px 12px -4px rgb(0 0 0 / 0.35),
+      0 16px 34px -12px rgb(0 0 0 / 0.45);
+    --sombra-menu: 0 2px 6px -2px rgb(0 0 0 / 0.3), 0 20px 40px -16px rgb(0 0 0 / 0.6);
+  }
+
+  /* ============================================================
+     BASE
+     ============================================================ */
   html {
+    /* Sin scroll-behavior: lo gobierna Lenis. Si Lenis no carga,
+       el script devuelve el smooth nativo via .sin-lenis */
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html.sin-lenis {
     scroll-behavior: smooth;
-    font-family: 'DM Sans', sans-serif;
   }
 
   body {
-    @apply bg-white text-slate-800 dark:bg-oscuro-fondo dark:text-oscuro-texto;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--fondo);
+    color: var(--texto);
+    font-size: var(--t-cuerpo);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-synthesis-weight: none;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Sora', sans-serif;
-    @apply dark:text-oscuro-titulo;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Sora', system-ui, sans-serif;
+    color: var(--texto);
+    /* El interletrado se cierra a medida que crece el cuerpo */
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Numeros que se alinean en columna */
+  .cifra {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  /* Foco visible disenado, nunca outline:none a secas */
+  :focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--navy);
+    color: #fff;
+  }
+
+  .dark ::selection {
+    background-color: var(--ambar);
+    color: var(--navy-hondo);
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
   }
 }
 
+/* ============================================================
+   LENIS — scroll suave
+   ============================================================ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ============================================================
+   REVELADO AL SCROLL
+   Un solo sistema, dirigido por data-revelar.
+   Solo anima transform y opacity.
+   ============================================================ */
+[data-revelar] {
+  opacity: 0;
+  transform: translate3d(var(--rev-x, 0), var(--rev-y, 1.75rem), 0);
+  transition:
+    opacity var(--ms-entrada) var(--sale),
+    transform var(--ms-entrada) var(--sale);
+  transition-delay: calc(var(--rev-i, 0) * 80ms + var(--rev-espera, 0ms));
+}
+
+[data-revelar='lateral'] {
+  --rev-x: -1.5rem;
+  --rev-y: 0;
+}
+[data-revelar='lateral-der'] {
+  --rev-x: 1.5rem;
+  --rev-y: 0;
+}
+[data-revelar='velo'] {
+  --rev-y: 0;
+}
+
+[data-revelar].revelado {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sin JS el contenido igual se ve */
+.sin-js [data-revelar] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   COMPONENTES
+   ============================================================ */
 @layer components {
-  .boton-principal {
-    @apply inline-flex items-center gap-2 px-6 py-3 
-           bg-marca-azulBrillante text-white font-titulo font-semibold 
-           rounded-lg hover:bg-marca-azulClaro 
-           transition-all duration-300 ease-in-out;
+  .contenedor {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: var(--e5, 1.25rem);
   }
 
-  .boton-secundario {
-    @apply inline-flex items-center gap-2 px-6 py-3 
-           border-2 border-marca-azul text-marca-azul font-titulo font-semibold 
-           rounded-lg hover:bg-marca-azul hover:text-white 
-           dark:border-marca-azulBrillante dark:text-marca-azulBrillante
-           dark:hover:bg-marca-azulBrillante dark:hover:text-white
-           transition-all duration-300 ease-in-out;
-  }
-
-  .tarjeta {
-    @apply bg-white rounded-xl shadow-sm border border-slate-100 p-6
-           dark:bg-oscuro-tarjeta dark:border-oscuro-borde
-           hover:shadow-md transition-shadow duration-300;
+  @media (min-width: 640px) {
+    .contenedor {
+      padding-inline: var(--e8);
+    }
   }
 
   .seccion {
-    @apply py-16 md:py-24 px-4;
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem);
+    padding-inline: 1.25rem;
   }
 
-  .contenedor {
-    @apply max-w-7xl mx-auto;
+  /* --- Botones: cada estado disenado --- */
+  .boton-principal,
+  .boton-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--e2);
+    padding: var(--e3) var(--e6);
+    border-radius: var(--radio);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color var(--ms-ui) var(--sale),
+      border-color var(--ms-ui) var(--sale),
+      color var(--ms-ui) var(--sale),
+      transform var(--ms-rapido) var(--sale);
   }
 
+  .boton-principal {
+    background-color: var(--navy);
+    color: #fff;
+  }
+  .boton-principal:hover {
+    background-color: var(--indigo);
+  }
+  .boton-principal:active {
+    transform: translateY(1px);
+  }
+  .dark .boton-principal {
+    background-color: var(--azul);
+  }
+  .dark .boton-principal:hover {
+    background-color: #4d80f5;
+  }
+
+  .boton-secundario {
+    background-color: transparent;
+    color: var(--navy);
+    border-color: var(--borde-marcado);
+  }
+  .boton-secundario:hover {
+    border-color: var(--navy);
+    background-color: var(--fondo-hundido);
+  }
+  .boton-secundario:active {
+    transform: translateY(1px);
+  }
+  .dark .boton-secundario {
+    color: var(--texto);
+    border-color: var(--borde-marcado);
+  }
+  .dark .boton-secundario:hover {
+    border-color: var(--acento);
+    background-color: rgb(255 255 255 / 0.04);
+  }
+
+  .boton-principal:disabled,
+  .boton-secundario:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* --- Tarjeta: el borde estructura, sin sombra en reposo --- */
+  .tarjeta {
+    background-color: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-grande);
+    padding: var(--e6);
+    transition:
+      border-color var(--ms-ui) var(--sale),
+      transform var(--ms-ui) var(--sale);
+  }
+  .tarjeta:hover {
+    border-color: var(--borde-marcado);
+  }
+
+  /* --- Titulos de seccion --- */
   .titulo-seccion {
-    @apply text-3xl md:text-4xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo;
+    font-family: 'Sora', sans-serif;
+    font-size: var(--t-titulo);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+  }
+  .dark .titulo-seccion {
+    color: var(--texto);
   }
 
   .subtitulo-seccion {
-    @apply text-lg text-marca-gris mt-4 max-w-2xl dark:text-oscuro-texto;
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto-medio);
+    max-width: 46ch;
+    margin-top: var(--e4);
   }
 
-  /* Estilos para contenido de articulos del blog (Portable Text de Sanity) */
+  /* --- Antetitulo: el ambar aparece aqui, con moderacion --- */
+  .antetitulo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e2);
+    font-family: 'Sora', sans-serif;
+    font-size: var(--t-micro);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+  .antetitulo::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background-color: var(--ambar);
+  }
+
+  /* --- Enlace con subrayado que crece desde la izquierda --- */
+  .enlace-linea {
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+  }
+  .enlace-linea::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .enlace-linea:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ============================================================
+     BARRA DE NAVEGACION
+     Transparente sobre el hero, solida al bajar.
+     ============================================================ */
+  .barra {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-pegado);
+    isolation: isolate;
+    border-bottom: 1px solid transparent;
+    background-color: var(--fondo);
+    transition:
+      background-color var(--ms-ui) var(--sale),
+      border-color var(--ms-ui) var(--sale);
+  }
+
+  /* Sobre hero: la barra se superpone a la fotografia en vez de empujarla */
+  .barra[data-sobre-hero='si'] {
+    margin-bottom: -4.5rem;
+  }
+  @media (min-width: 1024px) {
+    .barra[data-sobre-hero='si'] {
+      margin-bottom: -5rem;
+    }
+  }
+
+  /* Sobre hero oscuro: se funde con la imagen */
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) {
+    background-color: transparent;
+    border-bottom-color: rgb(255 255 255 / 0.1);
+  }
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-enlace {
+    color: rgb(255 255 255 / 0.82);
+  }
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-enlace:hover,
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-enlace[aria-current='page'] {
+    color: #fff;
+  }
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-icono {
+    color: rgb(255 255 255 / 0.75);
+  }
+  .barra[data-sobre-hero='si']:not([data-desplazada='si']) .barra-icono:hover {
+    color: #fff;
+    background-color: rgb(255 255 255 / 0.1);
+  }
+
+  .barra[data-desplazada='si'] {
+    background-color: color-mix(in srgb, var(--fondo) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom-color: var(--borde);
+  }
+
+  .barra-enlace {
+    position: relative;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--texto-medio);
+    text-decoration: none;
+    padding-block: var(--e2);
+    transition: color var(--ms-ui) var(--sale);
+  }
+  .barra-enlace:hover {
+    color: var(--texto);
+  }
+  .barra-enlace::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.5px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .barra-enlace:hover::after,
+  .barra-enlace[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+  .barra-enlace[aria-current='page'] {
+    color: var(--texto);
+  }
+
+  .barra-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--e2);
+    border-radius: var(--radio);
+    color: var(--texto-tenue);
+    transition:
+      color var(--ms-ui) var(--sale),
+      background-color var(--ms-ui) var(--sale);
+  }
+  .barra-icono:hover {
+    color: var(--texto);
+    background-color: var(--fondo-hundido);
+  }
+
+  /* Indicador de progreso de lectura */
+  .progreso {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 1.5px;
+    width: 100%;
+    transform: scaleX(var(--avance, 0));
+    transform-origin: left;
+    background-color: var(--ambar);
+    z-index: var(--z-encima);
+  }
+
+  /* ============================================================
+     CABECERA DEL BLOG
+     Alineada a la izquierda: es un indice editorial, no una portada.
+     ============================================================ */
+  .blog-cabecera,
+  .cabecera-pagina {
+    padding-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+  }
+
+  .blog-titulo,
+  .cabecera-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2.25rem, 1.7rem + 2.4vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+  }
+  .dark .blog-titulo,
+  .dark .cabecera-titulo {
+    color: var(--texto);
+  }
+
+  .blog-bajada,
+  .cabecera-bajada {
+    margin-top: 1.125rem;
+    max-width: 52ch;
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto-medio);
+  }
+
+  /* ============================================================
+     CONTENIDO DE ARTICULOS (Portable Text de Sanity)
+     ============================================================ */
+  .contenido-articulo {
+    max-width: var(--medida);
+  }
   .contenido-articulo p {
-    @apply text-base md:text-lg leading-relaxed text-slate-700 dark:text-oscuro-texto mb-6;
+    font-size: var(--t-guia);
+    line-height: 1.75;
+    color: var(--texto-medio);
+    margin-bottom: var(--e6);
   }
-
   .contenido-articulo h2 {
-    @apply text-2xl md:text-3xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo mt-10 mb-4;
+    font-size: var(--t-titulo);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-top: var(--e16);
+    margin-bottom: var(--e4);
   }
-
   .contenido-articulo h3 {
-    @apply text-xl md:text-2xl font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo mt-8 mb-3;
+    font-size: var(--t-guia);
+    font-weight: 600;
+    color: var(--navy);
+    margin-top: var(--e12);
+    margin-bottom: var(--e3);
   }
-
+  .dark .contenido-articulo h2,
+  .dark .contenido-articulo h3,
+  .dark .contenido-articulo h4 {
+    color: var(--texto);
+  }
   .contenido-articulo h4 {
-    @apply text-lg md:text-xl font-titulo font-semibold text-marca-azul dark:text-oscuro-titulo mt-6 mb-2;
+    font-size: var(--t-cuerpo);
+    font-weight: 600;
+    color: var(--navy);
+    margin-top: var(--e8);
+    margin-bottom: var(--e2);
   }
-
   .contenido-articulo ul {
-    @apply list-disc pl-6 mb-6 space-y-2;
+    list-style: disc;
+    padding-left: var(--e6);
+    margin-bottom: var(--e6);
   }
-
   .contenido-articulo ol {
-    @apply list-decimal pl-6 mb-6 space-y-2;
+    list-style: decimal;
+    padding-left: var(--e6);
+    margin-bottom: var(--e6);
   }
-
   .contenido-articulo li {
-    @apply text-base md:text-lg text-slate-700 dark:text-oscuro-texto leading-relaxed;
+    font-size: var(--t-guia);
+    line-height: 1.75;
+    color: var(--texto-medio);
+    margin-bottom: var(--e2);
   }
-
   .contenido-articulo blockquote {
-    @apply border-l-4 border-marca-azulBrillante pl-4 py-2 my-6 italic text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-oscuro-tarjeta rounded-r-lg;
+    border-left: 2px solid var(--ambar);
+    padding-left: var(--e6);
+    margin-block: var(--e8);
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto);
   }
-
   .contenido-articulo a {
-    @apply text-marca-azulBrillante hover:underline;
+    color: var(--acento);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
   }
-
   .contenido-articulo strong {
-    @apply font-bold text-slate-900 dark:text-oscuro-titulo;
+    font-weight: 600;
+    color: var(--texto);
   }
-
   .contenido-articulo code {
-    @apply bg-slate-100 dark:bg-oscuro-tarjeta px-1.5 py-0.5 rounded text-sm font-mono;
+    background-color: var(--fondo-hundido);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
   }
-
   .contenido-articulo img {
-    @apply w-full rounded-lg my-6;
+    width: 100%;
+    border-radius: var(--radio);
+    margin-block: var(--e8);
+  }
+  .contenido-articulo figure {
+    margin-block: var(--e8);
+  }
+}
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO
+   Experiencia reducida real, no rota: todo visible, sin recorrido.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 
-  .contenido-articulo figure {
-    @apply my-8;
+  [data-revelar] {
+    opacity: 1;
+    transform: none;
   }
 }

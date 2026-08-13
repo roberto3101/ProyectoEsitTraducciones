@@ -29,8 +29,14 @@ pnpm-debug.log*
 # vercel local
 .vercel/
 
+# cache local de sanity
+.sanity/
+
 # history
 .history/
 
 # docs con info sensible
 DOCS/
+
+# archivo de variables para pegar en Vercel (contiene secretos)
+.env.vercel

@@ -2,15 +2,15 @@
 const { idioma = 'es' } = Astro.props as { idioma: 'es' | 'en' | 'fr' };
 
 const clientes = [
-  { nombre: "USAID", logo: "/imagenes/clientes/usaid.png", color: "#002F6C", accent: "#BA0C2F" },
-  { nombre: "United Nations", logo: "/imagenes/clientes/onu.png", color: "#4B92DB", accent: "#4B92DB" },
-  { nombre: "CARE", logo: "/imagenes/clientes/care.png", color: "#F26522", accent: "#F26522" },
-  { nombre: "IFC", logo: "/imagenes/clientes/ifc.png", color: "#009CDE", accent: "#00355F" },
-  { nombre: "IDB", logo: "/imagenes/clientes/bid.png", color: "#003876", accent: "#00A9E0" },
-  { nombre: "Ipsos", logo: "/imagenes/clientes/ipsos.png", color: "#006837", accent: "#006837" },
-  { nombre: "Moody's", logo: "/imagenes/clientes/moodys.png", color: "#1A237E", accent: "#1A237E" },
-  { nombre: "McKinsey", logo: "/imagenes/clientes/mckinsey.png", color: "#003A70", accent: "#003A70" },
-  { nombre: "3M", logo: "/imagenes/clientes/3m.png", color: "#FF0000", accent: "#FF0000" },
+  { nombre: "USAID", logo: "/imagenes/clientes/usaid.svg", url: "https://www.usaid.gov", color: "#002F6C", accent: "#BA0C2F" },
+  { nombre: "United Nations", logo: "/imagenes/clientes/onu.png", url: "https://www.un.org", color: "#4B92DB", accent: "#4B92DB" },
+  { nombre: "CARE", logo: "/imagenes/clientes/care.svg", url: "https://www.care.org", color: "#F26522", accent: "#F26522" },
+  { nombre: "IFC", logo: "/imagenes/clientes/ifc.svg", url: "https://www.ifc.org", color: "#009CDE", accent: "#00355F" },
+  { nombre: "IDB", logo: "/imagenes/clientes/bid.svg", url: "https://www.iadb.org", color: "#003876", accent: "#00A9E0" },
+  { nombre: "Ipsos", logo: "/imagenes/clientes/ipsos.svg", url: "https://www.ipsos.com", color: "#006837", accent: "#006837" },
+  { nombre: "Moody's", logo: "/imagenes/clientes/moodys.png", url: "https://www.moodys.com", color: "#1A237E", accent: "#1A237E" },
+  { nombre: "McKinsey", logo: "/imagenes/clientes/mckinsey.svg", url: "https://www.mckinsey.com", color: "#003A70", accent: "#003A70" },
+  { nombre: "3M", logo: "/imagenes/clientes/3m.svg", url: "https://www.3m.com", color: "#FF0000", accent: "#FF0000" },
 ];
 
 const titulo: Record<string, string> = {
@@ -41,26 +41,12 @@ const subtitulo: Record<string, string> = {
       <div class="clientes-track">
         {/* Triplicamos para scroll infinito sin cortes */}
         {[...clientes, ...clientes, ...clientes].map((cliente, i) => (
-          <div class="cliente-item" title={cliente.nombre}>
-            {/*
-              ──────────────────────────────────────────
-              OPCIÓN A: Logos desde archivos (cuando los tengas)
-              Descomenta las 2 líneas de abajo y borra la OPCIÓN B
-              ──────────────────────────────────────────
-            */}
-            {/* <img src={cliente.logo} alt={cliente.nombre}
-              class="max-h-10 sm:max-h-12 max-w-[140px] object-contain" loading="lazy" /> */}
-
-            {/*
-              ──────────────────────────────────────────
-              OPCIÓN B: Logos tipográficos (sin archivos)
-              Borra este bloque cuando uses OPCIÓN A
-              ──────────────────────────────────────────
-            */}
-            <span class="cliente-nombre" style={`--brand-color: ${cliente.color};`}>
-              {cliente.nombre}
-            </span>
-          </div>
+          <a href={cliente.url} target="_blank" rel="noopener noreferrer nofollow"
+            class="cliente-item" title={cliente.nombre}>
+            <img src={cliente.logo} alt={cliente.nombre}
+              class="max-h-10 sm:max-h-12 max-w-[140px] object-contain" loading="lazy"
+              width="140" height="48" />
+          </a>
         ))}
       </div>
     </div>
@@ -80,7 +66,7 @@ const subtitulo: Record<string, string> = {
     gap: 3rem;
     align-items: center;
     width: max-content;
-    animation: scroll-logos 40s linear infinite;
+    animation: scroll-logos 22s linear infinite;
   }
 
   .clientes-track:hover {
@@ -95,34 +81,38 @@ const subtitulo: Record<string, string> = {
     height: 4rem;
     min-width: 120px;
     padding: 0 0.5rem;
-    filter: grayscale(100%);
-    opacity: 0.4;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: default;
   }
 
-  .cliente-item:hover {
-    filter: grayscale(0%);
-    opacity: 1;
-    transform: scale(1.08);
+  /* Muro de logos monocromo: unifica marcas de colores dispares y, sobre
+     todo, evita que los logos azul marino desaparezcan en modo oscuro. */
+  .cliente-item img {
+    max-height: 100%;
+    filter: brightness(0) opacity(0.5);
+    transition:
+      filter var(--ms-ui) var(--sale),
+      transform var(--ms-ui) var(--sale);
   }
 
-  .cliente-nombre {
-    font-family: 'Sora', system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
-    color: var(--brand-color, #0C2340);
-    white-space: nowrap;
-    user-select: none;
+  :global(.dark) .cliente-item img {
+    filter: brightness(0) invert(1) opacity(0.55);
   }
 
-  :global(.dark) .cliente-nombre {
-    color: #94a3b8;
+  .cliente-item:hover img {
+    filter: brightness(0) opacity(0.9);
+    transform: scale(1.06);
   }
 
-  :global(.dark) .cliente-item:hover .cliente-nombre {
-    color: var(--brand-color, #60a5fa);
+  :global(.dark) .cliente-item:hover img {
+    filter: brightness(0) invert(1) opacity(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clientes-track {
+      animation: none;
+    }
+    .clientes-carrusel {
+      overflow-x: auto;
+    }
   }
 
   @keyframes scroll-logos {
@@ -133,10 +123,7 @@ const subtitulo: Record<string, string> = {
   @media (max-width: 640px) {
     .clientes-track {
       gap: 2rem;
-      animation-duration: 25s;
-    }
-    .cliente-nombre {
-      font-size: 0.95rem;
+      animation-duration: 14s;
     }
     .cliente-item {
       min-width: 90px;

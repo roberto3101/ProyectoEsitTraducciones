@@ -1,6 +1,8 @@
 ---
 import Principal from '../../../layout/Principal.astro';
 import DetalleArticulo from '../../../componentes/blog/DetalleArticulo.astro';
+import DatosArticulo from '../../../componentes/seo/DatosArticulo.astro';
+import MigasDePan from '../../../componentes/seo/MigasDePan.astro';
 import { obtenerTextos } from '../../../helpers/idiomas';
 import { obtenerTodosSlugs, obtenerArticuloPorSlug } from '../../../helpers/sanity';
 
@@ -28,5 +30,21 @@ const titulo = articulo?.titulo || t.blog.noEncontrado;
 const descripcion = articulo?.resumen || t.blog.noEncontradoDesc;
 ---
 <Principal titulo={titulo + ' | ESIT Blog'} descripcion={descripcion} idioma="es" pagina="blog" imagenOG={articulo?.imagen}>
+  {articulo && (
+    <DatosArticulo
+      titulo={articulo.titulo}
+      descripcion={articulo.resumen || ''}
+      imagen={articulo.imagen}
+      fecha={articulo.fecha}
+      autor={articulo.autor}
+      categoria={articulo.categoria}
+      url={Astro.url.href}
+    />
+  )}
+  <MigasDePan items={[
+    { nombre: 'Inicio', url: '/es/' },
+    { nombre: 'Blog', url: '/es/blog' },
+    { nombre: titulo, url: `/es/blog/${slug}` },
+  ]} />
   <DetalleArticulo idioma="es" articulo={articulo} />
 </Principal>

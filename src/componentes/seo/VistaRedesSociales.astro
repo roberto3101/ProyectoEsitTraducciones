@@ -7,19 +7,23 @@ interface Props {
   descripcion: string;
   imagen?: string;
   idioma: string;
+  tipoContenido?: 'website' | 'article';
 }
 
-const { titulo, descripcion, idioma } = Astro.props;
+const { titulo, descripcion, idioma, tipoContenido = 'website' } = Astro.props;
 const imagen = Astro.props.imagen || 'https://esittraducciones.com/imagenes/og-default.jpg';
 const url = Astro.url.href;
 ---
 
 <!-- Facebook / WhatsApp / LinkedIn -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={tipoContenido} />
 <meta property="og:url" content={url} />
 <meta property="og:title" content={titulo} />
 <meta property="og:description" content={descripcion} />
 <meta property="og:image" content={imagen} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:locale" content={idioma === 'es' ? 'es_PE' : idioma === 'en' ? 'en_US' : 'fr_FR'} />
 <meta property="og:site_name" content="Esit Traducciones" />
 

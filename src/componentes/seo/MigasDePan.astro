@@ -1,0 +1,27 @@
+---
+// Schema BreadcrumbList - ayuda a Google a entender la jerarquia de navegacion
+interface Miga {
+  nombre: string;
+  url: string;
+}
+
+interface Props {
+  items: Miga[];
+}
+
+const { items } = Astro.props;
+const sitio = 'https://esittraducciones.com';
+
+const datos = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.nombre,
+    "item": `${sitio}${item.url}`,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />

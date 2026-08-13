@@ -4,9 +4,50 @@ interface Props { idioma: Idioma; }
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
 ---
-<section class="seccion bg-marca-grisSuave dark:bg-oscuro-tarjeta">
-  <div class="contenedor px-4 max-w-4xl mx-auto">
-    <h2 class="titulo-seccion">{t.nosotrosPage.tituloCompromiso}</h2>
-    <p class="mt-6 text-marca-gris dark:text-oscuro-texto leading-relaxed text-lg">{t.nosotrosPage.compromiso}</p>
+
+<!-- Titulo a un lado y texto al otro: distinta estructura que Historia y Mision -->
+<section class="compromiso">
+  <div class="contenedor compromiso-rejilla" data-revelar>
+    <h2 class="compromiso-titulo">{t.nosotrosPage.tituloCompromiso}</h2>
+    <p class="compromiso-texto">{t.nosotrosPage.compromiso}</p>
   </div>
 </section>
+
+<style>
+  .compromiso {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+  }
+
+  .compromiso-rejilla {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 850px) {
+    .compromiso-rejilla {
+      grid-template-columns: 20rem 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  .compromiso-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.028em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .compromiso-titulo {
+    color: var(--texto);
+  }
+
+  .compromiso-texto {
+    max-width: 62ch;
+    font-size: var(--t-guia);
+    line-height: 1.75;
+    color: var(--texto-medio);
+  }
+</style>

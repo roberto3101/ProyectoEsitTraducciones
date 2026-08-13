@@ -45,134 +45,207 @@ const redes = [
 ];
 ---
 
-<div class="rounded-2xl p-8 lg:p-10 h-full flex flex-col
-  bg-slate-50 border border-slate-200
-  dark:bg-oscuro-tarjeta dark:border-oscuro-borde">
-
-  {/* Header */}
-  <div class="mb-8">
-    <h3 class="text-xl font-bold mb-2 text-marca-azul dark:text-white" style="font-family: 'Sora', sans-serif;">
-      {textos.titulo[idioma]}
-    </h3>
-    <p class="text-sm leading-relaxed text-marca-gris dark:text-slate-400">
-      {textos.desc[idioma]}
-    </p>
+<div class="info">
+  <div class="info-cabecera">
+    <h3 class="info-titulo">{textos.titulo[idioma]}</h3>
+    <p class="info-desc">{textos.desc[idioma]}</p>
   </div>
 
-  {/* Info blocks */}
-  <div class="space-y-6 flex-1">
-    {/* Teléfonos */}
-    <div class="flex gap-4">
-      <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-        bg-marca-azulBrillante/10 dark:bg-marca-azulBrillante/15">
-        <svg class="w-5 h-5 text-marca-azulBrillante" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-        </svg>
-      </div>
-      <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider mb-2
-          text-slate-400 dark:text-slate-500">
-          {textos.telefonos[idioma]}
-        </h4>
+  <!-- Datos como lista de definiciones: la etiqueta manda, no un icono -->
+  <dl class="info-datos">
+    <div class="info-fila">
+      <dt>{textos.telefonos[idioma]}</dt>
+      <dd>
         {telefonos.map((tel) => (
-          <a href={tel.link} class="block text-sm leading-relaxed transition-colors
-            text-marca-azul hover:text-marca-azulBrillante
-            dark:text-slate-300 dark:hover:text-white">
-            {tel.numero}
-          </a>
+          <a href={tel.link} class="info-enlace cifra">{tel.numero}</a>
         ))}
-      </div>
+      </dd>
     </div>
 
-    {/* Correos */}
-    <div class="flex gap-4">
-      <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-        bg-marca-azulBrillante/10 dark:bg-marca-azulBrillante/15">
-        <svg class="w-5 h-5 text-marca-azulBrillante" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      </div>
-      <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider mb-2
-          text-slate-400 dark:text-slate-500">
-          {textos.correos[idioma]}
-        </h4>
+    <div class="info-fila">
+      <dt>{textos.correos[idioma]}</dt>
+      <dd>
         {correos.map((c) => (
-          <a href={c.link} class="block text-sm leading-relaxed transition-colors
-            text-marca-azul hover:text-marca-azulBrillante
-            dark:text-slate-300 dark:hover:text-white">
-            {c.email}
-          </a>
+          <a href={c.link} class="info-enlace">{c.email}</a>
         ))}
-      </div>
+      </dd>
     </div>
 
-    {/* Dirección */}
-    <div class="flex gap-4">
-      <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-        bg-marca-azulBrillante/10 dark:bg-marca-azulBrillante/15">
-        <svg class="w-5 h-5 text-marca-azulBrillante" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </div>
-      <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider mb-2
-          text-slate-400 dark:text-slate-500">
-          {textos.direccion[idioma]}
-        </h4>
-        <p class="text-sm leading-relaxed text-marca-azul dark:text-slate-300">
-          Pueblo Libre, Lima – Perú
-        </p>
-      </div>
+    <div class="info-fila">
+      <dt>{textos.direccion[idioma]}</dt>
+      <dd><p>Pueblo Libre, Lima – Perú</p></dd>
     </div>
 
-    {/* Horario */}
-    <div class="flex gap-4">
-      <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center
-        bg-marca-azulBrillante/10 dark:bg-marca-azulBrillante/15">
-        <svg class="w-5 h-5 text-marca-azulBrillante" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </div>
-      <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider mb-2
-          text-slate-400 dark:text-slate-500">
-          {textos.horario[idioma]}
-        </h4>
-        <p class="text-sm leading-relaxed text-marca-azul dark:text-slate-300">
-          {textos.horarioTexto[idioma]}
-        </p>
-      </div>
+    <div class="info-fila">
+      <dt>{textos.horario[idioma]}</dt>
+      <dd><p>{textos.horarioTexto[idioma]}</p></dd>
     </div>
-  </div>
+  </dl>
 
-  {/* WhatsApp CTA */}
-  <a href="https://wa.me/51998152086" target="_blank" rel="noopener noreferrer"
-    class="mt-8 flex items-center justify-center gap-3 w-full py-3.5 rounded-xl
-      bg-green-500 hover:bg-green-600 text-white font-semibold text-sm
-      transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-green-500/20">
-    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+  <a href="https://wa.me/51998152086" target="_blank" rel="noopener noreferrer" class="info-whatsapp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
     {textos.whatsapp[idioma]}
   </a>
 
-  {/* Redes sociales */}
-  <div class="mt-6 pt-6 border-t border-slate-200 dark:border-oscuro-borde">
-    <p class="text-xs font-semibold uppercase tracking-wider mb-3
-      text-slate-400 dark:text-slate-500">
-      {textos.siguenos[idioma]}
-    </p>
-    <div class="flex gap-3">
+  <div class="info-redes">
+    <p class="info-redes-titulo">{textos.siguenos[idioma]}</p>
+    <div class="info-redes-lista">
       {redes.map((red) => (
-        <a href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}
-          class="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300
-            bg-marca-azul/5 text-marca-azul hover:bg-marca-azulBrillante hover:text-white
-            dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-marca-azulBrillante dark:hover:text-white">
+        <a href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre} class="info-red">
           <Fragment set:html={red.icono} />
         </a>
       ))}
     </div>
   </div>
 </div>
+
+<style>
+  .info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem);
+    background-color: var(--fondo-hundido);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-grande);
+  }
+
+  .info-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    color: var(--navy);
+  }
+  :global(.dark) .info-titulo {
+    color: var(--texto);
+  }
+
+  .info-desc {
+    margin-top: 0.5rem;
+    max-width: 38ch;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--texto-medio);
+  }
+
+  .info-datos {
+    margin-top: 2rem;
+    flex: 1;
+  }
+
+  .info-fila {
+    display: grid;
+    gap: 0.25rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  @media (min-width: 420px) {
+    .info-fila {
+      grid-template-columns: 8.5rem 1fr;
+      gap: 1rem;
+      align-items: baseline;
+    }
+  }
+
+  .info-fila dt {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+
+  .info-fila dd p {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--texto-medio);
+  }
+
+  .info-enlace {
+    display: block;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--texto);
+    text-decoration: none;
+    transition: color var(--ms-ui) var(--sale);
+  }
+  .info-enlace:hover {
+    color: var(--acento);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Verde de WhatsApp por reconocimiento de marca, sin halo de color */
+  .info-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    margin-top: 2rem;
+    padding-block: 0.875rem;
+    border-radius: var(--radio);
+    background-color: #128c7e;
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      background-color var(--ms-ui) var(--sale),
+      transform var(--ms-rapido) var(--sale);
+  }
+  .info-whatsapp svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+  .info-whatsapp:hover {
+    background-color: #0f7a6d;
+  }
+  .info-whatsapp:active {
+    transform: translateY(1px);
+  }
+
+  .info-redes {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .info-redes-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+
+  .info-redes-lista {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  .info-red {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--borde-marcado);
+    border-radius: var(--radio);
+    color: var(--texto-tenue);
+    transition:
+      color var(--ms-ui) var(--sale),
+      border-color var(--ms-ui) var(--sale);
+  }
+  .info-red:hover {
+    color: var(--texto);
+    border-color: var(--texto-tenue);
+  }
+</style>

@@ -71,73 +71,128 @@ const subtitulo = {
 };
 ---
 
-<section class="py-20 md:py-28 bg-marca-grisSuave dark:bg-oscuro-fondo relative overflow-hidden">
-  <!-- Decoracion sutil -->
-  <div class="absolute top-0 left-0 w-72 h-72 rounded-full opacity-[0.03] dark:opacity-[0.02]" style="background: radial-gradient(circle, #0C2340, transparent); filter: blur(80px);"></div>
-  <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-[0.03] dark:opacity-[0.02]" style="background: radial-gradient(circle, #2563EB, transparent); filter: blur(100px);"></div>
+<section class="testi">
+  <div class="contenedor">
+    <header class="testi-cabecera" data-revelar>
+      <h2 class="testi-titulo">{titulo[idioma]}</h2>
+      <p class="testi-bajada">{subtitulo[idioma]}</p>
+    </header>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-    <!-- Encabezado -->
-    <div class="text-center mb-16">
-      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5"
-        style="background: rgba(12,35,64,0.06); color: #0C2340; border: 1px solid rgba(12,35,64,0.1);">
-        <span class="dark:hidden">Testimonios</span>
-        <span class="hidden dark:inline" style="color: #60a5fa;">Testimonios</span>
-      </span>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-marca-azul dark:text-white mb-5" style="font-family: 'Sora', sans-serif; line-height: 1.15;">
-        {titulo[idioma]}
-      </h2>
-      <p class="text-base sm:text-lg text-marca-gris dark:text-oscuro-texto max-w-2xl mx-auto" style="line-height: 1.7;">
-        {subtitulo[idioma]}
-      </p>
-    </div>
-
-    <!-- Grid de testimonios -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-      {testimonios.map((test, i) => (
-        <div class={`group relative rounded-2xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1
-          bg-white dark:bg-oscuro-tarjeta border border-gray-100 dark:border-oscuro-borde
-          hover:shadow-xl hover:shadow-marca-azul/5 dark:hover:shadow-marca-azulBrillante/5
-          ${i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}
-          style={i === 0 ? "background: linear-gradient(135deg, #0C2340 0%, #1B4D8E 100%); border-color: transparent;" : ""}
-        >
-          {/* Comillas decorativas */}
-          <div class={`text-5xl leading-none mb-4 font-serif
-            ${i === 0 ? 'text-white/20' : 'text-marca-azulBrillante/15 dark:text-marca-azulBrillante/10'}`}
-          >"</div>
-
-          {/* Cita */}
-          <blockquote class={`text-base lg:text-lg leading-relaxed mb-8
-            ${i === 0 ? 'text-white/90' : 'text-gray-600 dark:text-oscuro-texto'}`}
-            style="font-style: italic;"
-          >
-            {test.cita[idioma]}
-          </blockquote>
-
-          {/* Autor */}
-          <div class="flex items-center gap-4">
-            <div class={`w-12 h-12 rounded-full flex items-center justify-center text-xl
-              ${i === 0 ? 'bg-white/10' : 'bg-marca-grisSuave dark:bg-oscuro-fondo'}`}>
-              {test.icono}
-            </div>
-            <div>
-              <div class={`font-bold text-sm
-                ${i === 0 ? 'text-white' : 'text-marca-azul dark:text-white'}`}
-                style="font-family: 'Sora', sans-serif;">
-                {test.autor[idioma]}
-              </div>
-              <div class={`text-xs mt-0.5
-                ${i === 0 ? 'text-white/50' : 'text-marca-gris dark:text-oscuro-texto/60'}`}>
-                {test.cargo[idioma]}
-              </div>
-            </div>
-          </div>
-
-          {/* Linea decorativa inferior */}
-          <div class={`absolute bottom-0 left-8 right-8 h-0.5 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left
-            ${i === 0 ? 'bg-white/20' : 'bg-marca-azulBrillante/30'}`}></div>
-        </div>
+    <!-- Muro de citas: la institucion que firma es el argumento,
+         asi que va destacada y sin adornos que la abaraten. -->
+    <div class="testi-muro" data-revelar-grupo>
+      {testimonios.map((test) => (
+        <figure class="testi-cita">
+          <blockquote>{test.cita[idioma]}</blockquote>
+          <figcaption>
+            <span class="testi-autor">{test.autor[idioma]}</span>
+            <span class="testi-lugar">{test.cargo[idioma]}</span>
+          </figcaption>
+        </figure>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .testi {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+    background-color: var(--fondo-hundido);
+    border-block: 1px solid var(--borde);
+  }
+
+  .testi-cabecera {
+    max-width: 42rem;
+  }
+
+  .testi-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.875rem, 1.5rem + 1.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.032em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .testi-titulo {
+    color: var(--texto);
+  }
+
+  .testi-bajada {
+    margin-top: 1.125rem;
+    max-width: 52ch;
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto-medio);
+  }
+
+  .testi-muro {
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    display: grid;
+    gap: 0 4rem;
+  }
+
+  @media (min-width: 850px) {
+    .testi-muro {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .testi-cita {
+    padding-block: 2.25rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .testi-cita blockquote {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+    color: var(--texto);
+    text-wrap: pretty;
+  }
+
+  /* Comillas tipograficas reales, no un glifo decorativo aparte */
+  .testi-cita blockquote::before {
+    content: '\201C';
+  }
+  .testi-cita blockquote::after {
+    content: '\201D';
+  }
+
+  .testi-cita figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .testi-autor {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+  }
+  :global(.dark) .testi-autor {
+    color: var(--texto);
+  }
+
+  .testi-lugar {
+    font-size: 0.8125rem;
+    color: var(--texto-tenue);
+  }
+  .testi-lugar::before {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1px;
+    margin-right: 0.625rem;
+    vertical-align: middle;
+    background-color: var(--ambar);
+  }
+</style>

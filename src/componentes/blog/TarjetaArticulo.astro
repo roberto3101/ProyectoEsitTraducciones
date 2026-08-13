@@ -7,44 +7,274 @@ interface Props {
   categoria?: string;
   enlace: string;
   textoLeerMas: string;
+  /** 'principal' abre la pagina; 'fila' es el resto del listado */
+  variante?: 'principal' | 'fila';
+  indice?: number;
 }
-const { titulo, resumen, imagen, fecha, categoria, enlace, textoLeerMas } = Astro.props;
+
+const {
+  titulo,
+  resumen,
+  imagen,
+  fecha,
+  categoria,
+  enlace,
+  textoLeerMas,
+  variante = 'fila',
+  indice = 0,
+} = Astro.props;
+
+// Estimacion de lectura: 200 palabras por minuto sobre el resumen disponible
+const minutos = Math.max(2, Math.round((resumen?.split(/\s+/).length ?? 0) / 40));
 ---
-<article class="tarjeta overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-  <a href={enlace} class="block">
-    {imagen ? (
-      <img
-        src={imagen}
-        alt={titulo}
-        class="w-full h-52 object-cover rounded-lg mb-4 group-hover:scale-[1.02] transition-transform duration-300"
-        loading="lazy"
-      />
-    ) : (
-      <div class="w-full h-52 rounded-lg mb-4 bg-gradient-to-br from-marca-azul to-marca-azulBrillante flex items-center justify-center">
-        <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-        </svg>
+
+{variante === 'principal' ? (
+  <article class="art-principal" data-revelar>
+    <a href={enlace} class="art-principal-enlace">
+      <div class="art-principal-foto">
+        {imagen ? (
+          <img src={imagen} alt="" width="1200" height="800" loading="eager" decoding="async" />
+        ) : (
+          <div class="art-sin-foto"></div>
+        )}
       </div>
-    )}
-  </a>
-  <div class="flex items-center gap-3 mb-3">
-    {categoria && (
-      <span class="text-xs font-semibold uppercase tracking-wider text-marca-azulBrillante bg-marca-azulBrillante/10 px-2.5 py-1 rounded-full">
-        {categoria}
-      </span>
-    )}
-    <time class="text-xs text-slate-400 dark:text-slate-500">{fecha}</time>
-  </div>
-  <h3 class="font-titulo font-semibold text-xl text-marca-azul dark:text-oscuro-titulo group-hover:text-marca-azulBrillante transition-colors leading-tight">
-    <a href={enlace}>{titulo}</a>
-  </h3>
-  <p class="mt-2 text-sm text-marca-gris dark:text-oscuro-texto line-clamp-3 leading-relaxed">{resumen}</p>
-  <div class="mt-4 pt-4 border-t border-slate-100 dark:border-oscuro-borde">
-    <a href={enlace} class="inline-flex items-center gap-1 text-sm font-semibold text-marca-azulBrillante hover:gap-2 transition-all duration-200">
-      {textoLeerMas}
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-      </svg>
+
+      <div class="art-principal-cuerpo">
+        <div class="art-meta">
+          {categoria && <span class="art-categoria">{categoria}</span>}
+          <time>{fecha}</time>
+          <span class="art-punto">·</span>
+          <span>{minutos} min</span>
+        </div>
+
+        <h2 class="art-principal-titulo">{titulo}</h2>
+        <p class="art-principal-resumen">{resumen}</p>
+
+        <span class="art-leer">
+          {textoLeerMas}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
     </a>
-  </div>
-</article>
+  </article>
+) : (
+  <article class="art-fila" data-revelar style={`--rev-i: ${indice}`}>
+    <a href={enlace} class="art-fila-enlace">
+      <div class="art-fila-texto">
+        <div class="art-meta">
+          {categoria && <span class="art-categoria">{categoria}</span>}
+          <time>{fecha}</time>
+          <span class="art-punto">·</span>
+          <span>{minutos} min</span>
+        </div>
+
+        <h3 class="art-fila-titulo">{titulo}</h3>
+        <p class="art-fila-resumen">{resumen}</p>
+      </div>
+
+      <div class="art-fila-foto">
+        {imagen ? (
+          <img src={imagen} alt="" width="480" height="320" loading="lazy" decoding="async" />
+        ) : (
+          <div class="art-sin-foto"></div>
+        )}
+      </div>
+    </a>
+  </article>
+)}
+
+<style>
+  /* ============================================================
+     COMUN
+     ============================================================ */
+  .art-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    color: var(--texto-tenue);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .art-categoria {
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    color: var(--acento);
+  }
+
+  .art-punto {
+    opacity: 0.5;
+  }
+
+  .art-sin-foto {
+    width: 100%;
+    height: 100%;
+    background-color: var(--fondo-hundido);
+    border: 1px solid var(--borde);
+  }
+
+  .art-leer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--acento);
+  }
+  .art-leer svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+
+  /* ============================================================
+     ARTICULO PRINCIPAL
+     ============================================================ */
+  .art-principal-enlace {
+    display: grid;
+    gap: 2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  @media (min-width: 900px) {
+    .art-principal-enlace {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+  }
+
+  .art-principal-foto {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radio-grande);
+    background-color: var(--fondo-hundido);
+  }
+  .art-principal-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--sale);
+  }
+  .art-principal-enlace:hover .art-principal-foto img {
+    transform: scale(1.03);
+  }
+
+  .art-principal-titulo {
+    margin-top: 1.25rem;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.032em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .art-principal-titulo {
+    color: var(--texto);
+  }
+
+  .art-principal-resumen {
+    margin-top: 1.125rem;
+    font-size: var(--t-guia);
+    line-height: 1.6;
+    color: var(--texto-medio);
+    max-width: 48ch;
+  }
+
+  .art-principal-cuerpo .art-leer {
+    margin-top: 1.75rem;
+  }
+  .art-principal-enlace:hover .art-leer svg {
+    transform: translateX(0.25rem);
+  }
+
+  /* ============================================================
+     FILAS
+     ============================================================ */
+  .art-fila {
+    border-top: 1px solid var(--borde);
+  }
+
+  .art-fila-enlace {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-block: 2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  @media (min-width: 700px) {
+    .art-fila-enlace {
+      grid-template-columns: 1fr 13rem;
+      gap: 2.5rem;
+      align-items: start;
+      padding-block: 2.5rem;
+    }
+  }
+
+  .art-fila-titulo {
+    margin-top: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.022em;
+    color: var(--navy);
+    text-wrap: balance;
+    transition: color var(--ms-ui) var(--sale);
+  }
+  :global(.dark) .art-fila-titulo {
+    color: var(--texto);
+  }
+  .art-fila-enlace:hover .art-fila-titulo {
+    color: var(--acento);
+  }
+
+  .art-fila-resumen {
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--texto-medio);
+    max-width: 62ch;
+    /* Dos lineas: mantiene el ritmo vertical del listado */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .art-fila-foto {
+    order: -1;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radio);
+    background-color: var(--fondo-hundido);
+  }
+
+  @media (min-width: 700px) {
+    .art-fila-foto {
+      order: 0;
+    }
+  }
+
+  .art-fila-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms var(--sale);
+  }
+  .art-fila-enlace:hover .art-fila-foto img {
+    transform: scale(1.04);
+  }
+</style>

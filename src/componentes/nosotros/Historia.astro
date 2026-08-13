@@ -3,10 +3,93 @@ import { obtenerTextos, type Idioma } from '../../helpers/idiomas';
 interface Props { idioma: Idioma; }
 const { idioma } = Astro.props;
 const t = obtenerTextos(idioma);
+
+const pie: Record<string, string> = {
+  es: 'Fondo de consulta de ESIT, Lima',
+  en: 'ESIT reference library, Lima',
+  fr: 'Fonds documentaire ESIT, Lima',
+};
 ---
-<section class="seccion">
-  <div class="contenedor px-4 max-w-4xl mx-auto">
-    <h2 class="titulo-seccion">{t.nosotrosPage.tituloHistoria}</h2>
-    <p class="mt-6 text-marca-gris dark:text-oscuro-texto leading-relaxed text-lg">{t.nosotrosPage.historia}</p>
+
+<section class="historia">
+  <div class="contenedor historia-rejilla">
+    <div class="historia-texto" data-revelar>
+      <h1 class="historia-titulo">{t.nosotrosPage.tituloHistoria}</h1>
+      <p class="historia-cuerpo">{t.nosotrosPage.historia}</p>
+    </div>
+
+    <figure class="historia-foto" data-revelar="lateral-der">
+      <picture>
+        <source srcset="/imagenes/nosotros/archivo.webp" type="image/webp" />
+        <img
+          src="/imagenes/nosotros/archivo.jpg"
+          alt={pie[idioma]}
+          width="1400"
+          height="933"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
+      <figcaption>{pie[idioma]}</figcaption>
+    </figure>
   </div>
 </section>
+
+<style>
+  .historia {
+    padding-block: clamp(3rem, 2rem + 4vw, 5.5rem) clamp(3rem, 2.5rem + 3vw, 5rem);
+  }
+
+  .historia-rejilla {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 950px) {
+    .historia-rejilla {
+      grid-template-columns: 1fr 0.85fr;
+      gap: 4.5rem;
+      align-items: center;
+    }
+  }
+
+  .historia-titulo {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2.25rem, 1.7rem + 2.4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    max-width: 16ch;
+  }
+  :global(.dark) .historia-titulo {
+    color: var(--texto);
+  }
+
+  .historia-cuerpo {
+    margin-top: 1.75rem;
+    max-width: 56ch;
+    font-size: var(--t-guia);
+    line-height: 1.75;
+    color: var(--texto-medio);
+  }
+
+  .historia-foto img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radio-grande);
+    background-color: var(--fondo-hundido);
+  }
+
+  .historia-foto figcaption {
+    margin-top: 0.875rem;
+    padding-left: 0.875rem;
+    border-left: 1px solid var(--ambar);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--texto-tenue);
+  }
+</style>

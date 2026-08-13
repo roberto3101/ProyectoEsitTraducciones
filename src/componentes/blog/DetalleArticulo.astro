@@ -1,137 +1,367 @@
 ---
 import { obtenerTextos, obtenerRutas, type Idioma } from '../../helpers/idiomas';
-import { formatearFecha } from '../../helpers/sanity';
+import { formatearFecha, imagenEntrega } from '../../helpers/sanity';
 import ContenidoPortable from './ContenidoPortable.astro';
 
 interface Props { idioma: Idioma; articulo: any; }
 const { idioma, articulo } = Astro.props;
 const t = obtenerTextos(idioma);
 const rutas = obtenerRutas(idioma);
+
+const txt: Record<string, Record<string, string>> = {
+  es: { escrito: 'Escrito por', publicado: 'Publicado', compartir: 'Compartir', copiado: 'Enlace copiado' },
+  en: { escrito: 'Written by', publicado: 'Published', compartir: 'Share', copiado: 'Link copied' },
+  fr: { escrito: 'Écrit par', publicado: 'Publié', compartir: 'Partager', copiado: 'Lien copié' },
+};
+const s = txt[idioma] || txt.es;
 ---
-<section class="seccion">
-  <div class="contenedor px-4">
-    {articulo ? (
-      <article class="max-w-3xl mx-auto">
-        <!-- Volver al blog -->
-        <a
-          href={rutas.blog}
-          class="inline-flex items-center gap-2 text-sm font-medium text-marca-gris dark:text-oscuro-texto hover:text-marca-azulBrillante transition-colors mb-8"
-        >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+<section class="bg-white dark:bg-oscuro-fondo">
+  {articulo ? (
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
+
+      {/* Navegación */}
+      <div class="pt-8 pb-6">
+        <a href={rutas.blog} class="art-volver">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M19 12H5M11 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           {t.blog.volver}
         </a>
+      </div>
 
-        <!-- Categoria y fecha -->
-        <div class="flex flex-wrap items-center gap-3 mb-4">
-          {articulo.categoria && (
-            <span class="text-xs font-semibold uppercase tracking-wider text-marca-azulBrillante bg-marca-azulBrillante/10 px-3 py-1 rounded-full">
-              {articulo.categoria}
-            </span>
-          )}
-          <time class="text-sm text-slate-400 dark:text-slate-500">
-            {t.blog.publicado} {formatearFecha(articulo.fecha, idioma)}
-          </time>
+      {/* Cabecera del artículo */}
+      <header class="art-cabecera">
+        {articulo.categoria && (
+          <p class="art-categoria-rotulo">{articulo.categoria}</p>
+        )}
+
+        <h1 class="art-titular">{articulo.titulo}</h1>
+
+        <div class="art-meta-fila">
+          <div class="art-meta-datos">
+            {articulo.autor && <span class="art-autor">{articulo.autor}</span>}
+            <time>{formatearFecha(articulo.fecha, idioma)}</time>
+          </div>
+
+          <div class="art-compartir">
+            <span class="art-compartir-rotulo">{s.compartir}</span>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.url.href}`}
+              target="_blank" rel="noopener noreferrer"
+              class="art-compartir-btn"
+              aria-label="LinkedIn">
+              <svg  fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(articulo.titulo)}`}
+              target="_blank" rel="noopener noreferrer"
+              class="art-compartir-btn"
+              aria-label="X">
+              <svg  fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href={`https://wa.me/?text=${encodeURIComponent(articulo.titulo + ' ' + Astro.url.href)}`}
+              target="_blank" rel="noopener noreferrer"
+              class="art-compartir-btn"
+              aria-label="WhatsApp">
+              <svg  fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <button id="btn-copiar-link"
+              class="art-compartir-btn"
+              aria-label="Copiar enlace">
+              <svg  fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            </button>
+          </div>
         </div>
+      </header>
 
-        <!-- Titulo -->
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo leading-tight">
-          {articulo.titulo}
-        </h1>
-
-        <!-- Autor -->
-        {articulo.autor && (
-          <p class="mt-4 text-marca-gris dark:text-oscuro-texto">
-            {t.blog.autor} <span class="font-semibold text-marca-azul dark:text-oscuro-titulo">{articulo.autor}</span>
-          </p>
-        )}
-
-        <!-- Imagen principal -->
-        {articulo.imagen && (
+      {/* Imagen principal */}
+      {articulo.imagen && (
+        <figure class="art-portada">
           <img
-            src={articulo.imagen}
+            src={imagenEntrega(articulo.imagen, { ancho: 1600 })}
             alt={articulo.titulo}
-            class="img-lightbox w-full h-auto rounded-xl mt-8 shadow-lg object-cover max-h-[500px] cursor-zoom-in"
+            loading="eager"
+            decoding="async"
+            class="img-lightbox cursor-zoom-in"
           />
-        )}
+        </figure>
+      )}
 
-        <!-- Resumen destacado -->
+      {/* Contenido del artículo */}
+      <div class="max-w-3xl">
+        {/* Resumen */}
         {articulo.resumen && (
-          <p class="mt-8 text-lg text-marca-gris dark:text-oscuro-texto leading-relaxed border-l-4 border-marca-azulBrillante pl-4 italic">
+          <p class="text-lg text-slate-500 dark:text-slate-300 leading-relaxed mb-10 pb-10 border-b border-slate-100 dark:border-oscuro-borde">
             {articulo.resumen}
           </p>
         )}
 
-        <!-- Contenido del articulo -->
-        <div class="mt-8 contenido-articulo">
+        {/* Cuerpo */}
+        <div class="contenido-articulo prose-mejorado">
           {articulo.contenido && (
             Array.isArray(articulo.contenido)
               ? <ContenidoPortable bloques={articulo.contenido} />
               : <div set:html={articulo.contenido} />
           )}
         </div>
+      </div>
 
-        <!-- Compartir y volver -->
-        <div class="mt-12 pt-8 border-t border-slate-200 dark:border-oscuro-borde flex flex-col sm:flex-row items-center justify-between gap-4">
-          <a
-            href={rutas.blog}
-            class="boton-secundario text-sm"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            {t.blog.volver}
-          </a>
-          <div class="flex items-center gap-3">
-            <span class="text-sm text-marca-gris dark:text-oscuro-texto">{t.blog.compartir}:</span>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.url.href}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-oscuro-tarjeta flex items-center justify-center text-slate-500 dark:text-oscuro-texto hover:bg-marca-azulBrillante hover:text-white transition-colors"
-              aria-label="LinkedIn"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${encodeURIComponent(articulo.titulo)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-oscuro-tarjeta flex items-center justify-center text-slate-500 dark:text-oscuro-texto hover:bg-marca-azulBrillante hover:text-white transition-colors"
-              aria-label="Twitter"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-            </a>
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(articulo.titulo + ' ' + Astro.url.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-oscuro-tarjeta flex items-center justify-center text-slate-500 dark:text-oscuro-texto hover:bg-green-500 hover:text-white transition-colors"
-              aria-label="WhatsApp"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
-          </div>
-        </div>
-      </article>
-    ) : (
-      <!-- Articulo no encontrado -->
-      <div class="text-center py-16 max-w-lg mx-auto">
-        <svg class="w-20 h-20 mx-auto text-slate-300 dark:text-oscuro-borde mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h2 class="text-2xl font-titulo font-bold text-marca-azul dark:text-oscuro-titulo">{t.blog.noEncontrado}</h2>
-        <p class="mt-3 text-marca-gris dark:text-oscuro-texto">{t.blog.noEncontradoDesc}</p>
-        <a href={rutas.blog} class="boton-principal mt-6 inline-flex">
+      {/* Footer */}
+      <div class="max-w-3xl mt-14 mb-16 pt-8 border-t border-slate-100 dark:border-oscuro-borde">
+        <a href={rutas.blog}
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
+            text-marca-azul dark:text-white border border-slate-200 dark:border-oscuro-borde
+            hover:border-marca-azulBrillante hover:text-marca-azulBrillante transition-all"
+          style="font-family: 'Sora', sans-serif;">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
           {t.blog.volver}
         </a>
       </div>
-    )}
-  </div>
+    </div>
+  ) : (
+    <!-- Articulo no encontrado -->
+    <div class="text-center py-32 max-w-lg mx-auto px-5">
+      <svg class="w-20 h-20 mx-auto text-slate-300 dark:text-oscuro-borde mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <h2 class="text-2xl font-bold text-marca-azul dark:text-white" style="font-family: 'Sora', sans-serif;">{t.blog.noEncontrado}</h2>
+      <p class="mt-3 text-marca-gris dark:text-slate-400">{t.blog.noEncontradoDesc}</p>
+      <a href={rutas.blog} class="boton-principal mt-6 inline-flex">{t.blog.volver}</a>
+    </div>
+  )}
 </section>
 
-<!-- Lightbox fullscreen para imagenes -->
+<style>
+  .prose-mejorado :global(h1),
+  .prose-mejorado :global(h2),
+  .prose-mejorado :global(h3),
+  .prose-mejorado :global(h4) {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    color: #1a2b4a;
+    letter-spacing: -0.02em;
+    margin-top: 2.5em;
+    margin-bottom: 0.75em;
+    line-height: 1.2;
+  }
+  :global(.dark) .prose-mejorado :global(h1),
+  :global(.dark) .prose-mejorado :global(h2),
+  :global(.dark) .prose-mejorado :global(h3),
+  :global(.dark) .prose-mejorado :global(h4) {
+    color: #f1f5f9;
+  }
+  .prose-mejorado :global(h2) { font-size: 1.625rem; }
+  .prose-mejorado :global(h3) { font-size: 1.3rem; }
+
+  .prose-mejorado :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #4b5563;
+    margin-bottom: 1.5em;
+  }
+  :global(.dark) .prose-mejorado :global(p) { color: #94a3b8; }
+
+  .prose-mejorado :global(a) {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-mejorado :global(blockquote) {
+    border-left: 3px solid #2563eb;
+    padding: 1rem 1.25rem;
+    margin: 2em 0;
+    background: #f8fafc;
+    border-radius: 0 0.75rem 0.75rem 0;
+    font-style: italic;
+    color: #475569;
+  }
+  :global(.dark) .prose-mejorado :global(blockquote) {
+    background: rgba(30, 41, 59, 0.5);
+    color: #cbd5e1;
+  }
+
+  .prose-mejorado :global(ul),
+  .prose-mejorado :global(ol) {
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  .prose-mejorado :global(li) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #4b5563;
+    margin-bottom: 0.4em;
+  }
+  :global(.dark) .prose-mejorado :global(li) { color: #94a3b8; }
+
+  /* --- Cabecera del articulo --- */
+  .art-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--texto-tenue);
+    text-decoration: none;
+    transition: color var(--ms-ui) var(--sale);
+  }
+  .art-volver svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--ms-ui) var(--sale);
+  }
+  .art-volver:hover {
+    color: var(--texto);
+  }
+  .art-volver:hover svg {
+    transform: translateX(-0.25rem);
+  }
+
+  .art-cabecera {
+    padding-bottom: 2.5rem;
+  }
+
+  /* Rotulo con filete ambar, no una pildora de color */
+  .art-categoria-rotulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+  .art-categoria-rotulo::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background-color: var(--ambar);
+  }
+
+  .art-titular {
+    margin-top: 1.25rem;
+    max-width: 20ch;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 1.55rem + 2.1vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  :global(.dark) .art-titular {
+    color: var(--texto);
+  }
+
+  .art-meta-fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .art-meta-datos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--texto-tenue);
+    min-width: 0;
+  }
+
+  .art-autor {
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    color: var(--texto);
+    /* Nombres muy largos no deben empujar la fila de compartir */
+    overflow-wrap: anywhere;
+  }
+
+  .art-compartir {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .art-compartir-rotulo {
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--texto-tenue);
+  }
+
+  .art-compartir-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    color: var(--texto-tenue);
+    transition:
+      color var(--ms-ui) var(--sale),
+      border-color var(--ms-ui) var(--sale);
+  }
+  .art-compartir-btn svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  .art-compartir-btn:hover {
+    color: var(--texto);
+    border-color: var(--texto-tenue);
+  }
+
+  /* La portada nunca se amplia por encima de su tamano real: una imagen
+     pequena se muestra centrada a su tamano en vez de estirada y borrosa. */
+  .art-portada {
+    margin-bottom: 2.5rem;
+  }
+
+  .art-portada img {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 30rem;
+    border-radius: var(--radio-grande);
+    background-color: var(--fondo-hundido);
+  }
+
+  .prose-mejorado :global(img) {
+    border-radius: 0.75rem;
+    margin: 2em 0;
+    cursor: zoom-in;
+  }
+
+  .prose-mejorado :global(pre) {
+    background: #1e293b;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 2em 0;
+  }
+
+  .prose-mejorado :global(hr) {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 2.5em 0;
+  }
+  :global(.dark) .prose-mejorado :global(hr) {
+    border-color: rgba(148, 163, 184, 0.15);
+  }
+</style>
+
+<!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out" role="dialog" aria-modal="true">
   <button id="lightbox-cerrar" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10" aria-label="Cerrar">
     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -146,35 +376,42 @@ const rutas = obtenerRutas(idioma);
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const cerrarBtn = document.getElementById('lightbox-cerrar');
-    if (!lightbox || !lightboxImg) return;
-
-    // Hacer clickeables todas las imagenes del articulo
-    const imagenes = document.querySelectorAll('.img-lightbox, .contenido-articulo img');
-    imagenes.forEach(img => {
-      img.classList.add('cursor-zoom-in');
-      img.addEventListener('click', () => {
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt || '';
-        lightbox.classList.remove('hidden');
-        lightbox.classList.add('flex');
-        document.body.style.overflow = 'hidden';
+    if (lightbox && lightboxImg) {
+      document.querySelectorAll('.img-lightbox, .prose-mejorado img').forEach(img => {
+        img.classList.add('cursor-zoom-in');
+        img.addEventListener('click', () => {
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt || '';
+          lightbox.classList.remove('hidden');
+          lightbox.classList.add('flex');
+          document.body.style.overflow = 'hidden';
+        });
       });
-    });
-
-    function cerrar() {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-      document.body.style.overflow = '';
+      function cerrar() {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target === cerrarBtn || cerrarBtn.contains(e.target)) cerrar();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) cerrar();
+      });
     }
 
-    // Cerrar al click en fondo o boton X
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox || e.target === cerrarBtn || cerrarBtn.contains(e.target)) cerrar();
-    });
-
-    // Cerrar con ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) cerrar();
-    });
+    const btnCopiar = document.getElementById('btn-copiar-link');
+    if (btnCopiar) {
+      btnCopiar.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          btnCopiar.innerHTML = '<svg  fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>';
+          btnCopiar.classList.add('!bg-green-500', '!text-white');
+          setTimeout(() => {
+            btnCopiar.innerHTML = '<svg  fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>';
+            btnCopiar.classList.remove('!bg-green-500', '!text-white');
+          }, 2000);
+        });
+      });
+    }
   });
 </script>
