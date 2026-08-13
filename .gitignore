@@ -40,3 +40,6 @@ DOCS/
 
 # archivo de variables para pegar en Vercel (contiene secretos)
 .env.vercel
+
+# archivo de notas suelto, no debe publicarse
+public/nalgas.md
