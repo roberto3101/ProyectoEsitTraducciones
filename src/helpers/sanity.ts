@@ -3,14 +3,23 @@ import { createClient } from '@sanity/client';
 const projectId = import.meta.env.SANITY_PROJECT_ID;
 const dataset = import.meta.env.SANITY_DATASET;
 const apiVersion = import.meta.env.SANITY_API_VERSION;
-const token = import.meta.env.SANITY_TOKEN;
+
+/**
+ * El token es OPCIONAL: el dataset `production` es publico, asi que las
+ * lecturas de contenido publicado funcionan sin credenciales.
+ *
+ * Solo hace falta si algun dia se marca el dataset como privado o se
+ * necesitan leer borradores. Mientras no sea el caso, no conviene
+ * guardarlo en ningun sitio: un secreto que no existe no se filtra.
+ */
+const token = import.meta.env.SANITY_TOKEN || undefined;
 
 export const sanityCliente = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: true,
-  token,
+  ...(token ? { token } : {}),
 });
 
 // Construir URL de imagen desde referencia de Sanity
